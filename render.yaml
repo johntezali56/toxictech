@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: toxic-md
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node index.js
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SESSION
+        sync: false
+      - key: DEVICE
+        value: default
+      - key: GITHUB_REPO
+        value: johntezali56/toxictech
