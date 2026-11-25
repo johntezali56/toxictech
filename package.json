@@ -1,0 +1,56 @@
+{
+  "name": "toxic-md",
+  "version": "1.2.11",
+  "description": "ToxicTech MD — A lightning-fast WhatsApp bot with multi-device support by Ali the King.",
+  "main": "index.js",
+  "type": "module",
+  "author": "Ali the King",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com"
+  },
+  "scripts": {
+    "start": "NODE_OPTIONS=--max-old-space-size=220 node index.js",
+    "prestart": "node patch-baileys.js"
+  },
+  "engines": {
+    "node": "22.x"
+  },
+  "dependencies": {
+    "@hapi/boom": "^10.0.1",
+    "@vitalets/google-translate-api": "^9.2.0",
+    "@whiskeysockets/baileys": "github:WhiskeySockets/Baileys",
+    "acrcloud": "^1.2.0",
+    "adm-zip": "^0.6.1",
+    "async": "^3.2.6",
+    "awesome-phonenumber": "^6.2.0",
+    "axios": "1.21.0",
+    "chalk": "^4.1.2",
+    "compile-run": "2.3.4",
+    "express": "^4.21.2",
+    "file-type": "^16.5.4",
+    "form-data": "4.0.6",
+    "google-tts-api": "^0.0.6",
+    "https-proxy-agent": "^7.0.6",
+    "human-readable": "^0.2.1",
+    "install": "^0.13.0",
+    "jimp": "^1.7.0",
+    "jimp-legacy": "npm:jimp@0.16.3",
+    "jszip": "^3.10.1",
+    "luxon": "^3.6.0",
+    "moment-timezone": "^0.5.48",
+    "node-fetch": "^2.7.0",
+    "node-webpmux": "^3.1.7",
+    "performance-now": "^2.1.0",
+    "pg": "^8.16.0",
+    "pino": "^9.0.0",
+    "qrcode": "^1.5.4",
+    "sharp": "^0.35.5",
+    "wa-sticker-formatter": "^5.0.0",
+    "wikipedia": "^2.1.2",
+    "yt-search": "^0.0.2"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.8"
+  }
+}
