@@ -1,17 +1,17 @@
 services:
   - type: web
-    name: toxic-md
+    name: toxictech-md
     runtime: node
     plan: free
     buildCommand: npm install
-    startCommand: node index.js
+    startCommand: npm start
     healthCheckPath: /health
     envVars:
-      - key: NODE_ENV
-        value: production
       - key: SESSION
         sync: false
       - key: DEVICE
         value: default
-      - key: GITHUB_REPO
-        value: johntezali56/toxictech
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "20084"
