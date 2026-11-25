@@ -1,9 +1,9 @@
 {
-  "name": "Toxic-MD",
-  "description": "⚡ A lightning-fast WhatsApp bot with multi-device support, built on Node.js & Baileys.",
-  "website": "https://github.com/xhclintohn/Toxic-MD#readme",
-  "repository": "https://github.com/xhclintohn/Toxic-MD.git",
-  "logo": "https://raw.githubusercontent.com/xhclintohn/Music-Clips-Collection/main/images/toxicx.png",
+  "name": "ToxicTech-MD",
+  "description": "⚡ A lightning-fast WhatsApp bot with multi-device support, built on Node.js & Baileys by Ali the King.",
+  "website": "https://github.com/johntezali56/toxictech#readme",
+  "repository": "https://github.com/johntezali56/toxictech.git",
+  "logo": "https://raw.githubusercontent.com/johntezali56/toxictech/main/toxic.jpg",
   "success_url": "/",
   "keywords": [
     "whatsapp-bot",
@@ -12,10 +12,11 @@
     "heroku",
     "whatsapp bot",
     "wa bot",
+    "toxictech-md",
     "toxic-md"
   ],
   "scripts": {
-    "postdeploy": "echo 'Toxic-MD has been successfully deployed✅'"
+    "postdeploy": "echo 'ToxicTech-MD has been successfully deployed✅'"
   },
   "build": {
     "languages": [
@@ -24,11 +25,11 @@
   },
   "env": {
     "SESSION": {
-      "description": "🔑 Required – Your WhatsApp session ID (generated after linking the bot).",
+      "description": "🔑 Required – Your WhatsApp session ID (generated from ToxicTech Pairing Hub).",
       "required": true
     },
     "DEVICE": {
-      "description": "Device mode: android (default) or ios. Android uses interactive buttons; iOS uses text-only responses(for a reason). Accepted values: android, ios, default.",
+      "description": "Device mode: android (default) or ios. Android uses interactive buttons; iOS uses text-only responses. Accepted values: android, ios, default.",
       "required": true,
       "value": "default"
     },
