@@ -129,7 +129,7 @@ export default {
       menuText += `└────────────────────\n\n`;
     }
 
-    menuText += `> ©𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐱𝐡_𝐜𝐥𝐢𝐧𝐭𝐨𝐧`;
+    menuText += `> 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮`;
 
     const imgBuffer = getToxicImage(pict);
     if (imgBuffer) {
@@ -161,7 +161,7 @@ export default {
               ? `┌──『 📂 CATEGORY NAVIGATION 』\n│ ◈ Tap any category button below\n└────────────────────`
               : `┌──『 📂 MORE CATEGORIES 』\n│ ◈ Select a category below\n└────────────────────`
           )
-          .setFooter('> ©𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐱𝐡_𝐜𝐥𝐢𝐧𝐭𝐨𝐧');
+          .setFooter('> 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮');
 
         for (const cat of chunk) {
           btnV2.addButton(cat.btn, `${effectivePrefix}${cat.cmd}`);

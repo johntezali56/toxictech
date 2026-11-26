@@ -75,7 +75,7 @@ export default {
             `│ Mode: ${mode || 'Public'}\n` +
             `│ Library: Baileys\n` +
             `└────────────────────┘\n\n` +
-            `┌──『 ✂️ EDITING 』\n` +
+            `┌──『 ✂️ EDITING ✍️ 』\n` +
             `${cmdLines}\n` +
             `└────────────────────`;
 

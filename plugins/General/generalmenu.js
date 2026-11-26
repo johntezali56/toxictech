@@ -77,7 +77,7 @@ export default {
     });
 
     let menuText = `${header}\n\n`;
-    menuText += `┌──『 📜 GENERAL 』\n`;
+    menuText += `┌──『 📜 GENERAL 👽 』\n`;
 
     for (const file of commandFiles) {
       let displayName = file.replace('.js', '');
@@ -100,7 +100,7 @@ export default {
     }
 
     menuText += `└────────────────────\n\n`;
-    menuText += `> ©𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐱𝐡_𝐜𝐥𝐢𝐧𝐭𝐨𝐧`;
+    menuText += `> 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮`;
 
     const imgBuffer = getToxicImage(pict);
     if (imgBuffer) {

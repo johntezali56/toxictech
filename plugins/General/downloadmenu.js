@@ -91,14 +91,14 @@ export default {
       `│ Mode: ${mode || 'Public'}\n` +
       `│ Library: Baileys\n` +
       `└────────────────────\n\n` +
-      `┌──『 🎬 DOWNLOADS 』\n`;
+      `┌──『 🎬 DOWNLOADS 📲』\n`;
 
     for (const cmd of commandsList) {
       menuText += `│ ◈ ${effectivePrefix}${cmd}\n`;
     }
 
     menuText += `└────────────────────\n` +
-      `> ©𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐱𝐡_𝐜𝐥𝐢𝐧𝐭𝐨𝐧`;
+      `> 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮`;
 
     const imgBuffer = getToxicImage(pict);
     if (imgBuffer) {

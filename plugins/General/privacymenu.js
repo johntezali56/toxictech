@@ -88,17 +88,17 @@ export default {
       `│ Total Commands: ${totalCommands || commandsList.length}\n` +
       `│ Time: ${getCurrentTimeInNairobi()}\n` +
       `│ Prefix: ${effectivePrefix}\n` +
-      `│ Mode: ${mode || 'Public'}\n` +
+      `│ Mode: ${mode || 'Private'}\n` +
       `│ Library: Baileys\n` +
       `└────────────────────\n\n` +
-      `┌──『 🔒 PRIVACY 』\n`;
+      `┌──『 🔒 PRIVACY 🔏 』\n`;
 
     for (const cmd of commandsList) {
       menuText += `│ ◈ ${effectivePrefix}${cmd}\n`;
     }
 
     menuText += `└────────────────────\n` +
-      `> ©𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐱𝐡_𝐜𝐥𝐢𝐧𝐭𝐨𝐧`;
+      `> 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮`;
 
     const imgBuffer = getToxicImage(pict);
     if (imgBuffer) {

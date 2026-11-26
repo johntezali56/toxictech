@@ -68,14 +68,14 @@ export default {
         const menuText =
             `┌── ( 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮 ) ──┐\n` +
             `│ Greetings, @${userTag}\n` +
-            `│ Bot: ${botname || 'Toxic-MD'}\n` +
+            `│ Bot: ${botname || '𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮'}\n` +
             `│ Total Commands: ${commands.length}\n` +
             `│ Time: ${nowTime}\n` +
             `│ Prefix: ${effectivePrefix}\n` +
             `│ Mode: ${mode || 'Public'}\n` +
             `│ Library: Baileys\n` +
             `└────────────────────┘\n\n` +
-            `┌──『 🔧 UTILS 』\n` +
+            `┌──『 🔧 UTILS 🕹️』\n` +
             `${cmdLines}\n` +
             `└────────────────────`;
 

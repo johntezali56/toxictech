@@ -100,7 +100,7 @@ export default {
     }
 
     menuText += `└────────────────────\n\n`;
-    menuText += `> ©𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐱𝐡_𝐜𝐥𝐢𝐧𝐭𝐨𝐧`;
+    menuText += `> 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮`;
 
     const imgBuffer = getToxicImage(pict);
     if (imgBuffer) {
