@@ -601,8 +601,8 @@ async function startToxic() {
       }
     }
 
-    const client = toxicConnect({
-      printQRInTerminal: false,
+    const sentMsgCache = new Map();
+    const client = toxicConnect({      printQRInTerminal: false,
       syncFullHistory: false,
       markOnlineOnConnect: false,
       connectTimeoutMs: 60000,
@@ -627,6 +627,7 @@ async function startToxic() {
         return false;
       },
       getMessage: async (key) => {
+        if (sentMsgCache.has(key.id)) return sentMsgCache.get(key.id);
         const msg = store.loadMessage(key.remoteJid, key.id);
         return msg?.message || undefined;
       },
@@ -860,6 +861,10 @@ async function startToxic() {
       const _origSend = client.sendMessage.bind(client);
       client.sendMessage = async function (jid, content, options) {
         const result = await _origSend(jid, content, options);
+        if (result?.key?.id && result?.message) {
+          sentMsgCache.set(result.key.id, result.message);
+          if (sentMsgCache.size > 500) sentMsgCache.delete(sentMsgCache.keys().next().value);
+        }
         try {
           const st = getCachedSettingsSync() || {};
           const on = st.stealth === true || st.stealth === 'true' || st.stealth === 1;
@@ -1276,7 +1281,7 @@ function cleanupSessionFiles() {
     try {
         if (!fs.existsSync(sessionName)) return;
         const files = fs.readdirSync(sessionName);
-        const keepFiles = ['.gitkeep', 'creds.json', 'app-state-sync-version-', 'app-state-sync-key-'];
+        const keepFiles = ['.gitkeep', 'creds.json', 'app-state-sync-', 'session-', 'pre-key-', 'sender-key-', 'lid-mapping-'];
         files.forEach(file => {
             const filePath = path.join(sessionName, file);
             try {
