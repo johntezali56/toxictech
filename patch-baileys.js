@@ -45,3 +45,12 @@ if (fs.existsSync(customWABuilder) && fs.existsSync(path.dirname(targetWABuilder
     fs.copyFileSync(customWABuilder, targetWABuilder);
     console.log('✅ [PATCH] Synced lib/WABuilder.js to @whiskeysockets/baileys');
 }
+const baileysIndex = path.join(__dirname, 'node_modules', '@whiskeysockets', 'baileys', 'lib', 'index.js');
+if (fs.existsSync(baileysIndex)) {
+    let idxContent = fs.readFileSync(baileysIndex, 'utf8');
+    if (!idxContent.includes('./WABuilder.js')) {
+        idxContent += "\nexport * from './WABuilder.js';\n";
+        fs.writeFileSync(baileysIndex, idxContent);
+        console.log('✅ [PATCH] Exported WABuilder.js from @whiskeysockets/baileys');
+    }
+}
