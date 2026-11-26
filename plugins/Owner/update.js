@@ -8,7 +8,7 @@ import { sendInteractive } from '../../lib/sendInteractive.js';
 
 const execAsync = promisify(exec);
 const REPO = process.env.GITHUB_REPO || 'johntezali56/toxictech';
-const fmt = (msg) => `╭─❏ 「 UPDATE 」\n│ ${msg}\n╰───────────────\n> 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮`;
+const fmt = (msg) => `╭─❍「 UPDATE 」\n│ ${msg}\n╰───────────`;
 
 const SKIP = new Set([
     '.git', 'node_modules', '.env', 'Session', 'session.json',
@@ -37,7 +37,7 @@ const doRestart = () => {
     );
     setTimeout(async () => {
         if (isManagedHost) {
-            process.exit(0);
+            process.exit(1);
             return;
         }
         try {
@@ -72,7 +72,7 @@ const doRestart = () => {
     let attempts = 0;
     const timer = setInterval(async () => {
         attempts++;
-        const client = global._toxicCurrentClient || global._toxicSock;
+        const client = global._toxicCurrentClient || global._toxicClient || global.conn;
         if (client?.user?.id && typeof client.sendMessage === 'function') {
             clearInterval(timer);
             const lines = [
@@ -93,17 +93,17 @@ const doRestart = () => {
 
 async function checkUpdates(root, isGit, opts) {
     if (isGit) {
-        await execAsync('git remote set-url origin https://github.com/' + REPO + '.git', opts).catch(() => {});
+        await execAsync(`git remote set-url origin https://github.com/${REPO}.git`, opts);
         await execAsync('git fetch origin main', opts);
         const { stdout: localHead } = await execAsync('git rev-parse HEAD', opts);
         const { stdout: remoteHead } = await execAsync('git rev-parse origin/main', opts);
         const localSha = localHead.trim();
         const remoteSha = remoteHead.trim();
         if (localSha === remoteSha) {
-            return { upToDate: true, shortSha: remoteSha.slice(0, 7), message: '' };
+            return { upToDate: true, shortSha: remoteSha.slice(0, 7) };
         }
-        const { stdout: logMsg } = await execAsync('git log -1 --pretty=%s origin/main', opts).catch(() => ({ stdout: '' }));
-        const { stdout: countOut } = await execAsync('git rev-list --count HEAD..origin/main', opts).catch(() => ({ stdout: '1' }));
+        const { stdout: logMsg } = await execAsync('git log -1 --pretty=%B origin/main', opts);
+        const { stdout: countOut } = await execAsync('git rev-list --count HEAD..origin/main', opts);
         return {
             upToDate: false,
             shortSha: remoteSha.slice(0, 7),
@@ -113,12 +113,16 @@ async function checkUpdates(root, isGit, opts) {
         };
     }
 
-    const apiRes = await axios.get('https://api.github.com/repos/' + REPO + '/commits/main', {
-        headers: { 'User-Agent': 'Toxic-MD' },
+    const headers = { 'User-Agent': 'Toxic-MD' };
+    if (process.env.GITHUB_TOKEN) {
+        headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+    }
+    const apiRes = await axios.get(`https://api.github.com/repos/${REPO}/commits/main`, {
+        headers,
         timeout: 15000
     });
     const remoteSha = apiRes.data?.sha || '';
-    const commitMsg = (apiRes.data?.commit?.message || '').split('\n')[0].trim();
+    const commitMsg = (apiRes.data?.commit?.message || '').split('\n')[0];
     const verFile = path.join(root, '.toxic_version');
     const localSha = fs.existsSync(verFile) ? fs.readFileSync(verFile, 'utf8').trim() : '';
 
@@ -135,17 +139,17 @@ async function checkUpdates(root, isGit, opts) {
 }
 
 async function performGitUpdate(client, m, opts, root) {
-    await sendInteractive(client, m, fmt('Fetching latest updates via git...'));
-    await execAsync('git remote set-url origin https://github.com/' + REPO + '.git', opts).catch(() => {});
+    await sendInteractive(client, m, fmt('Fetching latest updates via Git...'));
+    await execAsync(`git remote set-url origin https://github.com/${REPO}.git`, opts);
     await execAsync('git fetch origin main', opts);
-    const { stdout: ahead } = await execAsync('git rev-list --count HEAD..origin/main', opts).catch(() => ({ stdout: '0' }));
+    const { stdout: ahead } = await execAsync('git rev-list --count HEAD..origin/main', opts);
     const count = Number(ahead.trim()) || 0;
     if (count === 0) {
-        client.sendMessage(m.chat, { react: { text: '✅', key: m.reactKey } }).catch(() => {});
-        return sendInteractive(client, m, fmt('Bot is already up to date!'));
+        client.sendMessage(m.chat, { react: { text: '✅', key: m.key } }).catch(() => {});
+        return sendInteractive(client, m, fmt('Bot is already up to date.'));
     }
     const oldPkg = fs.existsSync(path.join(root, 'package.json')) ? fs.readFileSync(path.join(root, 'package.json'), 'utf8') : '';
-    const { stdout: remoteHead } = await execAsync('git rev-parse origin/main', opts).catch(() => ({ stdout: '' }));
+    const { stdout: remoteHead } = await execAsync('git rev-parse origin/main', opts);
     const shortSha = remoteHead.trim().slice(0, 7);
 
     global._toxicUpdating = true;
@@ -173,8 +177,8 @@ async function performGitUpdate(client, m, opts, root) {
         time: Date.now()
     }));
 
-    client.sendMessage(m.chat, { react: { text: '✅', key: m.reactKey } }).catch(() => {});
-    await sendInteractive(client, m, fmt(`Updated (${count} commit(s)${shortSha ? ` • ${shortSha}` : ''})\n│ Restarting bot now...`));
+    client.sendMessage(m.chat, { react: { text: '✅', key: m.key } }).catch(() => {});
+    await sendInteractive(client, m, fmt(`Updated (${count} commit(s)) to ${shortSha}.\n│ Restarting bot now...`));
     doRestart();
 }
 
@@ -198,22 +202,22 @@ async function performIncrementalUpdate(client, m, root, opts) {
     const localSha = fs.existsSync(verFile) ? fs.readFileSync(verFile, 'utf8').trim() : '';
 
     if (localSha === remoteSha) {
-        client.sendMessage(m.chat, { react: { text: '✅', key: m.reactKey } }).catch(() => {});
-        return sendInteractive(client, m, fmt(`Bot is already up to date!\n│ Commit: ${shortSha}`));
+        client.sendMessage(m.chat, { react: { text: '✅', key: m.key } }).catch(() => {});
+        return sendInteractive(client, m, fmt(`Bot is already up to date (${shortSha}).`));
     }
 
-    // First-time baseline sync: avoids downloading entire repo and triggering file-creation burst limits
+    // First-time baseline sync: avoids downloading entire repo and triggering file bursts
     if (!localSha) {
         fs.writeFileSync(verFile, remoteSha);
-        client.sendMessage(m.chat, { react: { text: '✅', key: m.reactKey } }).catch(() => {});
+        client.sendMessage(m.chat, { react: { text: '✅', key: m.key } }).catch(() => {});
         return sendInteractive(
             client,
             m,
-            fmt(`Version baseline synced to ${shortSha}.\n│ Future .update now runs will only fetch changed files.`)
+            fmt(`Version baseline synced to ${shortSha}.\n│ Future .update runs will pull only changed files.`)
         );
     }
 
-    await sendInteractive(client, m, fmt(`Checking changed files (${localSha.slice(0, 7)} → ${shortSha})...`));
+    await sendInteractive(client, m, fmt(`Checking changed files (${localSha.slice(0, 7)} -> ${shortSha})...`));
 
     const cmpRes = await axios.get(`https://api.github.com/repos/${REPO}/compare/${localSha}...${remoteSha}`, {
         headers,
@@ -224,7 +228,7 @@ async function performIncrementalUpdate(client, m, root, opts) {
 
     if (changedFiles.length === 0) {
         fs.writeFileSync(verFile, remoteSha);
-        client.sendMessage(m.chat, { react: { text: '✅', key: m.reactKey } }).catch(() => {});
+        client.sendMessage(m.chat, { react: { text: '✅', key: m.key } }).catch(() => {});
         return sendInteractive(client, m, fmt(`Synced to ${shortSha} (no bot files changed).`));
     }
 
@@ -257,7 +261,7 @@ async function performIncrementalUpdate(client, m, root, opts) {
                 updatedCount++;
             }
 
-            // Throttle writes (~8 files/sec) to prevent Katabump high file-creation burst kills
+            // Throttle writes (~8 files/sec) to prevent Katabump high file creation rate kill
             await sleep(120);
         }
 
@@ -288,11 +292,11 @@ async function performIncrementalUpdate(client, m, root, opts) {
             time: Date.now()
         }));
 
-        client.sendMessage(m.chat, { react: { text: '✅', key: m.reactKey } }).catch(() => {});
+        client.sendMessage(m.chat, { react: { text: '✅', key: m.key } }).catch(() => {});
         await sendInteractive(
             client,
             m,
-            fmt(`Updated ${updatedCount} changed file(s) (${shortSha})\n│ Restarting bot now...`)
+            fmt(`Updated ${updatedCount} changed file(s) (${shortSha}).\n│ Restarting bot now...`)
         );
         doRestart();
     } catch (err) {
@@ -309,11 +313,11 @@ export default {
         await ownerMiddleware(context, async () => {
             const { client, m, args } = context;
             const root = process.cwd();
-            const opts = { cwd: root, timeout: 300000, maxBuffer: 1024 * 1024 * 20 };
+            const opts = { cwd: root, timeout: 300000, maxBuffer: 1024 * 1024 * 10 };
             const sub = (args?.[0] || '').toLowerCase().trim();
-            const confirmNow = ['now', 'install', 'confirm', 'yes', 'force', '-y'].includes(sub);
+            const confirmNow = ['now', 'install', 'confirm', 'yes', 'force'].includes(sub);
 
-            client.sendMessage(m.chat, { react: { text: '⌛', key: m.reactKey } }).catch(() => {});
+            client.sendMessage(m.chat, { react: { text: '⏳', key: m.key } }).catch(() => {});
 
             const isKatabump = !!(process.env.P_SERVER_UUID || process.env.SERVER_MEMORY);
             let isGit = false;
@@ -329,10 +333,10 @@ export default {
                     await sendInteractive(client, m, fmt('Checking for latest commit...'));
                     const status = await checkUpdates(root, isGit && !isKatabump, opts);
                     if (status.upToDate) {
-                        client.sendMessage(m.chat, { react: { text: '✅', key: m.reactKey } }).catch(() => {});
-                        return sendInteractive(client, m, fmt(`Bot is already up to date!\n│ Commit: ${status.shortSha}`));
+                        client.sendMessage(m.chat, { react: { text: '✅', key: m.key } }).catch(() => {});
+                        return sendInteractive(client, m, fmt(`Bot is already up to date (${status.shortSha}).`));
                     }
-                    client.sendMessage(m.chat, { react: { text: '🆕', key: m.reactKey } }).catch(() => {});
+                    client.sendMessage(m.chat, { react: { text: '🆕', key: m.key } }).catch(() => {});
                     const details = [
                         'Update available!',
                         `Latest: ${status.shortSha}${status.ahead ? ` (${status.ahead} commit(s) behind)` : ''}`,
@@ -348,8 +352,8 @@ export default {
                 return await performIncrementalUpdate(client, m, root, opts);
             } catch (err) {
                 global._toxicUpdating = false;
-                client.sendMessage(m.chat, { react: { text: '❌', key: m.reactKey } }).catch(() => {});
-                return sendInteractive(client, m, fmt('Update failed: ' + String(err?.message || err).split('\n')[0]));
+                client.sendMessage(m.chat, { react: { text: '❌', key: m.key } }).catch(() => {});
+                return sendInteractive(client, m, fmt(`Update failed: ${err.message || err}`));
             }
         });
     }
