@@ -163,8 +163,12 @@ Hi, I'm **Ali the King** (`johntezali56`), the creator and lead developer of **T
 <div align="center">
 
 [![WhatsApp +254716637803](https://img.shields.io/badge/WhatsApp-%2B254716637803-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/254716637803)
+
 [![Instagram @ali.johntez](https://img.shields.io/badge/Instagram-%40ali.johntez-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://instagram.com/ali.johntez)
-[![Telegram](https://img.shields.io/badge/Telegram-Chat%20Now-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/YOUR_TELEGRAM_USERNAME)
+
+[![Telegram](https://img.shields.io/badge/Telegram-Chat%20Now-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)]
+(https://t.me/toxictech2)
+
 [![Email asac7519@gmail.com](https://img.shields.io/badge/Email-asac7519%40gmail.com-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:asac7519@gmail.com)
 
 </div>
