@@ -1,11 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 import { getSettings } from '../../database/config.js';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = path.dirname(__filename);
 
 function getToxicImage(pict) {
   if (pict && Buffer.isBuffer(pict) && pict.length > 0) return pict;
@@ -46,32 +45,46 @@ export default {
   description: 'Displays only the General menu',
   run: async (context) => {
     const { client, m, pict } = context;
-    client.sendMessage(m.chat, { react: { text: '⌛', key: m.reactKey } }).catch(() => {});
+    client.sendMessage(m.chat, { react: { text: '⚡', key: m.reactKey || m.key } }).catch(() => {});
 
     const settings = await getSettings();
     const effectivePrefix = settings.prefix || '';
 
-    let menuText = `╭─❏ 「 GENERAL MENU」\n│ Prefix: ${effectivePrefix || 'None'}\n│ \n`;
+    let menuText =
+      `╭━━━〔 ⚡ 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮 ⚡ 〕━━━╮\n` +
+      `┃ 📜 *GENERAL MENU*\n` +
+      `┃ 🔮 *Prefix:* ${effectivePrefix || 'None'}\n` +
+      `💠────────────────💠\n`;
 
     const pluginDir = path.join(process.cwd(), 'plugins', 'General');
     let commandFiles = [];
     try {
-      commandFiles = fs.readdirSync(pluginDir).filter(file => file.endsWith('.js'));
+      commandFiles = fs.readdirSync(pluginDir).filter(file => file.endsWith('.js') && !['links.js'].includes(file));
     } catch {}
 
     for (const file of commandFiles) {
       const commandName = file.replace('.js', '');
-      menuText += `│ *${toFancyFont(commandName)}*\n`;
+      menuText += `┃ 💎 *${toFancyFont(commandName)}*\n`;
     }
 
-    menuText += `╰───────────────\n> 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮`;
+    menuText +=
+      `💠────────────────💠\n` +
+      `╰━━━〔 ✨ 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮 ✨ 〕━━━╯`;
 
     const imgBuffer = getToxicImage(pict);
     if (imgBuffer) {
-      await client.sendMessage(m.chat, { image: imgBuffer, caption: menuText });
+      await client.sendMessage(m.chat, {
+        image: imgBuffer,
+        caption: menuText,
+        mentions: [m.sender]
+      });
     } else {
-      await client.sendMessage(m.chat, { text: menuText });
+      await client.sendMessage(m.chat, {
+        text: menuText,
+        mentions: [m.sender]
+      });
     }
-    client.sendMessage(m.chat, { react: { text: '✅', key: m.reactKey } }).catch(() => {});
+
+    client.sendMessage(m.chat, { react: { text: '✅', key: m.reactKey || m.key } }).catch(() => {});
   }
 };

@@ -52,33 +52,39 @@ export default {
         if (cleanText !== '' && !['menu', 'commands', 'list', 'cmds', 'm', 'help', 'cmd', 'commandlist', 'allcmds'].includes(firstWord)) {
             const commandName = cleanText.split(' ')[0];
             return client.sendMessage(m.chat, {
-                text: `╭─❏ 「 Eʀʀᴏʀ」\n│ Invalid option after "${commandName}".\n│ Type *${effectivePrefix}menu* to open the menu.\n╰───────────────`
+                text:
+                    `╭━━━〔 ⚡ *𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮* ⚡ 〕━━━╮\n` +
+                    `┃ 🔮 Invalid option after "${commandName}".\n` +
+                    `┃ ✨ Type *${effectivePrefix}menu* to open the menu.\n` +
+                    `╰━━━━━━━━━━━━━━━━━━╯`
             });
         }
 
         const greeting = getTimeGreeting();
         const repoUrl = 'https://github.com/johntezali56/toxictech';
         const menuText =
-            `╭─❏ 「 𝚻𝚯𝚾𝚰𝐂 𝚳𝚵𝚴𝐔」\n` +
-            `│ ${greeting}, @${m.sender.split('@')[0].split(':')[0]}\n` +
-            `│ Bot: ${botname || '𝑇𝛩𝛸𝛪𝐶-𝚳D'} | Prefix: ${effectivePrefix} | Mode: ${mode || 'private'}\n` +
-            `│\n` +
-            `│ ${effectivePrefix}fullmenu — Display all commands\n` +
-            `│ ${effectivePrefix}owner — Owner info & contact\n` +
-            `│ ${effectivePrefix}ping — Check bot speed\n` +
-            `│ ${effectivePrefix}settings — Bot configuration\n` +
-            `│ ${effectivePrefix}uptime — Bot uptime\n` +
-            `│\n` +
-            `│ Categories:\n` +
-            `│ • ${effectivePrefix}generalmenu  • ${effectivePrefix}settingsmenu\n` +
-            `│ • ${effectivePrefix}ownermenu    • ${effectivePrefix}groupmenu\n` +
-            `│ • ${effectivePrefix}aimenu       • ${effectivePrefix}downloadmenu\n` +
-            `│ • ${effectivePrefix}editingmenu  • ${effectivePrefix}effectsmenu\n` +
-            `│ • ${effectivePrefix}utilsmenu    • ${effectivePrefix}privacymenu\n` +
-            `│ • ${effectivePrefix}animemenu    • ${effectivePrefix}reactionsmenu\n` +
-            `│ • ${effectivePrefix}nsfwmenu\n` +
-            `╰───────────────\n` +
-            `> 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮\n` +
+            `╭━━━〔 ⚡ *𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮* ⚡ 〕━━━╮\n` +
+            `┃ 🔮 ${greeting}, @${m.sender.split('@')[0].split(':')[0]}\n` +
+            `┃ 💎 *Bot:* ${botname || '𝑇𝛩𝛸𝛪𝐶-𝚳D'}\n` +
+            `┃ 🛠️ *Prefix:* ${effectivePrefix} | *Mode:* ${mode || 'private'}\n` +
+            `💠────────────────💠\n` +
+            `┃ ✨ *QUICK COMMANDS*\n` +
+            `┃ ▸ ${effectivePrefix}fullmenu — All commands\n` +
+            `┃ ▸ ${effectivePrefix}owner — Owner contact\n` +
+            `┃ ▸ ${effectivePrefix}ping — Bot speed\n` +
+            `┃ ▸ ${effectivePrefix}settings — Configuration\n` +
+            `┃ ▸ ${effectivePrefix}uptime — System uptime\n` +
+            `💠────────────────💠\n` +
+            `┃ 🔮 *CATEGORIES*\n` +
+            `┃ ▸ ${effectivePrefix}generalmenu  ▸ ${effectivePrefix}settingsmenu\n` +
+            `┃ ▸ ${effectivePrefix}ownermenu    ▸ ${effectivePrefix}groupmenu\n` +
+            `┃ ▸ ${effectivePrefix}aimenu       ▸ ${effectivePrefix}downloadmenu\n` +
+            `┃ ▸ ${effectivePrefix}editingmenu  ▸ ${effectivePrefix}effectsmenu\n` +
+            `┃ ▸ ${effectivePrefix}utilsmenu    ▸ ${effectivePrefix}privacymenu\n` +
+            `┃ ▸ ${effectivePrefix}animemenu    ▸ ${effectivePrefix}reactionsmenu\n` +
+            `┃ ▸ ${effectivePrefix}nsfwmenu\n` +
+            `╰━━━━━━━━━━━━━━━━━━╯\n` +
+            `> © *𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮*\n` +
             `🔗 ${repoUrl}`;
 
         const imgBuffer = getToxicImage(pict);
