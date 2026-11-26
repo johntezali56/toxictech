@@ -1,7 +1,6 @@
 import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
-import AdmZip from 'adm-zip';
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import ownerMiddleware from '../../utils/botUtil/Ownermiddleware.js';
@@ -16,10 +15,28 @@ const SKIP = new Set([
     '.toxic_update', '.toxic_update.zip', '.toxic_version', '.toxic_update_done.json'
 ]);
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const isShouldSkip = (relPath) => {
+    if (!relPath) return true;
+    const normalized = relPath.replace(/\\/g, '/');
+    const top = normalized.split('/')[0];
+    if (SKIP.has(top)) return true;
+    if (normalized.endsWith('.session')) return true;
+    if (top === 'database' && normalized.endsWith('.db')) return true;
+    return false;
+};
+
 const doRestart = () => {
-    const isCloudPaaS = !!(process.env.RENDER || process.env.KOYEB_APP_ID || process.env.RAILWAY_ENVIRONMENT);
+    const isManagedHost = !!(
+        process.env.RENDER ||
+        process.env.KOYEB_APP_ID ||
+        process.env.RAILWAY_ENVIRONMENT ||
+        process.env.P_SERVER_UUID ||
+        process.env.SERVER_MEMORY
+    );
     setTimeout(async () => {
-        if (isCloudPaaS) {
+        if (isManagedHost) {
             process.exit(0);
             return;
         }
@@ -161,66 +178,99 @@ async function performGitUpdate(client, m, opts, root) {
     doRestart();
 }
 
-async function performZipUpdate(client, m, root, opts) {
-    const apiRes = await axios.get('https://api.github.com/repos/' + REPO + '/commits/main', {
-        headers: { 'User-Agent': 'Toxic-MD' },
-        timeout: 15000
-    }).catch(() => null);
-    const remoteSha = apiRes?.data?.sha || '';
-    const shortSha = remoteSha ? remoteSha.slice(0, 7) : '';
+async function performIncrementalUpdate(client, m, root, opts) {
+    const headers = { 'User-Agent': 'Toxic-MD' };
+    if (process.env.GITHUB_TOKEN) {
+        headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+    }
 
-    await sendInteractive(client, m, fmt(`Downloading update archive${shortSha ? ` (${shortSha})` : ''}...`));
-    const zipPath = path.join(root, '.toxic_update.zip');
-    const exRoot = path.join(root, '.toxic_update');
+    const apiRes = await axios.get(`https://api.github.com/repos/${REPO}/commits/main`, {
+        headers,
+        timeout: 15000
+    });
+    const remoteSha = apiRes.data?.sha || '';
+    const shortSha = remoteSha ? remoteSha.slice(0, 7) : '';
+    if (!remoteSha) {
+        throw new Error('Could not resolve latest commit SHA from GitHub.');
+    }
+
+    const verFile = path.join(root, '.toxic_version');
+    const localSha = fs.existsSync(verFile) ? fs.readFileSync(verFile, 'utf8').trim() : '';
+
+    if (localSha === remoteSha) {
+        client.sendMessage(m.chat, { react: { text: '✅', key: m.reactKey } }).catch(() => {});
+        return sendInteractive(client, m, fmt(`Bot is already up to date!\n│ Commit: ${shortSha}`));
+    }
+
+    // First-time baseline sync: avoids downloading entire repo and triggering file-creation burst limits
+    if (!localSha) {
+        fs.writeFileSync(verFile, remoteSha);
+        client.sendMessage(m.chat, { react: { text: '✅', key: m.reactKey } }).catch(() => {});
+        return sendInteractive(
+            client,
+            m,
+            fmt(`Version baseline synced to ${shortSha}.\n│ Future .update now runs will only fetch changed files.`)
+        );
+    }
+
+    await sendInteractive(client, m, fmt(`Checking changed files (${localSha.slice(0, 7)} → ${shortSha})...`));
+
+    const cmpRes = await axios.get(`https://api.github.com/repos/${REPO}/compare/${localSha}...${remoteSha}`, {
+        headers,
+        timeout: 20000
+    });
+
+    const changedFiles = (cmpRes.data?.files || []).filter((f) => !isShouldSkip(f.filename));
+
+    if (changedFiles.length === 0) {
+        fs.writeFileSync(verFile, remoteSha);
+        client.sendMessage(m.chat, { react: { text: '✅', key: m.reactKey } }).catch(() => {});
+        return sendInteractive(client, m, fmt(`Synced to ${shortSha} (no bot files changed).`));
+    }
+
+    const oldPkg = fs.existsSync(path.join(root, 'package.json'))
+        ? fs.readFileSync(path.join(root, 'package.json'), 'utf8')
+        : '';
+
+    global._toxicUpdating = true;
+    let updatedCount = 0;
 
     try {
-        const res = await axios.get('https://github.com/' + REPO + '/archive/refs/heads/main.zip', {
-            responseType: 'arraybuffer',
-            timeout: 60000,
-            maxContentLength: 100 * 1024 * 1024,
-            headers: { 'User-Agent': 'Toxic-MD' }
-        });
-        fs.writeFileSync(zipPath, Buffer.from(res.data));
-        fs.rmSync(exRoot, { recursive: true, force: true });
+        for (const file of changedFiles) {
+            const targetPath = path.resolve(root, file.filename);
+            if (!targetPath.startsWith(root)) continue;
 
-        const zip = new AdmZip(zipPath);
-        zip.extractAllTo(exRoot, true);
-
-        const entries = fs.readdirSync(exRoot);
-        const srcDir = entries.length === 1 && fs.statSync(path.join(exRoot, entries[0])).isDirectory()
-            ? path.join(exRoot, entries[0])
-            : exRoot;
-
-        const oldPkg = fs.existsSync(path.join(root, 'package.json')) ? fs.readFileSync(path.join(root, 'package.json'), 'utf8') : '';
-        let copiedCount = 0;
-
-        global._toxicUpdating = true;
-        fs.cpSync(srcDir, root, {
-            recursive: true,
-            force: true,
-            filter: (src) => {
-                const rel = path.relative(srcDir, src);
-                if (!rel) return true;
-                const top = rel.split(path.sep)[0];
-                if (SKIP.has(top)) return false;
-                if (rel.endsWith('.session')) return false;
-                if (top === 'database' && rel.endsWith('.db')) return false;
-                try {
-                    if (fs.statSync(src).isFile()) copiedCount++;
-                } catch {}
-                return true;
+            if (file.status === 'removed') {
+                if (fs.existsSync(targetPath)) {
+                    fs.rmSync(targetPath, { force: true });
+                    updatedCount++;
+                }
+            } else {
+                const rawUrl = file.raw_url || `https://raw.githubusercontent.com/${REPO}/${remoteSha}/${file.filename}`;
+                const fileRes = await axios.get(rawUrl, {
+                    responseType: 'arraybuffer',
+                    headers,
+                    timeout: 20000
+                });
+                fs.mkdirSync(path.dirname(targetPath), { recursive: true });
+                fs.writeFileSync(targetPath, Buffer.from(fileRes.data));
+                updatedCount++;
             }
-        });
 
-        fs.rmSync(zipPath, { force: true });
-        fs.rmSync(exRoot, { recursive: true, force: true });
-
-        if (remoteSha) {
-            fs.writeFileSync(path.join(root, '.toxic_version'), remoteSha);
+            // Throttle writes (~8 files/sec) to prevent Katabump high file-creation burst kills
+            await sleep(120);
         }
 
+        // Clean up any leftover temp zip/extract artifacts if present
+        fs.rmSync(path.join(root, '.toxic_update.zip'), { force: true });
+        fs.rmSync(path.join(root, '.toxic_update'), { recursive: true, force: true });
+
+        fs.writeFileSync(verFile, remoteSha);
+
         let depNote = 'deps unchanged';
-        const newPkg = fs.existsSync(path.join(root, 'package.json')) ? fs.readFileSync(path.join(root, 'package.json'), 'utf8') : '';
+        const newPkg = fs.existsSync(path.join(root, 'package.json'))
+            ? fs.readFileSync(path.join(root, 'package.json'), 'utf8')
+            : '';
         if (oldPkg !== newPkg) {
             try {
                 await execAsync('npm install --omit=optional --no-audit --no-fund', opts);
@@ -233,18 +283,20 @@ async function performZipUpdate(client, m, root, opts) {
         fs.writeFileSync(path.join(root, '.toxic_update_done.json'), JSON.stringify({
             chat: m.chat,
             shortSha,
-            changed: copiedCount,
+            changed: updatedCount,
             depNote,
             time: Date.now()
         }));
 
         client.sendMessage(m.chat, { react: { text: '✅', key: m.reactKey } }).catch(() => {});
-        await sendInteractive(client, m, fmt(`Updated ${copiedCount} file(s)${shortSha ? ` from commit ${shortSha}` : ''}...\n│ Restarting bot now...`));
+        await sendInteractive(
+            client,
+            m,
+            fmt(`Updated ${updatedCount} changed file(s) (${shortSha})\n│ Restarting bot now...`)
+        );
         doRestart();
     } catch (err) {
         global._toxicUpdating = false;
-        fs.rmSync(zipPath, { force: true });
-        fs.rmSync(exRoot, { recursive: true, force: true });
         throw err;
     }
 }
@@ -293,7 +345,7 @@ export default {
                 if (isGit && !isKatabump) {
                     return await performGitUpdate(client, m, opts, root);
                 }
-                return await performZipUpdate(client, m, root, opts);
+                return await performIncrementalUpdate(client, m, root, opts);
             } catch (err) {
                 global._toxicUpdating = false;
                 client.sendMessage(m.chat, { react: { text: '❌', key: m.reactKey } }).catch(() => {});
