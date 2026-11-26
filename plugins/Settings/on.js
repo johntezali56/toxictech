@@ -40,12 +40,15 @@ const GROUP_MODE = {
     antigroupstatus: { label: 'Anti-Group Status', on: 'warn' },
 };
 
-const _isOwner = (m, settings) => {
-    const ownerEnv = (process.env.OWNER_NUMBER || '').replace(/\D/g, '').slice(-12);
-    const senderNum = (m.sender || '').split('@')[0].split(':')[0].replace(/\D/g, '');
-    const devNum = '254114885159';
-    const sudoNums = (settings.sudo_users || []).map(n => String(n).replace(/\D/g, '').slice(-12));
-    return senderNum === ownerEnv || senderNum === devNum || sudoNums.includes(senderNum.slice(-12));
+const _isOwner = (context, m, settings) => {
+    if (context?.Owner || context?.itsMe || context?.isSudo || m.key?.fromMe) return true;
+    const rawOwners = (process.env.OWNER_NUMBER || process.env.OWNERS || process.env.SUDO || '')
+        .split(',')
+        .map(n => n.replace(/\D/g, '').slice(-12))
+        .filter(Boolean);
+    const senderNum = (m.sender || '').split('@')[0].split(':')[0].replace(/\D/g, '').slice(-12);
+    const sudoNums = (settings?.sudo_users || []).map(n => String(n).replace(/\D/g, '').slice(-12));
+    return Boolean(senderNum) && (rawOwners.includes(senderNum) || sudoNums.includes(senderNum));
 };
 
 const isGroupAdmin = (m) => m.isAdmin || m.isBotAdmin || false;
@@ -73,7 +76,7 @@ export default {
         const settings = await getSettings();
 
         if (BOT[key] !== undefined) {
-            if (!_isOwner(m, settings)) {
+            if (!_isOwner(context, m, settings)) {
                 await client.sendMessage(m.chat, { react: { text: '❌', key: m.reactKey } }).catch(() => {});
                 return sendInteractive(client, m, fmt('Only the bot owner can change bot settings.'));
             }
@@ -88,7 +91,7 @@ export default {
         }
 
         if (GROUP[key] !== undefined) {
-            if (!isGroupAdmin(m) && !_isOwner(m, settings)) {
+            if (!isGroupAdmin(m) && !_isOwner(context, m, settings)) {
                 await client.sendMessage(m.chat, { react: { text: '❌', key: m.reactKey } }).catch(() => {});
                 return sendInteractive(client, m, fmt('Only group admins can change group settings.'));
             }
@@ -98,7 +101,7 @@ export default {
         }
 
         if (GROUP_MODE[key]) {
-            if (!isGroupAdmin(m) && !_isOwner(m, settings)) {
+            if (!isGroupAdmin(m) && !_isOwner(context, m, settings)) {
                 await client.sendMessage(m.chat, { react: { text: '❌', key: m.reactKey } }).catch(() => {});
                 return sendInteractive(client, m, fmt('Only group admins can change group settings.'));
             }
