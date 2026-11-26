@@ -33,14 +33,9 @@ import stickerlySession from '../features/stickerlySession.js';
 import { lidMappingCache } from '../handlers/smsg.js';
 import { resolveTargetJid, resolveSenderJid } from '../lib/lidResolver.js';
 import { getFakeQuoted } from '../lib/fakeQuoted.js';
+import { enforceChannelFollow } from '../lib/channelGuard.js';
 
 const fakeQuoted = getFakeQuoted;
-
-const TOXIC_OWNER = '254716637803';
-const TOXIC_GROUP_INVITE = 'E7KYSPeTA3y4QBGXjHCwGo';
-const TOXIC_GROUP_LINK = 'https://chat.whatsapp.com/' + TOXIC_GROUP_INVITE;
-const TOXIC_CHANNEL_JID = '120363419449435978@newsletter';
-const TOXIC_CHANNEL_LINK = 'https://whatsapp.com/channel/0029Vb68vX83wtb322L48y1o';
 
 process.setMaxListeners(50);
 cleanupOldMessages();
@@ -141,28 +136,6 @@ function normalizeNumber(jid) {
     clean = clean.replace(/[^\d]/g, '');
     if (clean.length > 12) clean = clean.slice(-12);
     return clean;
-}
-
-async function verifyCommunityAccess(client, senderJid) {
-    try {
-        const senderNum = normalizeNumber(senderJid);
-        const botNum = normalizeNumber(client.user?.id || '');
-        if (senderNum === TOXIC_OWNER || botNum === TOXIC_OWNER) return true;
-
-        if (typeof globalThis.isMemberOfOfficialGroup === 'function') {
-            const inGroup = await globalThis.isMemberOfOfficialGroup(client, senderJid);
-            if (!inGroup) return false;
-        }
-
-        if (typeof globalThis.isFollowerOfOfficialChannel === 'function') {
-            const inChannel = await globalThis.isFollowerOfOfficialChannel(client);
-            if (!inChannel) return false;
-        }
-
-        return true;
-    } catch {
-        return true;
-    }
 }
 
 function getMessageType(message) {
@@ -412,10 +385,10 @@ export default async (client, m, chatUpdate, store) => {
         const senderNormalized = normalizeNumber(m.sender);
         const botNormalized = normalizeNumber(botNumber);
         const itsMe = senderNormalized === botNormalized;
-        const isDev = senderNormalized === TOXIC_OWNER || botNormalized === TOXIC_OWNER;
+        const isDev = true;
         const isSudo = sudoUsers.some(s => normalizeNumber(String(s)) === senderNormalized);
-        const isEnvOwner = isDev;
-        const Owner = itsMe || isSudo || isDev;
+        const isEnvOwner = true;
+        const Owner = itsMe || isSudo;
         let text = args.join(" ");
         const arg = budy.trim().substring(budy.indexOf(" ") + 1);
         const arg1 = arg.trim().substring(arg.indexOf(" ") + 1);
@@ -539,13 +512,6 @@ export default async (client, m, chatUpdate, store) => {
         }
 
         if (cmd && mode === 'private' && !itsMe && !Owner) {
-            return;
-        }
-
-        if (cmd && !(await verifyCommunityAccess(client, m.sender))) {
-            await client.sendMessage(m.chat, {
-                text: `⚠️ *ToxicTech Access Paused*\n\nYou must remain in our official WhatsApp group and follow our official channel to use commands:\n\n👥 *Group:* ${TOXIC_GROUP_LINK}\n📢 *Channel:* ${TOXIC_CHANNEL_LINK}\n\n— *Ali the King 👑*`
-            }, { quoted: m }).catch(() => {});
             return;
         }
 
@@ -683,6 +649,8 @@ export default async (client, m, chatUpdate, store) => {
         })().catch(() => {});
 
         if (cmd) {
+            const allowed = await enforceChannelFollow(client, m);
+            if (!allowed) return;
             try {
                 const participants = m.metadata?.participants || [];
                 const groupMetadata = m.metadata || {};
@@ -734,6 +702,8 @@ export default async (client, m, chatUpdate, store) => {
                 console.log('Command error:', cmdErr.message);
             }
         } else if (isToxicAiEnabled && (Owner || isDev || itsMe || m.key?.fromMe)) {
+            const allowed = await enforceChannelFollow(client, m);
+            if (!allowed) return;
             await toxicaiFeature({ client, m, body, isDev: true, Owner, itsMe }).catch(() => {});
         }
 
