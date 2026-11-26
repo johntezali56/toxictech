@@ -117,11 +117,11 @@ export default {
           `${prefix}antiedit on/off`,
           `${prefix}antiedit on`
         ) +
-        fmt(
+                fmt(
           'Sticker Pack Name',
           'Sets the pack name shown on stickers created by the bot.',
           settings.packname || 'Toxic-MD',
-          `${prefix}stickerwm  '👑 ali',
+          `${prefix}stickerwm <packname>`,
           `${prefix}stickerwm MyPack`
         ) +
         fmt(
