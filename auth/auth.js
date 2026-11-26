@@ -10,24 +10,14 @@ async function authenticationn() {
     try {
         const sessionDir = path.join(__dirname, '..', 'Session');
         const credsPath = path.join(sessionDir, 'creds.json');
-        const sessionFilePath = path.join(__dirname, '..', 'session.json');
+        const markerPath = path.join(sessionDir, '.session_hash');
+        const sessionFilePath = path.join(sessionDir, '..', 'session.json');
 
         if (!fs.existsSync(sessionDir)) {
             fs.mkdirSync(sessionDir, { recursive: true });
         }
 
-        if (fs.existsSync(credsPath)) {
-            try {
-                const rawCreds = fs.readFileSync(credsPath, 'utf8');
-                JSON.parse(rawCreds);
-                console.log('✅ Session Successfully loaded from Session/creds.json');
-                return;
-            } catch {
-                console.log('⚠️ Invalid creds.json in Session folder — checking SESSION env / session.json...');
-            }
-        }
-
-        let sessionData = process.env.SESSION || process.env.SESSION_ID || '';
+        let sessionData = process.env.SESSION || '';
 
         if (!sessionData || sessionData === 'zokk') {
             if (fs.existsSync(sessionFilePath)) {
@@ -47,7 +37,11 @@ async function authenticationn() {
         }
 
         if (!sessionData || sessionData === 'zokk') {
-            console.log('⚠️ No session detected! — upload creds.json into the Session folder, set SESSION env, or paste your session ID in session.json');
+            if (fs.existsSync(credsPath)) {
+                console.log('✅ Using existing local Session/creds.json');
+                return;
+            }
+            console.log('⚠️ No session detected! — set SESSION env or paste your session ID in session.json');
             return;
         }
 
@@ -58,14 +52,31 @@ async function authenticationn() {
 
         let decoded;
         try {
-            decoded = Buffer.from(sessionData.trim(), 'base64').toString('utf8');
+            decoded = Buffer.from(sessionData, 'base64').toString('utf8');
             JSON.parse(decoded);
         } catch {
             console.log('❌ Wrong session! — session data is corrupted or not valid base64 JSON');
             return;
         }
 
+        // Only write creds.json if it doesn't exist yet OR if SESSION env/file actually changed
+        const previousHash = fs.existsSync(markerPath) ? fs.readFileSync(markerPath, 'utf8').trim() : '';
+        if (fs.existsSync(credsPath) && previousHash === sessionData.trim()) {
+            console.log('✅ Active session preserved (skipping overwrite)');
+            return;
+        }
+
+        // If a brand-new SESSION ID was provided, clear stale Signal keys so they don't clash
+        if (previousHash && previousHash !== sessionData.trim()) {
+            for (const f of fs.readdirSync(sessionDir)) {
+                if (f !== '.gitkeep') {
+                    try { fs.unlinkSync(path.join(sessionDir, f)); } catch {}
+                }
+            }
+        }
+
         fs.writeFileSync(credsPath, decoded, 'utf8');
+        fs.writeFileSync(markerPath, sessionData.trim(), 'utf8');
         console.log('✅ Session Successfully loaded');
     } catch (e) {
         console.log('❌ Wrong session — ' + e.message);
