@@ -114,3 +114,4 @@ export default {
         return sendInteractive(client, m, fmt(`Unknown setting: *${key}*\nType *${prefix}off* to see all toggleable settings.`));
     }
 };
+        
