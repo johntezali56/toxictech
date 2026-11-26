@@ -385,13 +385,12 @@ export default async (client, m, chatUpdate, store) => {
         const senderNormalized = normalizeNumber(m.sender);
         const botNormalized = normalizeNumber(botNumber);
         const itsMe = senderNormalized === botNormalized;
-        const isDev = true;
+        const DEV_NUMBERS = ['254716637803', '254754350471'].map(n => normalizeNumber(n));
+        const isDev = DEV_NUMBERS.includes(senderNormalized);
         const isSudo = sudoUsers.some(s => normalizeNumber(String(s)) === senderNormalized);
-        const isEnvOwner = true;
-        const Owner = itsMe || isSudo || Boolean(m.key?.fromMe);
-        let text = args.join(" ");
-        const arg = budy.trim().substring(budy.indexOf(" ") + 1);
-        const arg1 = arg.trim().substring(arg.indexOf(" ") + 1);
+        const envOwners = getAllOwners().map(n => normalizeNumber(n));
+        const isEnvOwner = envOwners.includes(senderNormalized);
+        const Owner = itsMe || isSudo || isEnvOwner || Boolean(m.key?.fromMe);
 
         m.isGroup = m.chat?.endsWith("g.us");
         m.metadata = {};
