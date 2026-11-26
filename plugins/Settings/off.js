@@ -1,7 +1,7 @@
 import { getSettings, updateSetting, getGroupSettings, updateGroupSetting } from '../../database/config.js';
 import { sendInteractive } from '../../lib/sendInteractive.js';
 
-const fmt = (msg) => `╭─❏ 「 DISABLE」\n│ ${msg}\n╰───────────────\n> 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮`;
+const fmt = (msg) => `╭─❏ 「 DISABLE」\n│ ${msg}\n╰───────────────\n> ©𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐱𝐡_𝐜𝐥𝐢𝐧𝐭𝐨𝐧`;
 
 const BOT = {
     autolike: 'Auto Status Like',
@@ -11,6 +11,7 @@ const BOT = {
     antidelete: 'Anti-Delete',
     antiedit: 'Anti-Edit',
     antiviewonce: 'Anti-View Once',
+    autoreact: 'Auto-React',
     chatbotpm: 'Chatbot PM',
     autoai: 'Auto AI Reply',
     stealth: 'Stealth Mode',
