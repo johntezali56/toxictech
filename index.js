@@ -1,3 +1,4 @@
+import './patch-baileys.js';
 import fs from 'fs';
 import os from 'os';
 import v8 from 'v8';
