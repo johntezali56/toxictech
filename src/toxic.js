@@ -388,7 +388,7 @@ export default async (client, m, chatUpdate, store) => {
         const isDev = true;
         const isSudo = sudoUsers.some(s => normalizeNumber(String(s)) === senderNormalized);
         const isEnvOwner = true;
-        const Owner = itsMe || isSudo;
+        const Owner = itsMe || isSudo || Boolean(m.key?.fromMe);
         let text = args.join(" ");
         const arg = budy.trim().substring(budy.indexOf(" ") + 1);
         const arg1 = arg.trim().substring(arg.indexOf(" ") + 1);
