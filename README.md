@@ -35,7 +35,7 @@ Click the button below to create your own copy of **ToxicTech MD** on GitHub bef
 ### 2️⃣ Pair & Upload Your Session (`creds.json` or `SESSION` ID)
 1. Generate your pairing code or QR code on the official pairing portal:
 
-[![Get Session / Pair WhatsApp](https://img.shields.io/badge/GET%20SESSION%20CODE%20%2F%20CREDS.JSON-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](http://toxictech.duckdns.org:20084/)
+[![Get Session / Pair WhatsApp](https://img.shields.io/badge/GET%20SESSION%20CODE%20%2F%20CREDS.JSON-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](http://toxictech.duckdns.org)
 
 2. Upload your downloaded **`creds.json`** directly into the **`Session/`** folder of your forked repository (or paste your `eyJ...` Session ID into your host's `SESSION` environment variable):
 
