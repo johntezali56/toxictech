@@ -15,7 +15,7 @@ import gcPresence from '../features/gcPresence.js';
 import antitaggc from '../features/antitag.js';
 import antilink from '../features/antilink.js';
 import { getCachedSettings, getCachedSudo, getCachedBanned, getCachedBannedGroups, getCachedSettingsSync, getCachedSudoSync, getCachedBannedSync, getCachedBannedGroupsSync } from '../lib/settingsCache.js';
-import { botname, mycode } from '../config/settings.js';
+import { botname, mycode, getAllOwners } from '../config/settings.js';
 import { cleanupOldMessages } from '../lib/Store.js';
 import * as msgStore from '../lib/MessageStore.js';
 import antistatusmention from '../features/antistatusmention.js';
