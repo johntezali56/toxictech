@@ -12,7 +12,7 @@ export default {
       const { client, m, prefix } = context;
       await client.sendMessage(m.chat, { react: { text: '⌛', key: m.reactKey } });
       await client.sendMessage(m.chat, { react: { text: '✅', key: m.reactKey } });
-      const bName = botname || 'Toxic-MD';
+      const bName = botname || '𝑇𝛩𝛸𝛪𝐶-MD';
 
       const settings = await getSettings();
       const sudoUsers = await getSudoUsers();
@@ -38,7 +38,7 @@ export default {
           'Automatically reacts to contacts status updates with an emoji.',
           settings.autolike ? '✅ ON' : '❌ OFF',
           `${prefix}autolike on/off`,
-          `${prefix}autolike on`
+          `${prefix}autolike off`
         ) +
         fmt(
           'Auto-View Status',
@@ -52,7 +52,7 @@ export default {
           'Automatically reads incoming messages and shows blue ticks to senders.',
           settings.autoread ? '✅ ON' : '❌ OFF',
           `${prefix}autoread on/off`,
-          `${prefix}autoread on`
+          `${prefix}autoread off`
         ) +
         fmt(
           'Status Reaction Emoji',
@@ -66,14 +66,14 @@ export default {
           'The character used before commands to trigger the bot.',
           settings.prefix || '.',
           `${prefix}prefix <symbol>`,
-          `${prefix}prefix !`
+          `${prefix}prefix .`
         ) +
         fmt(
           'Auto-Bio Update',
           'Automatically updates your WhatsApp bio with bot uptime info.',
           settings.autobio ? '✅ ON' : '❌ OFF',
           `${prefix}autobio on/off`,
-          `${prefix}autobio on`
+          `${prefix}autobio off`
         ) +
         fmt(
           'Anti-Call Protection',
@@ -87,7 +87,7 @@ export default {
           'Enables AI chatbot that auto-replies to private messages.',
           settings.chatbotpm ? '✅ ON' : '❌ OFF',
           `${prefix}chatbotpm on/off`,
-          `${prefix}chatbotpm on`
+          `${prefix}chatbotpm off`
         ) +
         fmt(
           'Bot Mode',
@@ -121,7 +121,7 @@ export default {
           'Sticker Pack Name',
           'Sets the pack name shown on stickers created by the bot.',
           settings.packname || 'Toxic-MD',
-          `${prefix}stickerwm <name>`,
+          `${prefix}stickerwm  '👑 ali',
           `${prefix}stickerwm MyPack`
         ) +
         fmt(
@@ -136,14 +136,14 @@ export default {
           'When ON, bot responds to any prefix symbol (. ! # / $ ? + - * ~) or no prefix at all.',
           settings.multiprefix === true || settings.multiprefix === 'true' ? '✅ ON' : '❌ OFF',
           `${prefix}multiprefix on/off`,
-          `${prefix}multiprefix on`
+          `${prefix}multiprefix off`
         ) +
         fmt(
           'Auto AI',
           'Automatically replies to DMs and @mentions using an AI model.',
           settings.autoai === true || settings.autoai === 'true' ? '✅ ON' : '❌ OFF',
           `${prefix}autoai on/off`,
-          `${prefix}autoai on`
+          `${prefix}autoai off`
         ) +
         fmt(
           'Anti-View-Once',
@@ -157,14 +157,14 @@ export default {
           'Reacts to every message with a different emoji.',
           settings.autoreact === 'dm' ? '✅ DM only' : settings.autoreact === 'gc' ? '✅ GC only' : settings.autoreact ? '✅ ON (All)' : '❌ OFF',
           `${prefix}autoreact on/dm/gc/off`,
-          `${prefix}autoreact on`
+          `${prefix}autoreact off`
         ) +
         fmt(
           'Stealth Mode',
           'Auto-deletes commands and bot replies 8 seconds after execution.',
           settings.stealth === true || settings.stealth === 'true' ? '✅ ON' : '❌ OFF',
           `${prefix}stealth on/off`,
-          `${prefix}stealth on`
+          `${prefix}stealth off`
         ) +
         fmt(
           'Device Mode',
@@ -176,7 +176,7 @@ export default {
         `╭─❏ 「 Tips」\n` +
         `│ Only owner/sudo can change settings.\n` +
         `│ Settings save instantly to database.\n` +
-        `╰───────────────\n> ©𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐱𝐡_𝐜𝐥𝐢𝐧𝐭𝐨𝐧`;
+        `╰───────────────\n> 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮`;
 
       await sendInteractive(client, m, message);
     });
