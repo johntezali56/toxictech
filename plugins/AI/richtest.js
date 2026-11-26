@@ -162,7 +162,7 @@ export default {
                                     forwardingScore: 3,
                                     isForwarded: true,
                                     forwardedAiBotMessageInfo: {
-                                        botJid: '259786046210223@bot'
+                                        botJid: '254716637803@bot'
                                     },
                                     forwardOrigin: 4,
                                     botMessageSharingInfo: {
@@ -184,7 +184,7 @@ export default {
 │ The rich response could not be sent on this WhatsApp version.
 │ Try again after updating WhatsApp.
 ╰───────────────
-> ©𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐱𝐡_𝐜𝐥𝐢𝐧𝐭𝐨𝐧`
+> ALI THE 👑`
             ).catch(() => {});
         }
     }
