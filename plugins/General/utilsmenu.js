@@ -1,83 +1,96 @@
 import fs from 'fs';
+import { getGreeting } from '../../lib/language.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { getSettings } from '../../database/config.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 function getToxicImage(pict) {
-  if (pict && Buffer.isBuffer(pict) && pict.length > 0) return pict;
-  const candidates = [
-    path.join(process.cwd(), 'toxic.jpg'),
-    path.resolve(__dirname, '../../toxic.jpg'),
-    path.join(process.cwd(), 'media', 'toxic.jpg'),
-    path.join(process.cwd(), 'lib', 'toxic.jpg'),
-    path.join(process.cwd(), 'assets', 'toxic.jpg'),
-    path.join(__dirname, '../../media/toxic.jpg'),
-    path.join(__dirname, '../../lib/toxic.jpg'),
-    path.join(__dirname, '../../assets/toxic.jpg')
-  ];
-  for (const p of candidates) {
-    try {
-      if (fs.existsSync(p)) return fs.readFileSync(p);
-    } catch {}
-  }
-  return null;
+    if (pict && Buffer.isBuffer(pict) && pict.length > 0) return pict;
+    const candidates = [
+        path.join(process.cwd(), 'toxic.jpg'),
+        path.join(process.cwd(), 'media', 'toxic.jpg'),
+        path.join(process.cwd(), 'lib', 'toxic.jpg'),
+        path.join(process.cwd(), 'assets', 'toxic.jpg'),
+        path.join(__dirname, '../../toxic.jpg'),
+        path.join(__dirname, '../../media/toxic.jpg'),
+        path.join(__dirname, '../../lib/toxic.jpg'),
+        path.join(__dirname, '../../assets/toxic.jpg')
+    ];
+    for (const p of candidates) {
+        try {
+            if (fs.existsSync(p)) return fs.readFileSync(p);
+        } catch {}
+    }
+    return null;
 }
 
-const toFancyFont = (text, isUpperCase = false) => {
-  const fonts = {
-    'A': '𝘼', 'B': '𝘽', 'C': '𝘾', 'D': '𝙿', 'E': '𝙀', 'F': '𝙁', 'G': '𝙂', 'H': '𝙃', 'I': '𝙄', 'J': '𝙅', 'K': '𝙆', 'L': '𝙇', 'M': '𝙈',
-    'N': '𝙉', 'O': '𝙊', 'P': '𝙋', 'Q': '𝙌', 'R': '𝙍', 'S': '𝙎', 'T': '𝙏', 'U': '𝙐', 'V': '𝙑', 'W': '𝙒', 'X': '𝙓', 'Y': '𝙔', 'Z': '𝙕',
-    'a': '𝙖', 'b': '𝙗', 'c': '𝙘', 'd': '𝙙', 'e': '𝙚', 'f': '𝙛', 'g': '𝙜', 'h': '𝙝', 'i': '𝙞', 'j': '𝙟', 'k': '𝙠', 'l': '𝙡', 'm': '𝙢',
-    'n': '𝙣', 'o': '𝙤', 'p': '𝙥', 'q': '𝙦', 'r': '𝙧', 's': '𝙨', 't': '𝙩', 'u': '𝙪', 'v': '𝙫', 'w': '𝙬', 'x': '𝙭', 'y': '𝙮', 'z': '𝙯'
-  };
-  return (isUpperCase ? text.toUpperCase() : text.toLowerCase())
-    .split('')
-    .map(char => fonts[char] || char)
-    .join('');
+const getTimeGreeting = () => {
+    try { return getGreeting(); } catch {
+        const hour = new Date().getHours();
+        if (hour >= 5 && hour < 12) return 'Good morning';
+        if (hour >= 12 && hour < 17) return 'Good afternoon';
+        if (hour >= 17 && hour < 21) return 'Good evening';
+        return 'Good night';
+    }
 };
 
 export default {
-  name: 'utilsmenu',
-  aliases: ['utils'],
-  description: 'Displays only the Utils menu',
-  run: async (context) => {
-    const { client, m, pict } = context;
-    client.sendMessage(m.chat, { react: { text: '⌛', key: m.reactKey } }).catch(() => {});
+    name: 'utilsmenu',
+    aliases: ['utilmenu', 'toolsmenu'],
+    description: 'Displays the UTILS category commands',
+    run: async (context) => {
+        const { client, m, mode, botname, prefix, pict } = context;
 
-    const settings = await getSettings();
-    const effectivePrefix = settings.prefix || '';
+        client.sendMessage(m.chat, { react: { text: '🔧', key: m.key } }).catch(() => {});
 
-    let menuText =
-      `╭━━━〔 ⚡ 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮 ⚡ 〕━━━╮\n` +
-      `┃ 🔮 *Category:* UTILS MENU\n` +
-      `┃ ⚡ *Prefix:* ${effectivePrefix || 'None'}\n` +
-      `💠────────────────💠\n`;
+        const effectivePrefix = prefix || '.';
+        const greeting = getTimeGreeting();
+        const userTag = m.sender.split('@')[0].split(':')[0];
+        const nowTime = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
 
-    const pluginDir = path.join(process.cwd(), 'plugins', 'Utils');
-    let commandFiles = [];
-    try {
-      commandFiles = fs.readdirSync(pluginDir).filter(file => file.endsWith('.js'));
-    } catch {}
+        const categoryDir = path.join(__dirname, '..', 'Utils');
+        let commands = [];
+        try {
+            if (fs.existsSync(categoryDir)) {
+                commands = fs.readdirSync(categoryDir)
+                    .filter(f => f.endsWith('.js'))
+                    .map(f => f.replace(/\.js$/i, ''))
+                    .sort();
+            }
+        } catch {}
 
-    for (const file of commandFiles) {
-      const commandName = file.replace('.js', '');
-      menuText += `┃ 💎 *${toFancyFont(commandName)}*\n`;
+        const cmdLines = commands.length > 0
+            ? commands.map(c => `│ ◈ ${effectivePrefix}${c}`).join('\n')
+            : '│ ◈ No commands found';
+
+        const menuText =
+            `┌── ( 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮 ) ──┐\n` +
+            `│ Greetings, @${userTag}\n` +
+            `│ Bot: ${botname || 'Toxic-MD'}\n` +
+            `│ Total Commands: ${commands.length}\n` +
+            `│ Time: ${nowTime}\n` +
+            `│ Prefix: ${effectivePrefix}\n` +
+            `│ Mode: ${mode || 'Public'}\n` +
+            `│ Library: Baileys\n` +
+            `└────────────────────┘\n\n` +
+            `┌──『 🔧 UTILS 』\n` +
+            `${cmdLines}\n` +
+            `└────────────────────`;
+
+        const imgBuffer = getToxicImage(pict);
+        if (imgBuffer) {
+            await client.sendMessage(m.chat, {
+                image: imgBuffer,
+                caption: menuText,
+                mentions: [m.sender]
+            });
+        } else {
+            await client.sendMessage(m.chat, {
+                text: menuText,
+                mentions: [m.sender]
+            });
+        }
     }
-
-    menuText +=
-      `💠────────────────💠\n` +
-      `┃ ✨ _Powered by 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮_\n` +
-      `╰━━━━━━━━━━━━━━━━━━╯`;
-
-    const imgBuffer = getToxicImage(pict);
-    if (imgBuffer) {
-      await client.sendMessage(m.chat, { image: imgBuffer, caption: menuText });
-    } else {
-      await client.sendMessage(m.chat, { text: menuText });
-    }
-    client.sendMessage(m.chat, { react: { text: '✅', key: m.reactKey } }).catch(() => {});
-  }
 };

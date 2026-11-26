@@ -1,7 +1,8 @@
+import { DateTime } from 'luxon';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { getSettings } from '../../database/config.js';
+import { getSettings } from '../../lib/fastSettings.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,50 +27,78 @@ function getToxicImage(pict) {
   return null;
 }
 
-const toFancyFont = (text, isUpperCase = false) => {
-  const fonts = {
-    'A': '𝘼', 'B': '𝘽', 'C': '𝘾', 'D': '𝙿', 'E': '𝙀', 'F': '𝙁', 'G': '𝙂', 'H': '𝙃', 'I': '𝙄', 'J': '𝙅', 'K': '𝙆', 'L': '𝙇', 'M': '𝙈',
-    'N': '𝙉', 'O': '𝙊', 'P': '𝙋', 'Q': '𝙌', 'R': '𝙍', 'S': '𝙎', 'T': '𝙏', 'U': '𝙐', 'V': '𝙑', 'W': '𝙒', 'X': '𝙓', 'Y': '𝙔', 'Z': '𝙕',
-    'a': '𝙖', 'b': '𝙗', 'c': '𝙘', 'd': '𝙙', 'e': '𝙚', 'f': '𝙛', 'g': '𝙜', 'h': '𝙝', 'i': '𝙞', 'j': '𝙟', 'k': '𝙠', 'l': '𝙡', 'm': '𝙢',
-    'n': '𝙣', 'o': '𝙤', 'p': '𝙥', 'q': '𝙦', 'r': '𝙧', 's': '𝙨', 't': '𝙩', 'u': '𝙪', 'v': '𝙫', 'w': '𝙬', 'x': '𝙭', 'y': '𝙮', 'z': '𝙯'
-  };
-  return (isUpperCase ? text.toUpperCase() : text.toLowerCase())
-    .split('')
-    .map(char => fonts[char] || char)
-    .join('');
+const getGreeting = () => {
+  const currentHour = DateTime.now().setZone('Africa/Nairobi').hour;
+  if (currentHour >= 5 && currentHour < 12) return 'Good Morning';
+  if (currentHour >= 12 && currentHour < 18) return 'Good Afternoon';
+  if (currentHour >= 18 && currentHour < 22) return 'Good Evening';
+  return 'Good Night';
+};
+
+const getCurrentTimeInNairobi = () => {
+  return DateTime.now().setZone('Africa/Nairobi').toLocaleString(DateTime.TIME_SIMPLE);
 };
 
 export default {
   name: 'downloadmenu',
-  aliases: ['dlmenu'],
-  description: 'Displays only the Download/Media menu',
+  aliases: ['downloadsmenu', 'dlmenu', 'downloadcmds'],
+  description: 'Displays all Downloads commands',
   run: async (context) => {
-    const { client, m, pict } = context;
-    client.sendMessage(m.chat, { react: { text: '⚡', key: m.reactKey || m.key } }).catch(() => {});
+    const { client, m, totalCommands, mode, pict } = context;
+    await client.sendMessage(m.chat, { react: { text: '⌛', key: m.reactKey || m.key } }).catch(() => {});
 
     const settings = await getSettings();
-    const effectivePrefix = settings.prefix || '';
+    const effectivePrefix = settings?.prefix || '.';
+    const senderNum = m.sender.split('@')[0].split(':')[0];
 
-    let menuText =
-      `╭━━━〔 ⚡ 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮 ⚡ 〕━━━╮\n` +
-      `┃ 🎬 *DOWNLOAD MENU*\n` +
-      `┃ 🔮 *Prefix:* ${effectivePrefix || 'None'}\n` +
-      `💠────────────────💠\n`;
-
-    const pluginDir = path.join(process.cwd(), 'plugins', 'Downloads');
     let commandFiles = [];
     try {
-      commandFiles = fs.readdirSync(pluginDir).filter(file => file.endsWith('.js'));
+      commandFiles = fs.readdirSync('./plugins/Downloads').filter(file => file.endsWith('.js') && file !== 'links.js');
     } catch {}
 
+    let commandsList = [];
     for (const file of commandFiles) {
-      const commandName = file.replace('.js', '');
-      menuText += `┃ 💎 *${toFancyFont(commandName)}*\n`;
+      let displayName = file.replace('.js', '');
+      try {
+        const { pathToFileURL } = await import('url');
+        const modUrl = pathToFileURL(path.join(process.cwd(), 'plugins', 'Downloads', file)).href;
+        const modRaw = await import(modUrl);
+        const mod = modRaw.default !== undefined ? modRaw.default : modRaw;
+        if (Array.isArray(mod)) {
+          for (const cmd of mod) {
+            if (cmd && cmd.name) commandsList.push(cmd.name);
+          }
+          continue;
+        }
+        if (mod && typeof mod === 'object' && mod.name && typeof mod.name === 'string') {
+          displayName = mod.name;
+        }
+      } catch {}
+      commandsList.push(displayName);
     }
 
-    menuText +=
-      `💠────────────────💠\n` +
-      `╰━━━〔 ✨ 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮 ✨ 〕━━━╯`;
+    if (commandsList.length === 0 && 'Downloads' === 'NSFW') {
+      commandsList = ['xvideo'];
+    }
+
+    let menuText =
+      `┌── ( 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮 ) ──┐\n` +
+      `│ ${getGreeting()}, @${senderNum}\n` +
+      `│ Bot: Toxic-MD\n` +
+      `│ Total Commands: ${totalCommands || commandsList.length}\n` +
+      `│ Time: ${getCurrentTimeInNairobi()}\n` +
+      `│ Prefix: ${effectivePrefix}\n` +
+      `│ Mode: ${mode || 'Public'}\n` +
+      `│ Library: Baileys\n` +
+      `└────────────────────\n\n` +
+      `┌──『 🎬 DOWNLOADS 』\n`;
+
+    for (const cmd of commandsList) {
+      menuText += `│ ◈ ${effectivePrefix}${cmd}\n`;
+    }
+
+    menuText += `└────────────────────\n` +
+      `> ©𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐱𝐡_𝐜𝐥𝐢𝐧𝐭𝐨𝐧`;
 
     const imgBuffer = getToxicImage(pict);
     if (imgBuffer) {
@@ -77,14 +106,14 @@ export default {
         image: imgBuffer,
         caption: menuText,
         mentions: [m.sender]
-      });
+      }, { quoted: m });
     } else {
       await client.sendMessage(m.chat, {
         text: menuText,
         mentions: [m.sender]
-      });
+      }, { quoted: m });
     }
 
-    client.sendMessage(m.chat, { react: { text: '✅', key: m.reactKey || m.key } }).catch(() => {});
+    await client.sendMessage(m.chat, { react: { text: '✅', key: m.reactKey || m.key } }).catch(() => {});
   }
 };
