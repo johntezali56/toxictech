@@ -1,7 +1,7 @@
 import { getSettings, updateSetting, getGroupSettings, updateGroupSetting } from '../../database/config.js';
 import { sendInteractive } from '../../lib/sendInteractive.js';
 
-const fmt = (msg) => `╭─❏ 「 ENABLE」\n│ ${msg}\n╰───────────────\n> ©𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐱𝐡_𝐜𝐥𝐢𝐧𝐭𝐨𝐧`;
+const fmt = (msg) => `╭─❏ 「 ENABLE」\n│ ${msg}\n╰───────────────\n> 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮`;
 
 const BOT = {
     autolike: 'Auto Status Like',
