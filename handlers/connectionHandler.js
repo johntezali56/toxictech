@@ -1,5 +1,3 @@
-import fs from 'fs';
-import path from 'path';
 import { getCachedSettings } from '../lib/settingsCache.js';
 import { botname } from '../config/settings.js';
 import * as commandHandler from './commandHandler.js';
@@ -13,8 +11,7 @@ export default async function connectionHandler(sock, update, store) {
     bootMessageSent = true;
 
     try {
-        // 1. Wait 4 seconds for Signal keys & LID sessions to finish syncing
-        await new Promise((resolve) => setTimeout(resolve, 4000));
+        await new Promise((resolve) => setTimeout(resolve, 6000));
 
         const settings = await getCachedSettings().catch(() => ({}));
         const mode = (settings?.mode || 'public').toLowerCase();
@@ -34,11 +31,14 @@ export default async function connectionHandler(sock, update, store) {
             hour12: true
         });
 
-        // 2. Clean the JID (strip device suffix like :14)
+        // Use LID JID first for WhatsApp Multi-Device self-chat ("Message yourself")
+        // so Signal decryption succeeds immediately on fresh server restarts
+        const rawLid = sock.user?.lid || '';
         const rawId = sock.user?.id || '';
-        if (!rawId) return;
-        const botJid = rawId.includes(':')
-            ? `${rawId.split(':')[0]}@s.whatsapp.net`
+        if (!rawId && !rawLid) return;
+
+        const botJid = rawLid
+            ? `${rawLid.split(':')[0].split('@')[0]}@lid`
             : sock.decodeJid(rawId);
 
         const caption = `╭───〔 *${botname || 'Toxic-MD'}* 〕───
@@ -54,23 +54,7 @@ export default async function connectionHandler(sock, update, store) {
 ╰───────────────────
 _Type *${prefix}menu* to view all commands._`;
 
-        const imgPaths = [
-            path.join(process.cwd(), 'toxic.jpg'),
-            path.join('toxic.jpg')
-        ];
-        const validImgPath = imgPaths.find((p) => fs.existsSync(p));
-        const imgBuffer = validImgPath ? fs.readFileSync(validImgPath) : null;
-
-        // 3. Send standard image/text instead of interactive nativeFlowMessage
-        // (nativeFlowMessage fails decryption in WhatsApp self-chats)
-        if (imgBuffer) {
-            await sock.sendMessage(botJid, {
-                image: imgBuffer,
-                caption
-            });
-        } else {
-            await sock.sendMessage(botJid, { text: caption });
-        }
+        await sock.sendMessage(botJid, { text: caption });
     } catch (err) {
         console.error('Error sending boot message:', err.message);
     }
