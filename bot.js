@@ -1131,10 +1131,6 @@ async function startToxic() {
       }
 
       if (connection === "open") {
-        if (typeof client.resyncAppState === 'function') {
-          client.resyncAppState(ALL_WA_PATCH_NAMES, true).catch(() => {});
-          console.log('🔄 App state resync started');
-        }
         global._toxicSessionTs = Math.floor(Date.now() / 1000);
         global._toxicSeenIds = new Set();
         global._toxicRealTime = false;
