@@ -1,4 +1,3 @@
--725
 import fs from 'fs';
 import path from 'path';
 import fetch from 'node-fetch';
@@ -341,7 +340,14 @@ export default async (context) => {
         if (qText) quotedContext = qText;
     }
 
-    if (!body && !quotedContext && !m.message?.imageMessage && !m.message?.documentMessage && !m.quoted) return;
+    const unwrapMsg = (msg) => {
+        if (!msg) return null;
+        return msg.ephemeralMessage?.message || msg.viewOnceMessage?.message || msg.viewOnceMessageV2?.message || msg.documentWithCaptionMessage?.message || msg;
+    };
+    const innerMsg = unwrapMsg(m.message);
+
+    if (!body && !quotedContext && !innerMsg?.imageMessage && !innerMsg?.documentMessage && !m.quoted) return;
+
 
     // 5-7 second randomized cooldown per user
     const now = Date.now();
@@ -419,59 +425,66 @@ export default async (context) => {
 
     // Check quoted media/document
     if (m.quoted) {
-        const qi = m.quoted.msg || m.quoted;
+        const qInner = unwrapMsg(m.quoted.message) || m.quoted;
+        const qi = qInner.imageMessage || qInner.documentMessage || m.quoted.msg || m.quoted;
         const qmime = qi.mimetype || '';
         const qFileName = qi.fileName || '';
         const qExt = qFileName.split('.').pop()?.toLowerCase() || '';
 
         if (qmime.startsWith('image/') && !qmime.startsWith('image/gif')) {
             try {
-                const buf = await m.quoted.download();
+                const buf = typeof m.quoted.download === 'function'
+                    ? await m.quoted.download()
+                    : await client.downloadMediaMessage(qi);
                 if (buf?.length) {
                     pendingImageBuf = buf;
                     pendingImageMime = qmime.split(';')[0];
-                    pendingImageExt = pendingImageMime.split('/')[1] || 'jpg';
+                    pendingImageExt = pendingImageMime.split('/') || 'jpg';
                 }
-            } catch {}
-        } else if (qmime.startsWith('text/') || qmime.includes('json') || qmime.includes('javascript') || TEXT_EXTS.has(qExt)) {
+            } catch (e) { console.error('[TOXICAI QUOTED IMG ERR]', e.message); }
+        } else if (qmime.startsWith('text/') || qmime.includes('json') || qmime.includes('javascript') || qmime.includes('xml') || TEXT_EXTS.has(qExt)) {
             try {
-                const buf = await m.quoted.download();
-                if (buf?.length) {
-                    attachedFileName = qFileName || `quoted.${qExt || 'txt'}`;
-                    attachedFileText = buf.toString('utf8').slice(0, 12000);
-                }
-            } catch {}
-        }
-    }
-
-    // Check direct image
-    if (!pendingImageBuf && m.message?.imageMessage) {
-        try {
-            const buf = await client.downloadMediaMessage(m);
+                        try {
+            const buf = typeof m.quoted.download === 'function'
+                ? await m.quoted.download()
+                : await client.downloadMediaMessage(qi);
             if (buf?.length) {
-                pendingImageBuf = buf;
-                pendingImageMime = (m.message.imageMessage.mimetype || 'image/jpeg').split(';')[0];
-                pendingImageExt = pendingImageMime.split('/')[1] || 'jpg';
+                attachedFileName = qFileName || `quoted.${qExt || 'txt'}`;
+                attachedFileText = buf.toString('utf8').slice(0, 45000);
             }
-        } catch {}
+        } catch (e) { console.error('[TOXICAI QUOTED DOC ERR]', e.message); }
     }
+}
 
-    // Check direct document
-    if (!attachedFileText && m.message?.documentMessage) {
-        const dMsg = m.message.documentMessage;
-        const dMime = dMsg.mimetype || '';
-        const dName = dMsg.fileName || 'file.txt';
-        const dExt = dName.split('.').pop()?.toLowerCase() || '';
-        if (dMime.startsWith('text/') || dMime.includes('json') || dMime.includes('javascript') || TEXT_EXTS.has(dExt)) {
-            try {
-                const buf = await client.downloadMediaMessage(m);
-                if (buf?.length) {
-                    attachedFileName = dName;
-                    attachedFileText = buf.toString('utf8').slice(0, 12000);
-                }
-            } catch {}
+// Check direct image
+if (!pendingImageBuf && innerMsg?.imageMessage) {
+    try {
+        const buf = await client.downloadMediaMessage(innerMsg.imageMessage);
+        if (buf?.length) {
+            pendingImageBuf = buf;
+            pendingImageMime = (innerMsg.imageMessage.mimetype || 'image/jpeg').split(';');
+            pendingImageExt = pendingImageMime.split('/') || 'jpg';
         }
+    } catch (e) { console.error('[TOXICAI IMG ERR]', e.message); }
+}
+
+// Check direct document
+if (!attachedFileText && innerMsg?.documentMessage) {
+    const dMsg = innerMsg.documentMessage;
+    const dMime = dMsg.mimetype || '';
+    const dName = dMsg.fileName || 'file.txt';
+    const dExt = dName.split('.').pop()?.toLowerCase() || '';
+    if (dMime.startsWith('text/') || dMime.includes('json') || dMime.includes('javascript') || dMime.includes('xml') || dMime === 'application/octet-stream' || TEXT_EXTS.has(dExt)) {
+        try {
+            const buf = await client.downloadMediaMessage(dMsg);
+            if (buf?.length) {
+                attachedFileName = dName;
+                attachedFileText = buf.toString('utf8').slice(0, 45000);
+            }
+        } catch (e) { console.error('[TOXICAI DOC ERR]', e.message); }
     }
+}
+
 
     // --- TOOLS ---
     async function webSearch(query) {
