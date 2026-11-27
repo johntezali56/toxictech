@@ -795,11 +795,28 @@ async function startToxic() {
         await client.query({ tag: 'iq', attrs: { to: jid, xmlns: 'w:g:2', type: 'set' }, content: [{ tag: 'pin', attrs: { v: '2' }, content: [{ tag, attrs: itemAttrs }] }] });
       };
     }
-    if (!client.clearChatMessages) client.clearChatMessages = async (jid, lastMsg) => {
-        const lastMessages = lastMsg?.key?.id && lastMsg?.messageTimestamp ? [{ key: { ...lastMsg.key }, messageTimestamp: lastMsg.messageTimestamp }] : [];
-        if (typeof client.clearChat === 'function') return client.clearChat(jid, lastMessages);
-        return client.chatModify({ clear: true, lastMessages }, jid);
-    };
+    if (!client.clearChatMessages) {
+  client.clearChatMessages = async (jid, lastMsg) => {
+    const ts = Number(lastMsg?.messageTimestamp?.low ?? lastMsg?.messageTimestamp ?? Math.floor(Date.now() / 1000));
+    const msgEntry = lastMsg?.key?.id
+      ? [{ id: lastMsg.key.id, fromMe: Boolean(lastMsg.key.fromMe), timestamp: ts }]
+      : [];
+
+    if (typeof client.clearChat === 'function') {
+      return client.clearChat(jid, msgEntry);
+    }
+
+    return client.chatModify(
+      {
+        clear: {
+          messages: msgEntry
+        }
+      },
+      jid
+    );
+  };
+}
+
     if (!client.updateCallPrivacy) {
       client.updateCallPrivacy = async (value) => {
         await client.query({ tag: 'iq', attrs: { xmlns: 'privacy', to: S_WHATSAPP_NET, type: 'set' }, content: [{ tag: 'privacy', attrs: {}, content: [{ tag: 'category', attrs: { name: 'calladd', value } }] }] });
