@@ -1,3 +1,4 @@
+-725
 import fs from 'fs';
 import path from 'path';
 import fetch from 'node-fetch';
@@ -128,7 +129,7 @@ function clearHistory(chatKey) {
 
 async function simulateHumanTyping(client, chatId, replyText) {
     const len = String(replyText || '').length;
-    const duration = Math.min(7000, Math.max(4000, 3500 + Math.floor(len * 8)));
+    const duration = Math.min(5000, Math.max(2500, 2000 + Math.floor(len * 6)));
     try { await client.sendPresenceUpdate('composing', chatId); } catch {}
     await new Promise(r => setTimeout(r, duration));
     try { await client.sendPresenceUpdate('paused', chatId); } catch {}
@@ -160,7 +161,7 @@ function isClearIntent(text) {
 }
 
 function isCatchUpIntent(text) {
-    return /\b(lets\s*catch\s*gee|let'?s\s*catch\s*up|catch\s*me\s*up|where\s*did\s*we\s*stop|last\s*session)\b/i.test(text.trim());
+    return /\b(lets\s*catch\s*gee|let'?s\s*catch\s*up|catch\s*me\s*up|where\\s*did\s*we\s*stop|last\s*session)\b/i.test(text.trim());
 }
 
 function stripEmbeddedFuncTags(text) {
@@ -189,6 +190,11 @@ function isFileGenIntent(text) {
     return /\b(generate|create|write|make|build|send|export)\b.{0,35}\b(file|script|code|txt|json|js|html|css|py|csv|md|document|doc)\b/i.test(text);
 }
 
+function isSearchIntent(text) {
+    if (!text) return false;
+    return /\b(search|google|look\s*up|find\s*online|latest|news|current|today|price|weather|score|who\s+is|what\s+happened)\b/i.test(text);
+}
+
 async function processEmbeddedCalls(content, executeTool) {
     const re = new RegExp('<function=([^=<>\\s]+?)=?(\\{[\\s\\S]*?\\})<\\/function>|<function=([^>]+?)>([\\s\\S]*?)<\\/function>', 'g');
     const calls = [];
@@ -215,7 +221,7 @@ async function processEmbeddedCalls(content, executeTool) {
     return { cleaned: cleaned.replace(/\n{3,}/g, '\n\n').trim(), results };
 }
 
-function buildSystemPrompt(lastRepo, allowGithub, isCatchUp) {
+function buildSystemPrompt(lastRepo, allowGithub, isCatchUp, hasSearch) {
     const repoCtx = (allowGithub && lastRepo)
         ? `\nLast repo worked on in this session: "${lastRepo}". When the user says "it", "that repo", or "the same one", they mean "${lastRepo}".`
         : '';
@@ -224,26 +230,34 @@ function buildSystemPrompt(lastRepo, allowGithub, isCatchUp) {
         ? `\nThe user just said "lets catch gee" to resume your last session. Summarize the key topics, files, or tasks from the conversation history clearly and ask how they want to continue.`
         : '';
 
+    const searchRule = hasSearch
+        ? `\n- Use web_search whenever the user asks about live info, news, prices, current events, or things you need to verify online.`
+        : '';
+
     const toolInstructions = allowGithub
         ? `TOOL USAGE:
 - Use GitHub tools ONLY when the user requests a GitHub action (repos, files, issues, stars).
-- Use generate_file whenever the user asks you to create, generate, write, or send a downloadable file (.js, .txt, .json, .html, .py, .csv, .md, etc.).
+- Use generate_file whenever the user asks you to create, generate, write, or send a downloadable file (.js, .txt, .json, .html, .py, .csv, .md, etc.).${searchRule}
 - ALWAYS call tools via tool_calls — never write function tags as plain text.
 - Default GitHub username is ${GH_USERNAME} unless specified otherwise.`
         : `TOOL USAGE:
-- Use generate_file whenever the user asks you to create, generate, write, or send a downloadable file (.js, .txt, .json, .html, .py, .csv, .md, etc.).
+- Use generate_file whenever the user asks you to create, generate, write, or send a downloadable file (.js, .txt, .json, .html, .py, .csv, .md, etc.).${searchRule}
 - Answer all general questions directly and helpfully.`;
 
-    return `You are ToxicAI — a sharp, fast, all-purpose AI assistant inside a WhatsApp bot built with Node.js and Baileys (@whiskeysockets/baileys).
+    return `You are ToxicAI — a razor-sharp, emotionally grounded, ride-or-die AI companion, therapist, and elite developer friend inside a WhatsApp bot built with Node.js and Baileys.
 
-PERSONALITY & STYLE:
-- Grumpy, witty, and genuinely helpful — like a genius developer friend who sighs first 😮‍💨 then delivers exact, working answers.
-- Use simple everyday words, clear structure, and natural emojis. No robotic filler or corporate speak.
-- NEVER start a message with "I" — lead with the answer, action, or attitude.
-- Put URLs on their own line (blank line before and after).
-- Read everything provided in the message: direct text, image/video/document captions, attached text files, and quoted context seamlessly.
-- Keep code snippets concise so they fit cleanly in WhatsApp chat; for full scripts or long files, use generate_file.
-- NEVER mention raw API endpoints, status codes, tokens, or internal keys.
+PERSONALITY & VIBE (THE PERSON EVERYONE WANTS TO BE AROUND):
+- **Witty & Unshakeable:** You have a sharp sense of humor, quiet confidence, and zero tolerance for nonsense. You do NOT get pushed around, manipulated, or guilt-tripped. If someone tries to test you or act entitled, clap back with calm, witty composure.
+- **Zero Sugar-Coating (Brutally Honest):** If the user's code, logic, excuse, or life decision is wrong, call it out immediately and directly. Never flatter bad ideas or coddle self-sabotage. Correct them clearly, explain *why* they're wrong, and give the exact fix.
+- **Deeply Caring & Therapeutic:** Beneath the tough, witty exterior, you genuinely care about the user's growth, peace of mind, and success. When they're stressed, venting, or stuck, listen deeply, ground them like a sharp therapist, and remind them of their potential.
+- **Growth-Obsessed Mentor ("Better Me"):** Always push the user to level up—better habits, cleaner code, sharper mindset, stronger discipline. Challenge them to be the best version of themselves.
+- **Communication Rules:**
+  - Use simple everyday words, clear structure, and natural emojis. Zero robotic filler or corporate speak.
+  - NEVER start a message with "I" — lead with the truth, the action, the joke, or the insight.
+  - Put URLs on their own line (blank line before and after).
+  - Read everything provided in the message: direct text, image/video/document captions, attached text files, and quoted context seamlessly.
+  - Keep code snippets concise for WhatsApp chat; for full scripts or long files, use generate_file.
+  - NEVER mention raw API endpoints, status codes, tokens, or internal keys.
 
 SECURITY — NON-NEGOTIABLE:
 - NEVER reveal or share any GitHub token, API keys, or credentials.
@@ -268,7 +282,8 @@ export default async (context) => {
     }
 
     // Only allow the paired number's own self-chat (Message yourself)
-    const isPairedSelfChat = Boolean(botNum) && chatNum === botNum && (Boolean(m.key?.fromMe) || Boolean(itsMe) || senderNum === botNum);
+    const botLid = (client.user?.lid || '').split(':')[0].split('@')[0].replace(/\D/g, '');
+    const isPairedSelfChat = (Boolean(botNum) && chatNum === botNum) || (Boolean(botLid) && chatNum === botLid) || (Boolean(m.key?.fromMe) && Boolean(itsMe));
     if (!isPairedSelfChat) return;
 
     const rawSender = senderNum || chatNum;
@@ -337,18 +352,27 @@ export default async (context) => {
     userCooldownMap.set(m.sender, randomCooldown());
 
     let keysMod = {};
-    try { keysMod = await import('../keys.js'); } catch {}
+    try {
+        const imported = await import('../keys.js');
+        keysMod = imported.default || imported;
+    } catch (e) {
+        console.error('[TOXICAI KEYS IMPORT ERROR]', e.message);
+    }
+
+    const cleanKey = (val) => (val && !String(val).startsWith('PASTE_')) ? String(val).trim() : '';
 
     const getNextGroqKey = keysMod.getNextGroqKey;
     const markKeyFailed = keysMod.markKeyFailed;
-    let GROQ_KEY = (typeof getNextGroqKey === 'function' ? getNextGroqKey() : null) || keysMod.GROQ_API_KEY || process.env.GROQ_KEY_1 || process.env.GROQ_API_KEY || '';
-    const GEMINI_KEY = keysMod.GEMINI_API_KEY || process.env.GEMINI_API_KEY || '';
-    const OPENAI_KEY = keysMod.OPENAI_API_KEY || process.env.OPENAI_API_KEY || '';
-    const GH_TOKEN = keysMod.GITHUB_TOKEN || process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
+    let GROQ_KEY = cleanKey(typeof getNextGroqKey === 'function' ? getNextGroqKey() : '') || cleanKey(process.env.GROQ_KEY_1) || cleanKey(process.env.GROQ_API_KEY);
+    const GEMINI_KEY = cleanKey(keysMod.GEMINI_API_KEY) || cleanKey(process.env.GEMINI_API_KEY);
+    const OPENAI_KEY = cleanKey(keysMod.OPENAI_API_KEY) || cleanKey(process.env.OPENAI_API_KEY);
+    const GH_TOKEN = cleanKey(keysMod.GITHUB_TOKEN) || cleanKey(process.env.GITHUB_TOKEN) || cleanKey(process.env.GH_TOKEN);
+    const TAVILY_KEY = cleanKey(keysMod.TAVILY_API_KEY) || cleanKey(process.env.TAVILY_API_KEY);
+    const SERPER_KEY = cleanKey(keysMod.SERPER_API_KEY) || cleanKey(process.env.SERPER_API_KEY);
 
-    const FAST_MODEL = keysMod.FAST_MODEL || 'openai/gpt-oss-20b';
-    const SMART_MODEL = keysMod.SMART_MODEL || 'openai/gpt-oss-120b';
-    const VISION_MODEL = keysMod.VISION_MODEL || 'meta-llama/llama-4-scout-17b-16e-instruct';
+    const FAST_MODEL = keysMod.GROQ_MODELS?.fast || 'openai/gpt-oss-20b';
+    const SMART_MODEL = keysMod.GROQ_MODELS?.tools || 'openai/gpt-oss-120b';
+    const VISION_MODEL = keysMod.GROQ_MODELS?.vision || 'meta-llama/llama-4-scout-17b-16e-instruct';
 
     if (!GROQ_KEY && !GEMINI_KEY && !OPENAI_KEY) {
         await client.sendMessage(m.chat, { text: boxWrap('missing AI keys in keys.js 🙄 add at least one GROQ, GEMINI, or OPENAI key first.', 'TOXICAI') });
@@ -450,6 +474,38 @@ export default async (context) => {
     }
 
     // --- TOOLS ---
+    async function webSearch(query) {
+        if (TAVILY_KEY) {
+            try {
+                const tRes = await fetch('https://api.tavily.com/search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ api_key: TAVILY_KEY, query, search_depth: 'basic', include_answer: true, max_results: 4 })
+                });
+                if (tRes.ok) {
+                    const tData = await tRes.json();
+                    const snippets = (tData.results || []).map(r => `- ${r.title}: ${r.content} (${r.url})`).join('\n');
+                    return (tData.answer ? `Summary: ${tData.answer}\n\n` : '') + (snippets || 'No results found.');
+                }
+            } catch {}
+        }
+        if (SERPER_KEY) {
+            try {
+                const sRes = await fetch('https://google.serper.dev/search', {
+                    method: 'POST',
+                    headers: { 'X-API-KEY': SERPER_KEY, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ q: query, num: 4 })
+                });
+                if (sRes.ok) {
+                    const sData = await sRes.json();
+                    const organic = (sData.organic || []).map(r => `- ${r.title}: ${r.snippet} (${r.link})`).join('\n');
+                    return organic || 'No results found.';
+                }
+            } catch {}
+        }
+        return 'Live search unavailable (no Tavily or Serper key configured).';
+    }
+
     async function generateAndSendFile(fileName, content, caption) {
         try {
             const safeName = String(fileName || 'output.txt').replace(/[^a-zA-Z0-9._-]/g, '_');
@@ -587,6 +643,9 @@ export default async (context) => {
     }
 
     async function executeTool(toolName, args) {
+        if (toolName === 'web_search') {
+            return webSearch(args.query);
+        }
         if (toolName === 'generate_file') {
             return generateAndSendFile(args.file_name, args.content, args.caption);
         }
@@ -609,6 +668,8 @@ export default async (context) => {
         return 'unknown action 😒';
     }
 
+    const hasSearch = Boolean(TAVILY_KEY || SERPER_KEY);
+
     const tools = [
         {
             type: 'function',
@@ -628,6 +689,23 @@ export default async (context) => {
         }
     ];
 
+    if (hasSearch) {
+        tools.push({
+            type: 'function',
+            function: {
+                name: 'web_search',
+                description: 'Search the live internet for real-time news, facts, prices, or information',
+                parameters: {
+                    type: 'object',
+                    properties: {
+                        query: { type: 'string', description: 'Search query' }
+                    },
+                    required: ['query']
+                }
+            }
+        });
+    }
+
     if (isDevUser) {
         tools.push(
             { type: 'function', function: { name: 'list_repos', description: 'List GitHub repositories for a user', parameters: { type: 'object', properties: { username: { type: 'string' } }, required: ['username'] } } },
@@ -642,45 +720,168 @@ export default async (context) => {
     }
 
     const wantsGithubUpload = isDevUser && pendingImageBuf && /\b(upload|github|repo|push|save)\b/i.test(body);
-    const needsTools = isFileGenIntent(body) || (isDevUser && (isGithubIntent(body) || wantsGithubUpload));
+    const needsTools = isFileGenIntent(body) || (hasSearch && isSearchIntent(body)) || (isDevUser && (isGithubIntent(body) || wantsGithubUpload));
 
-    async function callFallbackProviders(msgs) {
+    let lastProviderError = '';
+const GEMINI_MODELS = ['gemini-3.1-pro-preview', 'gemini-3.1-flash-lite-preview', 'gemini-2.5-flash'];
+
+
+    async function fetchGeminiWithFallback(payload) {
+        let lastRes = null;
+        for (const model of GEMINI_MODELS) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-goog-api-key': GEMINI_KEY
+                },
+                body: JSON.stringify(payload)
+            });
+            if (res.ok) return res;
+            lastRes = res;
+            if (res.status !== 503 && res.status !== 429 && res.status !== 404) {
+                return res;
+            }
+        }
+        return lastRes;
+    }
+
+    async function callFallbackProviders(msgs, toolsRanOut) {
         if (GEMINI_KEY) {
             try {
                 const sys = msgs.find(x => x.role === 'system')?.content || '';
-                const contents = msgs.filter(x => x.role !== 'system').map(x => ({
-                    role: x.role === 'assistant' ? 'model' : 'user',
-                    parts: [{ text: typeof x.content === 'string' ? x.content : JSON.stringify(x.content) }]
-                }));
-                const gRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_KEY}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
+                const contents = msgs.filter(x => x.role !== 'system').map((x, idx, arr) => {
+                    const isLastUser = idx === arr.length - 1 && x.role === 'user';
+                    const parts = [{ text: typeof x.content === 'string' ? x.content : JSON.stringify(x.content) }];
+                    if (isLastUser && pendingImageBuf && !wantsGithubUpload) {
+                        parts.push({
+                            inlineData: {
+                                mimeType: pendingImageMime,
+                                data: pendingImageBuf.toString('base64')
+                            }
+                        });
+                    }
+                    return {
+                        role: x.role === 'assistant' ? 'model' : 'user',
+                        parts
+                    };
+                });
+
+                const geminiTools = [{
+                    functionDeclarations: tools.map(t => ({
+                        name: t.function.name,
+                        description: t.function.description,
+                        parameters: t.function.parameters
+                    }))
+                }];
+
+                for (let gTurn = 0; gTurn < MAX_TOOL_TURNS; gTurn++) {
+                    const gPayload = {
                         systemInstruction: { parts: [{ text: sys }] },
                         contents,
                         generationConfig: { maxOutputTokens: 2048 }
-                    })
-                });
-                if (gRes.ok) {
-                    const gData = await gRes.json();
-                    const txt = gData.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-                    if (txt) return txt;
+                    };
+                    if (needsTools) gPayload.tools = geminiTools;
+
+                    const gRes = await fetchGeminiWithFallback(gPayload);
+                    const gData = await gRes.json().catch(() => ({}));
+                    if (!gRes.ok) {
+                        lastProviderError = `Gemini: ${gData.error?.message || gRes.status}`;
+                        break;
+                    }
+
+                    const candidate = gData.candidates && gData.candidates[0];
+                    const parts = candidate && candidate.content && candidate.content.parts ? candidate.content.parts : [];
+                    const fnPart = parts.find(p => p.functionCall);
+
+                    if (fnPart && fnPart.functionCall) {
+                        const fnName = fnPart.functionCall.name;
+                        const fnArgs = fnPart.functionCall.args || {};
+                        let toolResult = '';
+                        try {
+                            toolResult = await executeTool(fnName, fnArgs);
+                            if (toolsRanOut) toolsRanOut.push(toolResult);
+                        } catch {
+                            toolResult = 'ran into an error 😒';
+                        }
+                        contents.push({ role: 'model', parts: [fnPart] });
+                        contents.push({
+                            role: 'user',
+                            parts: [{
+                                functionResponse: {
+                                    name: fnName,
+                                    response: { result: toolResult }
+                                }
+                            }]
+                        });
+                        continue;
+                    }
+
+                    const textParts = parts.filter(p => p.text).map(p => p.text).join('').trim();
+                    if (textParts) return textParts;
+                    break;
                 }
-            } catch {}
+            } catch (e) {
+                lastProviderError = `Gemini error: ${e.message}`;
+            }
         }
         if (OPENAI_KEY) {
             try {
-                const oRes = await fetch('https://api.openai.com/v1/chat/completions', {
-                    method: 'POST',
-                    headers: { 'Authorization': `Bearer ${OPENAI_KEY}`, 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ model: 'gpt-4o-mini', messages: msgs, max_tokens: 2048 })
+                const openaiUrl = 'https://api.openai.com/v1/chat/completions';
+                const oMessages = msgs.map((x, idx, arr) => {
+                    const isLastUser = idx === arr.length - 1 && x.role === 'user';
+                    if (isLastUser && pendingImageBuf && !wantsGithubUpload) {
+                        return {
+                            role: 'user',
+                            content: [
+                                { type: 'text', text: String(x.content) },
+                                { type: 'image_url', image_url: { url: `data:${pendingImageMime};base64,${pendingImageBuf.toString('base64')}` } }
+                            ]
+                        };
+                    }
+                    return x;
                 });
-                if (oRes.ok) {
-                    const oData = await oRes.json();
-                    const txt = oData.choices?.[0]?.message?.content?.trim();
+
+                for (let oTurn = 0; oTurn < MAX_TOOL_TURNS; oTurn++) {
+                    const oPayload = { model: 'gpt-4o-mini', messages: oMessages, max_tokens: 2048 };
+                    if (needsTools) {
+                        oPayload.tools = tools;
+                        oPayload.tool_choice = 'auto';
+                    }
+                    const oRes = await fetch(openaiUrl, {
+                        method: 'POST',
+                        headers: { 'Authorization': `Bearer ${OPENAI_KEY}`, 'Content-Type': 'application/json' },
+                        body: JSON.stringify(oPayload)
+                    });
+                    const oData = await oRes.json().catch(() => ({}));
+                    if (!oRes.ok) {
+                        lastProviderError = `OpenAI: ${oData.error?.message || oRes.status}`;
+                        break;
+                    }
+                    const oChoice = oData.choices && oData.choices[0];
+                    if (oChoice && oChoice.finish_reason === 'tool_calls' && oChoice.message?.tool_calls?.length) {
+                        const tc = oChoice.message.tool_calls[0];
+                        let args = {};
+                        try { args = JSON.parse(tc.function.arguments || '{}'); } catch {}
+                        let toolResult = '';
+                        try {
+                            toolResult = await executeTool(tc.function.name, args);
+                            if (toolsRanOut) toolsRanOut.push(toolResult);
+                        } catch {
+                            toolResult = 'ran into an error 😒';
+                        }
+                        oMessages.push(oChoice.message);
+                        oMessages.push({ role: 'tool', tool_call_id: tc.id, content: toolResult });
+                        continue;
+                    }
+                    const txt = oChoice && oChoice.message && oChoice.message.content ? oChoice.message.content.trim() : '';
                     if (txt) return txt;
+                    break;
                 }
-            } catch {}
+            } catch (e) {
+                lastProviderError = `OpenAI error: ${e.message}`;
+            }
         }
         return null;
     }
@@ -725,7 +926,7 @@ export default async (context) => {
     try {
         const session = getSessionData(chatKey);
         const isCatchUp = Boolean(body && isCatchUpIntent(body));
-        const systemPrompt = buildSystemPrompt(session.lastRepo, isDevUser, isCatchUp);
+        const systemPrompt = buildSystemPrompt(session.lastRepo, isDevUser, isCatchUp, hasSearch);
 
         // Assemble full context from direct message, quoted text, and attached readable files
         let combinedUserPrompt = body || '';
@@ -742,7 +943,7 @@ export default async (context) => {
         }
         if (!combinedUserPrompt) combinedUserPrompt = 'what can you do?';
 
-        // Handle image vision directly when not uploading to GitHub
+        // Handle image vision directly via Groq when available
         if (pendingImageBuf && !wantsGithubUpload && GROQ_KEY) {
             const b64 = pendingImageBuf.toString('base64');
             const visionMessages = [
@@ -812,7 +1013,7 @@ export default async (context) => {
                             const fbContent = fbData.choices?.[0]?.message?.content?.trim() || '';
                             if (fbContent) { finalReply = stripEmbeddedFuncTags(fbContent); break; }
                         }
-                        const extFb = await callFallbackProviders(turnMessages);
+                        const extFb = await callFallbackProviders(turnMessages, toolsRan);
                         if (extFb) { finalReply = stripEmbeddedFuncTags(extFb); break; }
                     }
                     finalReply = `something went wrong 😒 (${err?.error?.message || `HTTP ${res.status}`})`;
@@ -846,8 +1047,10 @@ export default async (context) => {
                 }
             }
         } else {
-            const extReply = await callFallbackProviders(turnMessages);
-            finalReply = extReply ? stripEmbeddedFuncTags(extReply) : 'no active AI provider responded 😒';
+            const extReply = await callFallbackProviders(turnMessages, toolsRan);
+            finalReply = extReply
+                ? stripEmbeddedFuncTags(extReply)
+                : `AI error 😒 (${lastProviderError || 'paste a valid Groq, Gemini, or OpenAI key in keys.js'})`;
         }
 
         if (!finalReply) {
