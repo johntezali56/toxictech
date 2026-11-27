@@ -282,8 +282,8 @@ async function getSettings() {
     const rows = await qAll('SELECT key, value FROM settings');
     const defaults = {
         prefix: '.', mode: 'public', botname: 'TOXIC-MD', startmessage: true,
-        chatbotpm: false, autoview: true, autoread: false, antidelete: false, stealth: false,
-        autoai: false, toxicagent: false, anticall: false, antiviewonce: false
+        chatbotpm: false, autoview: false, autolike: false, autoreact: false, autoread: false,
+        antidelete: false, stealth: false, autoai: false, toxicagent: false, anticall: false, antiviewonce: false
     };
     const s = { ...defaults };
     for (const r of rows) {
