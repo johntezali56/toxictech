@@ -1,19 +1,22 @@
 import { getGroupSettings, addWarn, resetWarn, getWarnLimit, getTrustedLinks } from '../database/config.js';
 import { resolveTargetJid } from '../lib/lidResolver.js';
 
-const DEV_NUMBER = '254716637803';
-
 const _num = (jid) => (jid || '').split('@')[0].split(':')[0].replace(/\D/g, '');
 
-const _pNum = (p) => {
-    const phone = p.phoneNumber || p.phone_number || '';
-    if (phone) return _num(phone);
-    const base = p.id || p.jid || '';
-    if (base && !base.endsWith('@lid')) return _num(base);
-    return _num(p.lid || base);
+const _participantIds = (p) => {
+    return [
+        _num(p.id),
+        _num(p.jid),
+        _num(p.lid),
+        _num(p.phoneNumber),
+        _num(p.phone_number)
+    ].filter(Boolean);
 };
 
-const isDevJid = (jid) => _num(jid) === DEV_NUMBER;
+const _matchesAny = (p, targetDigits) => {
+    const ids = _participantIds(p);
+    return targetDigits.some((d) => d && ids.includes(d));
+};
 
 const fmt = (msg) => `╭─❏ 「 ANTILINK 」\n│ ${msg}\n╰───────────────\n> 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮`;
 
@@ -36,7 +39,6 @@ export default async (client, m) => {
     try {
         if (!m || !m.chat || !m.chat.endsWith('@g.us')) return;
         if (m.key?.fromMe) return;
-        if (isDevJid(m.sender)) return;
 
         const groupSettings = await getGroupSettings(m.chat);
         const antilinkMode = (groupSettings.antilink || 'off').toLowerCase();
@@ -88,30 +90,31 @@ export default async (client, m) => {
         }
 
         const groupMetadata = await client.groupMetadata(m.chat);
-        const sender = resolveTargetJid(m.sender, groupMetadata.participants);
+        const participants = groupMetadata?.participants || [];
+        const rawSender = m.sender || m.key?.participant || '';
+        const sender = resolveTargetJid(rawSender, participants) || rawSender;
 
         if (!sender) return;
 
-        const senderNum = _num(sender);
-        const botRaw = client.decodeJid ? client.decodeJid(client.user.id) : (client.user?.id || '');
-        const botNum = _num(botRaw);
+        const senderDigits = [_num(sender), _num(rawSender)].filter(Boolean);
+        const botRaw = client.decodeJid ? client.decodeJid(client.user?.id || '') : (client.user?.id || '');
+        const botDigits = [_num(botRaw), _num(client.user?.id), _num(client.user?.lid)].filter(Boolean);
 
-        const isAdmin = groupMetadata.participants.some(p => {
-            return _pNum(p) === senderNum && (p.admin === 'admin' || p.admin === 'superadmin');
-        });
-        const isBotAdmin = groupMetadata.participants.some(p => {
-            return _pNum(p) === botNum && (p.admin === 'admin' || p.admin === 'superadmin');
-        });
+        const senderMember = participants.find(p => _matchesAny(p, senderDigits));
+        const botMember = participants.find(p => _matchesAny(p, botDigits));
 
-        const username = senderNum || sender.split('@')[0];
-        const reason = isChannelForward ? '📡 Channel forward' : '🔗 Link detected';
+        const isAdmin = Boolean(senderMember?.admin === 'admin' || senderMember?.admin === 'superadmin');
+        const isBotAdmin = Boolean(botMember?.admin === 'admin' || botMember?.admin === 'superadmin');
+
+        const displayNum = (senderMember?.phoneNumber ? _num(senderMember.phoneNumber) : '') || _num(sender) || sender.split('@')[0];
 
         if (isAdmin) return;
 
         if (!isBotAdmin) {
             await client.sendMessage(m.chat, {
-                text: fmt(`@${username} sent a link.\nMake me admin so I can actually do something about it. 😤`),
-                mentions: [sender] });
+                text: fmt(`@${displayNum} sent a link.\nMake me admin so I can actually do something about it. 😤`),
+                mentions: [sender]
+            });
             return;
         }
 
@@ -124,12 +127,11 @@ export default async (client, m) => {
                     participant: m.key.participant || m.sender
                 }
             });
-        } catch (e) {
-        }
+        } catch (e) {}
 
         if (antilinkMode === 'delete' || antilinkMode === 'on') {
             await client.sendMessage(m.chat, {
-                text: fmt(`🚫 @${username}, links are not allowed here.\n│ Message deleted.`),
+                text: fmt(`🚫 @${displayNum}, links are not allowed here.\n│ Message deleted.`),
                 mentions: [sender]
             });
             return;
@@ -139,30 +141,29 @@ export default async (client, m) => {
             try {
                 await client.groupParticipantsUpdate(m.chat, [sender], 'remove');
                 await client.sendMessage(m.chat, {
-                    text: fmt(`🚨 @${username} KICKED!\n│ Reason: links are not allowed here.\n│ Kick mode — zero tolerance. 😈`),
+                    text: fmt(`🚨 @${displayNum} KICKED!\n│ Reason: links are not allowed here.\n│ Kick mode — zero tolerance. 😈`),
                     mentions: [sender]
                 });
-            } catch (e) {
-            }
+            } catch (e) {}
             return;
         }
 
         const MAX_WARNS = await getWarnLimit(m.chat);
-        const newCount = await addWarn(m.chat, username);
+        const newCount = await addWarn(m.chat, displayNum);
         const remaining = MAX_WARNS - newCount;
 
         if (newCount >= MAX_WARNS) {
-            await resetWarn(m.chat, username);
+            await resetWarn(m.chat, displayNum);
             try { await client.groupParticipantsUpdate(m.chat, [sender], 'remove'); } catch {}
             await client.sendMessage(m.chat, {
-                text: fmt(`🚨 @${username} KICKED!\n│ Reason: links are not allowed here\n│ Warns: ${newCount}/${MAX_WARNS}\n│ That's it. Get out. 😈\n│ Warn count wiped clean.`),
+                text: fmt(`🚨 @${displayNum} KICKED!\n│ Reason: links are not allowed here\n│ Warns: ${newCount}/${MAX_WARNS}\n│ That's it. Get out. 😈\n│ Warn count wiped clean.`),
                 mentions: [sender]
             });
             return;
         }
 
         await client.sendMessage(m.chat, {
-            text: fmt(`⚠️ @${username}, warned!\n│ Reason: links are not allowed here\n│ Message deleted.\n│ Warns: ${newCount}/${MAX_WARNS}\n│ ${remaining} more and you're GONE. 😈`),
+            text: fmt(`⚠️ @${displayNum}, warned!\n│ Reason: links are not allowed here\n│ Message deleted.\n│ Warns: ${newCount}/${MAX_WARNS}\n│ ${remaining} more and you're GONE. 😈`),
             mentions: [sender]
         });
     } catch (err) {
