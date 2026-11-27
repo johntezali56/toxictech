@@ -1,14 +1,7 @@
 import { getGroupSettings, getKnownBots } from '../database/config.js';
-import { resolveTargetJid } from '../lib/lidResolver.js';
+import { getGroupContext } from '../lib/lidResolver.js';
 
 const _num = (jid) => (jid || '').split('@')[0].split(':')[0].replace(/\D/g, '');
-const _pNum = (p) => {
-    const phone = p.phoneNumber || p.phone_number || '';
-    if (phone) return _num(phone);
-    const base = p.id || p.jid || '';
-    if (base && !base.endsWith('@lid')) return _num(base);
-    return _num(p.lid || base);
-};
 
 const fmt = (msg) => `╭─❏ 「 ANTIBOT 」\n│ ${msg}\n╰───────────────\n> 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮`;
 
@@ -82,34 +75,36 @@ async function punish(client, m, senderNum, trackKey, mode, forceKick) {
     if (_isRecentlyKicked(trackKey)) return;
 
     const meta = await client.groupMetadata(m.chat);
-    const sender = resolveTargetJid(m.sender, meta.participants) || m.sender;
-    if (!sender) return;
+    const {
+        isBotAdmin,
+        isSenderAdmin,
+        senderActionJid,
+        senderDisplayJid
+    } = getGroupContext(client, m.chat, m.sender, meta.participants);
 
-    const sNum = _num(sender);
-    const botRaw = client.decodeJid ? client.decodeJid(client.user.id) : (client.user?.id || '');
-    const botNum = _num(botRaw);
+    if (!senderActionJid) return;
 
-    const isAdmin = meta.participants.some(p => _pNum(p) === sNum && (p.admin === 'admin' || p.admin === 'superadmin'));
-    const isBotAdmin = meta.participants.some(p => _pNum(p) === botNum && (p.admin === 'admin' || p.admin === 'superadmin'));
+    const sNum = _num(senderDisplayJid) || senderActionJid.split('@')[0];
+    const mentions = [...new Set([senderActionJid, senderDisplayJid])];
 
-    if (isAdmin) return;
+    if (isSenderAdmin) return;
     if (!isBotAdmin) {
         const noAdminKey = 'noadmin:' + m.chat;
         if (_isRecentlyKicked(noAdminKey)) return;
         _markKicked(noAdminKey);
         return client.sendMessage(m.chat, {
             text: fmt(`🤖 Spotted @${sNum} looking bot-like, but I can't act.\n│ Make me admin so ANTIBOT can actually kick bots. 🙄`),
-            mentions: [sender]
+            mentions
         }).catch(() => {});
     }
 
     if (forceKick) {
         _warnCount.delete(trackKey);
         _markKicked(trackKey);
-        try { await client.groupParticipantsUpdate(m.chat, [sender], 'remove'); } catch {}
+        try { await client.groupParticipantsUpdate(m.chat, [senderActionJid], 'remove'); } catch {}
         return client.sendMessage(m.chat, {
             text: fmt(`🤖💨 @${sNum} got YEETED.\n│ Told you not to test me. Bots aren't welcome here, byeee. 🚫`),
-            mentions: [sender]
+            mentions
         });
     }
 
@@ -120,16 +115,16 @@ async function punish(client, m, senderNum, trackKey, mode, forceKick) {
     if (count < MAX_WARNS) {
         return client.sendMessage(m.chat, {
             text: fmt(`👀 @${sNum} smells like a bot to me. Bots aren't allowed!\n│ Warning ${count}/${MAX_WARNS}. Do that again.`),
-            mentions: [sender]
+            mentions
         });
     }
 
     _warnCount.delete(trackKey);
     _markKicked(trackKey);
-    try { await client.groupParticipantsUpdate(m.chat, [sender], 'remove'); } catch {}
+    try { await client.groupParticipantsUpdate(m.chat, [senderActionJid], 'remove'); } catch {}
     return client.sendMessage(m.chat, {
         text: fmt(`🤖💨 @${sNum} got YEETED.\n│ Told you not to test me. Bots aren't welcome here, byeee. 🚫`),
-        mentions: [sender]
+        mentions
     });
 }
 

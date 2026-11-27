@@ -1,17 +1,9 @@
 import { getGroupSettings, addWarn, resetWarn, getWarnLimit } from '../database/config.js';
-import { resolveTargetJid } from '../lib/lidResolver.js';
+import { getGroupContext } from '../lib/lidResolver.js';
 
 const DEV_NUMBER = '254716637803';
 
 const _num = (jid) => (jid || '').split('@')[0].split(':')[0].replace(/\D/g, '');
-
-const _pNum = (p) => {
-    const phone = p.phoneNumber || p.phone_number || '';
-    if (phone) return _num(phone);
-    const base = p.id || p.jid || '';
-    if (base && !base.endsWith('@lid')) return _num(base);
-    return _num(p.lid || base);
-};
 
 const isDevJid = (jid) => _num(jid) === DEV_NUMBER;
 
@@ -42,24 +34,24 @@ export default async (client, m) => {
         if (!isGroupStatusMessage(m.message)) return;
 
         const groupMetadata = await client.groupMetadata(m.chat);
-        const sender = resolveTargetJid(m.sender, groupMetadata.participants);
-        if (!sender) return;
+        const {
+            isBotAdmin,
+            isSenderAdmin,
+            senderActionJid,
+            senderDisplayJid
+        } = getGroupContext(client, m.chat, m.sender, groupMetadata.participants);
 
-        const senderNum = _num(sender);
-        const botRaw = client.decodeJid ? client.decodeJid(client.user.id) : (client.user?.id || '');
-        const botNum = _num(botRaw);
+        if (!senderActionJid) return;
+        if (isSenderAdmin) return;
 
-        const isAdmin = groupMetadata.participants.some(p => _pNum(p) === senderNum && (p.admin === 'admin' || p.admin === 'superadmin'));
-        const isBotAdmin = groupMetadata.participants.some(p => _pNum(p) === botNum && (p.admin === 'admin' || p.admin === 'superadmin'));
-
-        if (isAdmin) return;
-
-        const username = senderNum || sender.split('@')[0];
+        const username = _num(senderDisplayJid) || senderActionJid.split('@')[0];
+        const mentions = [...new Set([senderActionJid, senderDisplayJid])];
 
         if (!isBotAdmin) {
             await client.sendMessage(m.chat, {
                 text: fmt(`@${username} posted a group status.\nMake me admin so I can actually do something about it. 😤`),
-                mentions: [sender] });
+                mentions
+            });
             return;
         }
 
@@ -69,7 +61,7 @@ export default async (client, m) => {
                     remoteJid: m.chat,
                     fromMe: false,
                     id: m.key.id,
-                    participant: m.key.participant || m.sender
+                    participant: m.key.participant || senderActionJid
                 }
             });
         } catch {}
@@ -77,17 +69,17 @@ export default async (client, m) => {
         if (mode === 'delete' || mode === 'on') {
             await client.sendMessage(m.chat, {
                 text: fmt(`🚫 @${username}, group status posts are not allowed here.\n│ Message deleted.`),
-                mentions: [sender]
+                mentions
             });
             return;
         }
 
         if (mode === 'kick') {
             try {
-                await client.groupParticipantsUpdate(m.chat, [sender], 'remove');
+                await client.groupParticipantsUpdate(m.chat, [senderActionJid], 'remove');
                 await client.sendMessage(m.chat, {
                     text: fmt(`🚨 @${username} KICKED!\n│ Reason: group status posts are not allowed here\n│ Kick mode — admins only. 😈`),
-                    mentions: [sender]
+                    mentions
                 });
             } catch {}
             return;
@@ -99,17 +91,17 @@ export default async (client, m) => {
 
         if (newCount >= MAX_WARNS) {
             await resetWarn(m.chat, username);
-            try { await client.groupParticipantsUpdate(m.chat, [sender], 'remove'); } catch {}
+            try { await client.groupParticipantsUpdate(m.chat, [senderActionJid], 'remove'); } catch {}
             await client.sendMessage(m.chat, {
                 text: fmt(`🚨 @${username} KICKED!\n│ Reason: group status posts are not allowed here\n│ Warns: ${newCount}/${MAX_WARNS}\n│ That's it. Get out. 😈\n│ Warn count wiped clean.`),
-                mentions: [sender]
+                mentions
             });
             return;
         }
 
         await client.sendMessage(m.chat, {
             text: fmt(`⚠️ @${username}, warned!\n│ Reason: group status posts are not allowed here\n│ Message deleted.\n│ Warns: ${newCount}/${MAX_WARNS}\n│ ${remaining} more and you're GONE. 😈`),
-            mentions: [sender]
+            mentions
         });
     } catch (err) {
         console.error('[ANTIGROUPSTATUS] Error:', err.message);
