@@ -1225,7 +1225,14 @@ async function startToxic() {
         }
       }
 
-      try { await connectionHandler(client, update, startToxic); } catch (error) {}
+            if (update?.connection === "open") {
+        setTimeout(() => {
+          connectionHandler(client, update, startToxic).catch(() => {});
+        }, 4500);
+      } else {
+        try { await connectionHandler(client, update, startToxic); } catch (error) {}
+      }
+
     });
 
     client.sendText = (jid, text, quoted = "", options) => client.sendMessage(jid, { text, ...options }, { quoted });
