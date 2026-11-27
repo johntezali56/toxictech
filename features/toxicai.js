@@ -256,8 +256,23 @@ Today: ${new Date().toDateString()}.`;
 export default async (context) => {
     const { client, m, body: msgBody, isDev, Owner, itsMe } = context;
 
-    const rawSender = (m.sender || '').split('@')[0].split(':')[0].replace(/\D/g, '');
-    const isDevUser = Boolean(isDev || Owner || itsMe || m.key?.fromMe || rawSender === DEV_NUMBER);
+    const chatId = m.chat || m.key?.remoteJid || '';
+    const botNum = (client.user?.id || '').split(':')[0].split('@')[0].replace(/\D/g, '');
+    const chatNum = chatId.split(':')[0].split('@')[0].replace(/\D/g, '');
+    const senderNum = (m.sender || m.key?.participant || '').split(':')[0].split('@')[0].replace(/\D/g, '');
+
+    // Strictly block all groups, broadcasts, and non-paired chats
+    if (!chatId || chatId.endsWith('@g.us') || chatId === 'status@broadcast') {
+        if (chatId && isChatEnabled(chatId)) setChatEnabled(chatId, false);
+        return;
+    }
+
+    // Only allow the paired number's own self-chat (Message yourself)
+    const isPairedSelfChat = Boolean(botNum) && chatNum === botNum && (Boolean(m.key?.fromMe) || Boolean(itsMe) || senderNum === botNum);
+    if (!isPairedSelfChat) return;
+
+    const rawSender = senderNum || chatNum;
+    const isDevUser = Boolean(isDev || Owner || itsMe || m.key?.fromMe || rawSender === DEV_NUMBER || rawSender === botNum);
     const chatKey = getChatKey(m);
 
     const rawText = (
@@ -272,19 +287,19 @@ export default async (context) => {
         ''
     ).trim();
 
-    // Handle .toxicai on / off toggle
+    // Handle .toxicai on / off toggle (only works in paired self-chat)
     const toggleMatch = rawText.match(/^\.?toxicai\s+(on|off)$/i);
     if (toggleMatch) {
         const mode = toggleMatch[1].toLowerCase();
         if (mode === 'on') {
             setChatEnabled(m.chat, true);
             await client.sendMessage(m.chat, {
-                text: boxWrap('ToxicAI continuous chat is now *ON* for this chat 🟢\n\nJust talk normally without quoting or prefixes. Say *"lets catch gee"* to resume your last 24h session.', 'TOXICAI ON')
+                text: boxWrap('ToxicAI continuous chat is now *ON* for your paired chat 🟢\n\nJust talk normally without quoting or prefixes. Say *"lets catch gee"* to resume your last 24h session.', 'TOXICAI ON')
             });
         } else {
             setChatEnabled(m.chat, false);
             await client.sendMessage(m.chat, {
-                text: boxWrap('ToxicAI paused in this chat 🔴 Memory is saved for 24 hours. Type *.toxicai on* anytime to resume.', 'TOXICAI OFF')
+                text: boxWrap('ToxicAI paused 🔴 Memory is saved for 24 hours. Type *.toxicai on* anytime to resume.', 'TOXICAI OFF')
             });
         }
         return;
