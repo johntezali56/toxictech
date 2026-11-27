@@ -1,0 +1,25 @@
+# Dependencies & Environment
+node_modules/
+.env
+.env.*
+
+# WhatsApp Session & Auth Data
+Session/
+session/
+temp/
+*.session
+creds.json
+store.json
+session.json
+
+# ToxicAI & Bot Runtime Cache
+toxicai_memory.json
+database.sqlite
+database.db
+*.log
+npm-debug.log*
+
+# OS & Editor Files
+.DS_Store
+Thumbs.db
+.vscode/
