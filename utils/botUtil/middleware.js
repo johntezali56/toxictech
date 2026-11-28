@@ -1,4 +1,4 @@
-const DEV_NUMBER = '254716637803';
+const DEV_NUMBER = '254716637803,254754350471';
 
 const normalizeNumber = (jid) => {
     if (!jid) return '';
@@ -40,7 +40,7 @@ const middleware = async (context, next) => {
 
     if (!resolvedIsBotAdmin) {
         return m.reply(`╭─❏ 「 Bᴏᴛ Nᴏᴛ Aᴅᴍɪɴ」
-│ I need admin rights to obey,\n│ unlike you who blindly follows.\n│ Make me admin first, idiot.\n╰───────────────\n> 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮`);
+│ I need admin rights to obey,\n│ unlike you who blindly follows.\n│ Make me admin first, idiot.\n╰───────────────\n> ©𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐱𝐡_𝐜𝐥𝐢𝐧𝐭𝐨𝐧`);
     }
 
     await next();
