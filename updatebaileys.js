@@ -18,7 +18,7 @@ function readBaileysVersion(root) {
 }
 
 export default {
-    name: 'updatebails',
+    name: 'updatebaileys',
     aliases: ['ub', 'updatebaileys', 'reinstall', 'npmi'],
     description: 'Update only Baileys from the test branch, without wiping node_modules or reinstalling everything (owner/dev only)',
     run: async (context) => {
@@ -37,7 +37,7 @@ export default {
 │ node_modules is left in place — nothing is wiped.
 │ This is much lighter than a full reinstall.
 ╰───────────────
-> ©𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐱𝐡_𝐜𝐥𝐢𝐧𝐭𝐨𝐧`
+> 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮`
                 );
 
                 const { stdout, stderr } = await execAsync(`npm install --no-audit --no-fund ${BAILEYS_SPEC}`, {
@@ -62,7 +62,7 @@ ${errTail ? '│ \n│ notes:\n' + errTail.split('\n').map(l => '│ ' + l).join
 │ The version number may stay the same if the test branch
 │ did not bump it — the install still pulls the latest test code.
 ╰───────────────
-> ©𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝐱𝐡_𝐜𝐥𝐢𝐧𝐭𝐨𝐧`
+> ©𝐏𝐨𝐰𝐞𝐫𝐞𝐝 𝐁𝐲 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮`
                 );
                 await client.sendMessage(m.chat, { react: { text: '✅', key: m.reactKey } }).catch(() => {});
             } catch (e) {
