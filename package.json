@@ -7,7 +7,7 @@
   "author": "Ali the King",
   "repository": {
     "type": "git",
-    "url": "https://github.com"
+    "url": "https://github.com/johntezali56/toxictech"
   },
   "scripts": {
     "start": "NODE_OPTIONS=--max-old-space-size=220 node index.js",
