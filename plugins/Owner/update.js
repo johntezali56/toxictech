@@ -12,7 +12,7 @@ const fmt = (msg) => `╭─❍「 UPDATE 」\n│ ${msg}\n╰──────
 
 const SKIP = new Set([
     '.git', 'node_modules', '.env', 'Session', 'session.json',
-    '.toxic_update', '.toxic_update.zip', '.toxic_version', '.toxic_update_done.json'
+    '.toxic_update', 'keys.js', '.toxic_update.zip', '.toxic_version', '.toxic_update_done.json'
 ]);
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
