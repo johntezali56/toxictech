@@ -1,1 +1,222 @@
-const a0_0x2064ef=a0_0xf81e;(function(_0x532498,_0x350784){const _0x33278a=a0_0xf81e,_0x3f711a=_0x532498();while(!![]){try{const _0x1c225c=parseInt(_0x33278a(0x244,'UtKe'))/0x1+-parseInt(_0x33278a(0x26e,'pta6'))/0x2+-parseInt(_0x33278a(0x1d7,'pta6'))/0x3+parseInt(_0x33278a(0x1a8,'5aiL'))/0x4*(-parseInt(_0x33278a(0x29a,'l$fn'))/0x5)+parseInt(_0x33278a(0x22b,'PukK'))/0x6*(parseInt(_0x33278a(0x152,'fWbQ'))/0x7)+parseInt(_0x33278a(0x2b0,'$JVs'))/0x8+parseInt(_0x33278a(0x241,'$JVs'))/0x9;if(_0x1c225c===_0x350784)break;else _0x3f711a['push'](_0x3f711a['shift']());}catch(_0x5521cc){_0x3f711a['push'](_0x3f711a['shift']());}}}(a0_0x23d8,0x48623));import a0_0x2883af from'fs';import a0_0x35565c from'path';import{fileURLToPath}from'url';function a0_0x23d8(){const _0x5a681f=['WQbFgJ3dSNNcHa','jq/cPCoueWFdUmof','WQvkcYVdSgBcJ1PJWOC','WP3dMCoGkGtdHbq','WPLrW70RWRZdKCkOWOtcJXy','zKpdHhhdVqetWOuDxW','W47cLaZcGmop','umkuEsZcO2jlW4FdLG','rt7cSq','W5FcQmkxW4RdUXe','ECoaWPBdQq','W4RcRSk/','WOXDEaOcWRdcGa','omkLW4NdH8ocWOlcOSkQWP4','dbq3W5VcVtucWOjQ','D1tdTq','WP49W6jVWRBcUtnTWQ3dPq','g8oHWRTFyCojC03cGG','WP9LCcRdS8oCDCoXrIy','W4ZcQCkqW5xdUr4cWPpcSSo0','WQNcK8kA','W4q5WQZdSSkbnSoSFCoIW7y','WPjkErFcN8kTdbH9WPq','kZ5SzwNdPHdcOmk6','WOT5EdZdQSog','wmoexZjPWO0LW6xdTMO','W57cV8k7WRBdHtxdOW','W5tcSCkCW4/dUWaeWPxcTG','v8kyyc7cQxTsW57cImkl','W43cLbtcLColzG','WOXrzqhcNSk8','rSohvZzY','E8kUW5e','W6/dKCkMCSoWWRVdHCoYhSkc','W5uUWQldRSkzoSoU','ngKhW4e','WQVcISkbW5dcU8k8dG','WRDFdZ7dVgdcG1G','sIhcVq','W5/dSrSUWRW','B0pdQSo/BN3cIa','WPNdKI4BWOmyW6y','WRddGa9U','WQPFddRdSNq','W6xdLSkLC8oPWRVdI8oL','WQ/dLqzUW6qRiNVdSW','WQjXBHHXjmoJW6FdKW','WPT5EcRdO8odCmoRwq','EmkqdCoOomoAW4/dRNCH','W4O7xZRdJa','W4zOqSo0eW','kmoKWOlcNgJcRKldPwxcRW','rmodsHKmke3cR8oMWOi','W7adW6G','nSoGWPxdJW92WQ50','W6NcM8klW6aQWRqXWOZdMru','WOblDblcJSkXx0e','W40TBdtdNCkyruNcJb4','W5mQWQRdR8kopmoWFa','W5JdRq4','bmozWOG','W4nLW5tdLq','WOSQW75/WQJcVG','Fmo8W7BcQMelemoMus/cII7cOa','FSoCWOe','W4pdJJFcS8k2mr0','WObrAq','WRRcJ8kgW5lcOSk+ba','m8oJWPRdIq','WPT5WRK','W4a3wZZdN8knq1ZcKq','W5xdLZ8','W4tcK8o8oYfAWPq','W4uUhCo0gLJdQCkmiG','W53cNHNcHCoBASoo','h8oMWRvwASojovZcMW','vSofxsnVWOe0W6C','W61jtSolWPZdSd3dO8kuW5a','B1/dU8oGyhNcHLdcUq','eXGTW5FcUtCFWPH8WPK','W5dcQSkNWRFdMJFdQG','CupdRCoJyxBcHfVcUa','omk8WQVdSdbBrCobDbe','WRNcLCkwW6CuW7eI','WO1BW6yRWQddNmkJWPpcIH4','CupdRCoRF2O','WP1DyGabWQ3cLYpdH8oX','WO5+zsVdTSoBCmo1sa','WOJdUmoTW7dcJxpcPW1vdmkCWPTC','WPG6W7L1WRlcSYjJ','WQLiWRfHb8oSW4K','ECoKWOG','aMWEW4VdOmodhrlcK0K','FCowWPq','W5e/WQldUmkdmG','jNqpW4a','WOpdNSoOo0ldGXa','ktH6DwFdOa','iqFcOCocfHFdVCoDWPC','WOrDzqK','jNCoW4NdVq','W64bW7tcMYdcJZy','WRf8yWLQiSoTW6xdJCo1','WP4NW7HQWQRcTsbS','ECkmg8oJoSolW47dQ2O','rI3dRq','W5nPW5xdK8kVW7/dO8oeumkL','W5VdJdxcR8kMpq','W5JcOmkvW43dVH4eWOpcRq','qYtcTwe','WQDDWRS','rSostdjPWOe1W63dRq','qZNdQ8o+W77cQrq','W6VdGSkLA8oWWRNdHmoRc8ko','mqFcPCos','W4FcKbxcLq','iCkZW4VdLSoxWOpcVq','jtHRyNRdTqVcPG','W4P5qSo1','ssZdUCo3','W4bWrSoJcW','WQ7cImktW5q','BSk3W4ZcLeGRWPvRWQT5Fmkk','W4u9WRNdUmkupSo6','mZH2Fg/dSXO','BmkkdSoW','WROorJtcRLiVqq','WQ3cTMJcTSocWQiRW5q','W5ZcOSkvW4JdSHK','W5VcM8o4idjzWOW','W4tcIaVcLColD8oiWO7cMmoI','W7JdJ8kOC8oMWQtdN8oW','BSoAWPddPmo0W7VcVmoXW5m1','EuldGx/dSWSt','lmoLWPm','WRbigJFdRhZcI09Q','WPXxyqGBWRhcHIFdGa','aSoyWPFcT8kSW59SW7Xq','WRmfqZhcNfWPrIpcNa','W5/dUG4G','WOrLzs7dTq','W6NdNSodWOBdPCoMpmoNWQddOCkqW6W','fCofWOhcSq','o8o0WPtcNhtcRG','WOjDAW','WQ3cTMJcRmogWQ0MW4xdTW','FCkFfSoS','W6mmW6W','W4j/W5BdLCkP','CepdTmoJEx/cMuFcQmkc','WPH+AtFdPq','WRLLW7JdOXHRWRJcLG','W4NdQry','W4FcNHZcLCopySocWOVcNSo2','WPVdG8o3lGxdLXpdS8k4','imkPWQNdQZHqrG','W4RcUCkXWQldMthdUW1qgq','iWdcO8obbWhdRW','yCo8WPRcLmkvW5FcJCkMWQDUW6iR','yLhdIW','ECohWONdPSo1W7G','CeldHxVdVa','vtBdVSo0W77cQu4X','W4xcMaVcHmoDB8ooWOpcLa','W5RcLbNcGSoCAW','W6/cICkcW6m','WQ7cU2dcQmobWQKOW4NdSCkc','WRNcH8kAW5NcT8k2gSoDWRK','W4ZcL8o7iW','WQjpfZxdR2ddHff8','g8oOWRzDz8oiEvtcNmkl','aSoqWOFcV8k8','WQPMya','c8o9WRfyA8ol','W7Dfs8owWOBdUJldSmktW5u','WQRcS2/cPmobWQ8RW4S','W4/cPmklW4ZdTrWkWOW','W55SrmkJ','E8ozWOJdTCoQW7NcQmo3W54','W4JdUHyIWQa/W6GU','dbqYW5xcUYSb','WOOQW7LQWRtcTsDHWQddTa','WOnmCG','WRZcVM3cUmoA','iCkTW4NdJ8otW5u','xmoeEtbPWOuQ','smkyCY7cQq','lJLPEhRdSrpcVmkKW78','pwRdKCos','WQypvZpcJfK+','W7VdHSk9ySoTWQtdH8o0','WQzmhZu','f8oNWRzyAmoj','W5u5WQtdTmkt','jwezW4ldUG','q8kEEZBcQMy','nmoHWPBdKbn0WQG','WO1BW6W5WQddGCkO','W5tdMZFcOW','WODazaBcKW','dmoMWRbc','iJLP','W4uYqtZdNmkyvq','W4JcTCkyW5u','WRZcLmkBW4lcOSk7e8oyWQu','kSkPWRpdRd5kwSohDq','uCosvs1VWOeMW7FdSge','wZNcV2NcLSopW4RcUsVcMa','W67cLLKRWRH/fvVdM3xcGea','WPzkEbxcLmkZ','dSoGWR4dz8ozCftcNq','WPfeEH8','WQXHW7G','jSkWW4VdGCoiWOpcVCkTWPfW','sY7cU24','WQj7BW1RnCoN','WQJcG8kaW5dcOmk9cmooWRRdIa','WP5KFW','W4qPWQe','idjRFhVdPXBcTG','W73dJCk6BSoSWQ7dG8o+d8kk','WRtcN8khW78iW70S','xmoztITVWOe','WR0buslcL1O2ta','nmkQW5VdKSorWOpcQCkQWOG','uSkuDY/cO2DfW5i','W4RcNr3cKConDmoaWPlcKq','W5RcSCksW4xdSWuf','W6qjW67cMIpcMtW7gW','WPHAW6q','W4NdMt7cQG','zxzJWOxdVa','W5ZdTHK','WOrVW7/cRmocyCoqxCodW5pdN0K','n8kOW43dGCoiWPpcVmkMWOi','m2qpW43dRCoab1W','WRvWAq1Om8oLW6C','m8oNWOJdGrz0WQjMWQPa','l8kGWQJdVdPAtmoiEqS','WOWHW6X+WQVcSY8','rSoyvIu','pSoGWOJdLbT/WR9WWQS','W5XtEqmeWRS','jgVdKComASkCC8k5nq','WQL2W6xdUarYWRZcNmo7','aXi0W53cUYKjWOq','WQJcG8kyW5hcP8kIgCoFWR7dHq','W6jat8oCWP7dQZldPq','iCkLW4xdKSorWONcU8kMWPnP','W4NdIJxcSSkSpGFdLLDc','WPldHCoYjXNdIrS','W4uYrdNdGW','xYZdSG','dqqPW4lcTseeWPT/','W4mYWQ3dVmkznmo9','zmo3WPpcKmkwW5pdUmkjWPPsW5yVW7u','W4/dLdFcS8kXpq','WPVdHmoXiHNdIr/dUa','W4q/WQC','WQ9kWQXPbCo/W5/dQmkIiG','xCkjzdhcQgXj','WP4SW71Q','WQnWzq12m8k0WRa','vCoBra4opL3cOCo3WP4','q8kpFs3cVhPsW5BcKCkB','WPnqW6K8WQldHCkKWPy','c8o9WRTfvCovEL4','W53cN8o7ntbAWPFdGG','WPrmW6KXWRO','xYlcPgFcMSoAW4W','jmkHWQpdVq','WOTaFW','FSkkeq','W7SuW6hcIYRcHsa','tYtcOM7cKSoDW5y','BeFdTmoP','WQKjrZa','jmoRWO/dHXL2WQX8WQm','W7f3lW/dI1NcGq','W4VcQmk5WQZdGYddVGvshW','xSoqtWisnvxcQCoKWPu','hmo6WQO','W4dcUCkWWQZdGIS','j8o8WPtdJrvSWQHKWRvm','W553xmoKcLNdO8kfnYa','W7ZcJmkjW7OSWQeLWPVdHr0','W6qpW7lcMYFcIYe','W5hcRSkqW48','uSostdDPWOG','q8kqzYVcPwO','k8kHWRldRdHC','nmo7WOJdLbv1WQP+WQLn','W7CoW6lcKIhcJYqNc8o4','W5RcLaZcHCop','AmoqWPldQSoZW7NcOSo3W4GU','W4jTW4G','ndjRywldTqVcS8kLW6y','W6fatmojWPtdRsa','zxz0WPBdO1qpWR0','WR9IW6pdUqP3WQtcKa','WRavtcm','sZ/cS2VcICopW5VcPc4','nwmfW4e','jwezW4ldPCoehuy','qYZdVmoVW6/cVX1OWQVcGa','mmk0W4RdH8ooWOpcVCkIWPW','WPPBzXmcWR/cKYpdGa','yNXIWPddOL5mW7LcW4a','W5CWWQBdVmke','WQXbWRLHaW','n3ddI8ohBmkCF8kK','lmk5WRpdScnAsCohza','WR7cNSkDW4tcPSkHlSohWQtdGW','W7LdvColWOddVtBdSCkvW5W','W4xcMaVcHa','W63cN8kiW6yVWRK','W7njvmosWPRdUZy','WQZcNSkgW6iBW7a7','m24FW4xdRCoiaG','WQvkcW','W4JcPmknW4pdTr0','WPXxFXCcWRRcLI8','WPnkW6e8WQldLSk/WOBcIrS','W5JdSbKGWRm','WRFcJ8khW4pcSmk+eSoDWQhdHq','xdhdRSoVW67cVG12WRdcJW','W6JcL8kkW6OYWRiYWPNdLq','pCkJWQNdUa','W7JcN8kkW6mSWQm+WOG','W7HAsCoBWPddSa','W5i3tdJdGmkzsG','W7SuW6e','oSoIWOhcLNK','BmkldSoVj8ohW4/dTw0M','WPTayrtcJ8k7hau','k8o+WOlcGh7cRLFdUh7cUW','W5RcLaZcL8onBmouWPdcJ8oH','BuJdTCoLyx/cGfdcSmkt','ECoaWPFdSCo3W7hcUCo7W4OM','eSk0uaNcOhH2','nmkOW4VdG8oq','EmkIW4FdGs7dRXtdM3RcK8oCzg0','WPpdH8oIobpdHG7dVSk0','qdtdPa','e8ovWOxcPSk/W4nX','smksDq','W5RcOCk7WQ3dKcldUHq','W4q5WQhdVmkAnSo5A8oOW68','fConi23dVd0EW7xcPmk5WOGkhq','W43cM8oXjtntWOO','WQ1YW6pdOGf1WRy','wSohxsX6WO0','W6KjW6pcLsJcGZ03eCo6','W7ZcL8ksW6yYWRC4','W5yRrG','W5NcMbBcHa','W53cMbpcNCokCmoiWOm','D1BdVCoTE3/cJ1ZcSG','WRFcJ8kFW5lcT8k/eSouWQm','W5NcRCkyW4ldTX4cWPpcSG','WPCGW7L7WQe','Fmo5W77cRgKjhmojEGNcRcZcLW','zNb9WP7dOfrDW6bn','WOXByW','aCkpahqTW5urW6hdGMddGSka','W4SWrdtdGCkyvuNcGHG','WQPAWRXLcq','hSo8WRrsCSofE1m','jmoRWO/dKaO','W5uWWQddS8ks','WRmerZxdMvu0xxBcIG','WPtdKcK','WRJdJbP7W70','W5r3xmo+g1JdQSkhmNC','qmozvtDVWOe0W7BdUMy','pCkLWQNdUZ0','WObvzrdcNmk4da','pSo+WOtcNG','mSo8WOG','WRRcGSkqW4pcOmkNdSokWQ/dHa','W5lcR8kk','WQRcU2dcPmowWRiO','aXe8W5hcQcqfWPzU','lmkIWRpdTJrB','WR/cGCkx','WPjxEqBcJCk5dafV','WPS8W6HU','WQJcG8kaW5dcOmk9cmooWRRdIq','ECkwcmoLmmokW5NdPNi','nSkSW4pdJmoeWOpcOCkIWP14','W4JcN8oR','WRX4W6pdTqD1WRFcNmoO','W452x8o5dfldPmkeiG','W7efW7tcJJZcItW','W7lcKmkvW78','F3XHWPVdUv9s','W4/cPmkXWRtdMIVdSavpdW','W6jvrq','mCkHW4tdG8owWORcUW','W5VcHbBcHmowBSoe','o2qoW4ldVCoeceS','WRb0Dqj2','WR9oWR9TaSoMW4xdQCk4kG','yLBdNa','WR3cMCkC','WPVdG8oOjbldGG','z8o8WPxcK8kuW5lcJSkAWPPCW64j','mSkHW5BdLmocWPtcVa','WRRdIHT/W6qQnx3dS1m'];a0_0x23d8=function(){return _0x5a681f;};return a0_0x23d8();}import{dirname}from'path';function a0_0xf81e(_0x7f4ad4,_0x517b88){_0x7f4ad4=_0x7f4ad4-0x14d;const _0x23d8cf=a0_0x23d8();let _0xf81e4d=_0x23d8cf[_0x7f4ad4];if(a0_0xf81e['lRuBKw']===undefined){var _0x3a5551=function(_0x52dd5d){const _0x31bc5a='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x2883af='',_0x35565c='';for(let _0x49bb98=0x0,_0x382898,_0x483e6c,_0x549c75=0x0;_0x483e6c=_0x52dd5d['charAt'](_0x549c75++);~_0x483e6c&&(_0x382898=_0x49bb98%0x4?_0x382898*0x40+_0x483e6c:_0x483e6c,_0x49bb98++%0x4)?_0x2883af+=String['fromCharCode'](0xff&_0x382898>>(-0x2*_0x49bb98&0x6)):0x0){_0x483e6c=_0x31bc5a['indexOf'](_0x483e6c);}for(let _0x52d1cf=0x0,_0x1e0905=_0x2883af['length'];_0x52d1cf<_0x1e0905;_0x52d1cf++){_0x35565c+='%'+('00'+_0x2883af['charCodeAt'](_0x52d1cf)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x35565c);};const _0x1a47ed=function(_0x37d1a2,_0x29e252){let _0x281201=[],_0x4674a6=0x0,_0x2cf8fe,_0x1ee86a='';_0x37d1a2=_0x3a5551(_0x37d1a2);let _0x15a1c5;for(_0x15a1c5=0x0;_0x15a1c5<0x100;_0x15a1c5++){_0x281201[_0x15a1c5]=_0x15a1c5;}for(_0x15a1c5=0x0;_0x15a1c5<0x100;_0x15a1c5++){_0x4674a6=(_0x4674a6+_0x281201[_0x15a1c5]+_0x29e252['charCodeAt'](_0x15a1c5%_0x29e252['length']))%0x100,_0x2cf8fe=_0x281201[_0x15a1c5],_0x281201[_0x15a1c5]=_0x281201[_0x4674a6],_0x281201[_0x4674a6]=_0x2cf8fe;}_0x15a1c5=0x0,_0x4674a6=0x0;for(let _0x567723=0x0;_0x567723<_0x37d1a2['length'];_0x567723++){_0x15a1c5=(_0x15a1c5+0x1)%0x100,_0x4674a6=(_0x4674a6+_0x281201[_0x15a1c5])%0x100,_0x2cf8fe=_0x281201[_0x15a1c5],_0x281201[_0x15a1c5]=_0x281201[_0x4674a6],_0x281201[_0x4674a6]=_0x2cf8fe,_0x1ee86a+=String['fromCharCode'](_0x37d1a2['charCodeAt'](_0x567723)^_0x281201[(_0x281201[_0x15a1c5]+_0x281201[_0x4674a6])%0x100]);}return _0x1ee86a;};a0_0xf81e['phDwmN']=_0x1a47ed,a0_0xf81e['Poyuje']={},a0_0xf81e['lRuBKw']=!![];}const _0x381bea=_0x23d8cf[0x0];a0_0xf81e['ZSKbDO']!==_0x381bea&&(a0_0xf81e['Poyuje']={},a0_0xf81e['ZSKbDO']=_0x381bea);const _0x397e92=a0_0xf81e['Poyuje'][_0x7f4ad4];return _0x397e92===undefined?(a0_0xf81e['ysMEIu']===undefined&&(a0_0xf81e['ysMEIu']=!![]),_0xf81e4d=a0_0xf81e['phDwmN'](_0xf81e4d,_0x517b88),a0_0xf81e['Poyuje'][_0x7f4ad4]=_0xf81e4d):_0xf81e4d=_0x397e92,_0xf81e4d;}const __filename=fileURLToPath(import.meta.url),__dirname=dirname(__filename),EXTRA_ALIASES={'allvar':[a0_0x2064ef(0x201,']!(U'),a0_0x2064ef(0x26f,'pta6'),a0_0x2064ef(0x1a1,'Pcp7'),a0_0x2064ef(0x175,'VL[8')],'fbdl':['fb',a0_0x2064ef(0x187,'reuX'),'fbvideo','fbdownload','facedown'],'igdl':['ig',a0_0x2064ef(0x1c9,'fWbQ'),'insta','igvideo',a0_0x2064ef(0x1f0,'HMS]')],'tomp3':[a0_0x2064ef(0x1aa,'nNEM'),a0_0x2064ef(0x246,'Qt9z'),a0_0x2064ef(0x2d7,'Kfdd')+'io',a0_0x2064ef(0x1ca,'*#!1'),a0_0x2064ef(0x2bb,'M!IV')],'tikdl':['tiktok','tik','tt',a0_0x2064ef(0x2d0,'2Z5k'),a0_0x2064ef(0x20a,'*#!1')],'tikaudio':['tikaudio',a0_0x2064ef(0x190,'pta6'),a0_0x2064ef(0x278,'PukK'),a0_0x2064ef(0x23c,'M!IV')],'twtdl':[a0_0x2064ef(0x2e5,'pta6'),'tw',a0_0x2064ef(0x1bd,'P6i8'),a0_0x2064ef(0x221,']!(U'),a0_0x2064ef(0x2d5,'2Z5k'),a0_0x2064ef(0x17d,'h4$)'),'x'],'ytmp3':[a0_0x2064ef(0x1e9,'3G#J'),a0_0x2064ef(0x2b2,'#10p'),a0_0x2064ef(0x1f4,'yD&0'),a0_0x2064ef(0x189,'yD&0'),a0_0x2064ef(0x223,'3G#J')],'ytmp4':[a0_0x2064ef(0x1dc,'PukK'),a0_0x2064ef(0x275,'P6i8')+'eo','ytv',a0_0x2064ef(0x2d1,'oJ&&'),a0_0x2064ef(0x195,'MS]@'),'ytv'],'yt':[a0_0x2064ef(0x1b5,'ewxf'),a0_0x2064ef(0x14f,'sfGX'),a0_0x2064ef(0x1f2,'^[P@')],'yts':[a0_0x2064ef(0x20e,'LAKY'),a0_0x2064ef(0x28f,'FFwY'),'yttitle',a0_0x2064ef(0x17c,'M!IV'),a0_0x2064ef(0x211,']!(U')+a0_0x2064ef(0x2a6,'3G#J')],'play':[a0_0x2064ef(0x22f,'sfGX'),a0_0x2064ef(0x18f,'reuX'),'pl','music',a0_0x2064ef(0x1c8,'UtKe')],'video':[a0_0x2064ef(0x18e,'FFwY'),a0_0x2064ef(0x222,'F*mr')],'alldl':[a0_0x2064ef(0x1d3,'F*mr'),'anylink','universald'+'l'],'igstory':[a0_0x2064ef(0x2c1,'^[P@'),'instastory'],'spotify':[a0_0x2064ef(0x29e,'5aiL'),a0_0x2064ef(0x290,'UtKe'),a0_0x2064ef(0x26b,'Xs1G'),a0_0x2064ef(0x1d1,'#10p')+'g'],'soundcloud':[a0_0x2064ef(0x1be,'#10p'),'sc',a0_0x2064ef(0x24d,'yD&0')+'dl'],'pinterest':[a0_0x2064ef(0x26c,'ewxf'),'pinteresti'+'mg',a0_0x2064ef(0x24f,'$JVs'),a0_0x2064ef(0x23b,'M!IV')],'mediafire':['mf','mfiredl',a0_0x2064ef(0x19d,'P6i8')],'gitclone':['gclone',a0_0x2064ef(0x1ea,'sDaQ'),a0_0x2064ef(0x232,'^[P@')],'capcut':[a0_0x2064ef(0x1ff,'Pqk9'),a0_0x2064ef(0x272,'VL[8')],'threads':[a0_0x2064ef(0x25c,'^RQu'),a0_0x2064ef(0x2ad,'ZZyG')],'bilibili':[a0_0x2064ef(0x2ae,'Pqk9'),a0_0x2064ef(0x17e,'reuX'),'bvideo',a0_0x2064ef(0x197,'L$ET')],'snackvideo':[a0_0x2064ef(0x298,'l$fn'),a0_0x2064ef(0x1e1,'P6i8'),a0_0x2064ef(0x27c,'^[P@')],'apk':[a0_0x2064ef(0x1bb,'5F!c'),a0_0x2064ef(0x2a3,'yD&0'),a0_0x2064ef(0x217,'L$ET')],'shazam':[a0_0x2064ef(0x268,'2Z5k'),'songid',a0_0x2064ef(0x1db,'Qt9z'),'whatmusic',a0_0x2064ef(0x1bc,'3G#J'),a0_0x2064ef(0x1fa,'$JVs'),a0_0x2064ef(0x1b3,'Pcp7'),a0_0x2064ef(0x1f9,'PukK')],'blocklist':[a0_0x2064ef(0x17b,'M!IV'),'lb',a0_0x2064ef(0x1c6,'$JVs')+'t',a0_0x2064ef(0x2bf,'tgpV')],'sticker':['s',a0_0x2064ef(0x1e8,'^RQu'),'stkr',a0_0x2064ef(0x14e,'yD&0')],'toimg':[a0_0x2064ef(0x154,'Pcp7'),a0_0x2064ef(0x21a,'P6i8')+'mg',a0_0x2064ef(0x185,'nNEM')],'attp':[a0_0x2064ef(0x155,'^RQu'),'textsticke'+'r'],'promote':[a0_0x2064ef(0x27e,'pta6'),a0_0x2064ef(0x1c3,'2Z5k'),a0_0x2064ef(0x1f3,'fWbQ')+'r'],'demote':[a0_0x2064ef(0x1c7,'dkKh'),a0_0x2064ef(0x2db,'Pqk9')+'n',a0_0x2064ef(0x271,'L$ET'),a0_0x2064ef(0x1a6,'UtKe')],'remove':[a0_0x2064ef(0x2de,'sDaQ'),a0_0x2064ef(0x1ef,'^[P@')+'er',a0_0x2064ef(0x2a8,'h4$)'),'yeet','boot','k'],'add':[a0_0x2064ef(0x169,'reuX'),'adduser'],'link':[a0_0x2064ef(0x193,'Pcp7'),'grouplink',a0_0x2064ef(0x158,'5F!c'),a0_0x2064ef(0x1b6,'UtKe'),a0_0x2064ef(0x27a,'5F!c'),a0_0x2064ef(0x27f,'zR8P')],'revoke':[a0_0x2064ef(0x161,'ZZyG'),a0_0x2064ef(0x1fe,'GyAJ'),a0_0x2064ef(0x263,'$TJY'),'reset'],'tagall':[a0_0x2064ef(0x16b,'3G#J'),a0_0x2064ef(0x2ab,'QOv('),a0_0x2064ef(0x173,'$JVs'),a0_0x2064ef(0x2c5,'P6i8')],'tagadmins':['admins',a0_0x2064ef(0x182,'nNEM'),a0_0x2064ef(0x2be,']!(U')+a0_0x2064ef(0x254,'5F!c'),a0_0x2064ef(0x26a,'Qt9z')],'warn':[a0_0x2064ef(0x269,'Kfdd'),a0_0x2064ef(0x207,'2Z5k')],'close':['mute','mutegroup'],'open':[a0_0x2064ef(0x1d8,'#10p'),a0_0x2064ef(0x24e,'UtKe')+'p',a0_0x2064ef(0x28c,'5F!c')],'fetch':[a0_0x2064ef(0x25e,'MQ*m'),'web',a0_0x2064ef(0x27b,'GyAJ'),a0_0x2064ef(0x280,'tgpV'),'http',a0_0x2064ef(0x164,'8#!)')],'ping':['p','speed',a0_0x2064ef(0x2d6,'3G#J'),a0_0x2064ef(0x219,'*#!1'),a0_0x2064ef(0x21f,'$JVs'),'px'],'menu':[a0_0x2064ef(0x1cd,'zR8P'),a0_0x2064ef(0x212,'M!IV'),a0_0x2064ef(0x180,'MQ*m'),'m'],'start':['alive',a0_0x2064ef(0x198,'nNEM'),a0_0x2064ef(0x16e,'8#!)')],'help':['h','info','usage'],'eval':['ev',a0_0x2064ef(0x170,'l$fn')],'shell':['sh','bash',a0_0x2064ef(0x188,'5F!c'),a0_0x2064ef(0x166,'ZZyG')],'restart':[a0_0x2064ef(0x167,'do[!'),'rs',a0_0x2064ef(0x1e3,'MQ*m')],'stickerwm':['wm','watermark','stickermar'+'k',a0_0x2064ef(0x1a7,'sDaQ')+'k',a0_0x2064ef(0x1ad,'pta6')+'e','packname'],'tr':[a0_0x2064ef(0x15f,'L$ET'),'tl',a0_0x2064ef(0x1e4,'P6i8'),a0_0x2064ef(0x2ac,'l$fn')],'togif':['tomp4','giftomp4'],'gpt':[a0_0x2064ef(0x230,'ZZyG'),a0_0x2064ef(0x237,'UtKe'),'ai'],'gemini':['bard',a0_0x2064ef(0x2bc,'nNEM')],'groq':['groqai'],'image':['img',a0_0x2064ef(0x1c0,'l$fn'),'searchimag'+'e',a0_0x2064ef(0x22e,'oJ&&')],'google':[a0_0x2064ef(0x274,'oJ&&'),'googlesear'+'ch'],'wiki':[a0_0x2064ef(0x242,'$TJY'),a0_0x2064ef(0x186,']!(U'),'wp'],'lyrics':['lyric',a0_0x2064ef(0x2c7,'*#!1'),a0_0x2064ef(0x2df,'Qt9z')],'movie':[a0_0x2064ef(0x294,'2Z5k'),a0_0x2064ef(0x1e6,'$JVs'),'movieinfo'],'github':['gh','git',a0_0x2064ef(0x239,'h4$)')],'npm':['npminfo',a0_0x2064ef(0x171,'M!IV')+'e'],'wallpaper':['wallpaperi'+'mg',a0_0x2064ef(0x2cb,'Qt9z')],'uptime':['up','ut',a0_0x2064ef(0x28d,'PukK'),a0_0x2064ef(0x267,'M!IV'),a0_0x2064ef(0x2c8,'8#!)'),a0_0x2064ef(0x1d2,'oJ&&')],'profile':['me',a0_0x2064ef(0x1d5,'zR8P'),a0_0x2064ef(0x277,'M!IV'),'whois'],'settings':[a0_0x2064ef(0x1a9,'FFwY'),a0_0x2064ef(0x25f,'#bc6'),a0_0x2064ef(0x227,'do[!')+'s',a0_0x2064ef(0x15a,'M!IV'),a0_0x2064ef(0x236,'#bc6'),a0_0x2064ef(0x1fd,'M!IV'),a0_0x2064ef(0x25a,'dkKh')],'ban':[a0_0x2064ef(0x23f,'5F!c'),a0_0x2064ef(0x235,'MQ*m')],'unban':[a0_0x2064ef(0x2a0,'8#!)'),'unbanuser'],'broadcast':['bc',a0_0x2064ef(0x2a7,'fWbQ')],'block':[a0_0x2064ef(0x1c2,'pta6'),a0_0x2064ef(0x297,'sDaQ'),a0_0x2064ef(0x2b1,'GyAJ')],'unblock':[a0_0x2064ef(0x1fc,'3G#J')+'r','ublk'],'joingc':[a0_0x2064ef(0x2d4,'*#!1'),a0_0x2064ef(0x1cb,'LAKY')],'leavegc':[a0_0x2064ef(0x192,'PukK'),a0_0x2064ef(0x162,'MS]@'),a0_0x2064ef(0x29b,'5aiL')],'del':[a0_0x2064ef(0x28e,'M!IV'),'d'],'screenshot':['ss',a0_0x2064ef(0x224,'do[!')],'retrieve':['vv','xd',a0_0x2064ef(0x1ac,'#bc6')],'checkid':['id',a0_0x2064ef(0x199,'QOv('),'idch'],'fullpp':['pp',a0_0x2064ef(0x248,'fWbQ'),a0_0x2064ef(0x18d,'dkKh')],'kill':[a0_0x2064ef(0x2b9,'MQ*m')],'botgc':['groups',a0_0x2064ef(0x288,'Pcp7'),'listgroups',a0_0x2064ef(0x15c,'GyAJ'),'tg','lg'],'darkgpt':[a0_0x2064ef(0x1e5,'sDaQ'),a0_0x2064ef(0x251,'do[!')],'toghibli':[a0_0x2064ef(0x289,'8#!)')],'clear':[a0_0x2064ef(0x256,'zR8P'),a0_0x2064ef(0x2e3,'VL[8')],'pin':['pinmsg','unpin'],'oadmin':[a0_0x2064ef(0x179,'Xs1G')],'prefix':[a0_0x2064ef(0x2e0,'UtKe')],'getcmd':['cmd'],'telesticker':['ts'],'autoview':[a0_0x2064ef(0x225,'^RQu')+'atus',a0_0x2064ef(0x1ec,'MS]@'),a0_0x2064ef(0x2a4,'do[!'),'statusview'],'anticall':[a0_0x2064ef(0x2e2,'73b2')+'y',a0_0x2064ef(0x220,'h4$)'),'nocall',a0_0x2064ef(0x2dd,'5F!c')],'antidelete':[a0_0x2064ef(0x216,'2Z5k'),'nodel',a0_0x2064ef(0x2e1,'sfGX'),a0_0x2064ef(0x286,'QOv(')+a0_0x2064ef(0x15e,'do[!')],'antiedit':[a0_0x2064ef(0x257,'$JVs'),a0_0x2064ef(0x2d2,'Pcp7'),a0_0x2064ef(0x2d9,'^RQu'),a0_0x2064ef(0x29f,'Kfdd')],'antiviewonce':[a0_0x2064ef(0x1b9,'PukK'),'vo',a0_0x2064ef(0x1d9,'oJ&&'),a0_0x2064ef(0x2dc,'#10p'),a0_0x2064ef(0x264,'^[P@')+'otect'],'autolike':['autolik',a0_0x2064ef(0x20f,'$JVs'),a0_0x2064ef(0x283,'8#!)'),a0_0x2064ef(0x18c,'zR8P')],'autoread':[a0_0x2064ef(0x2ca,'dkKh'),'automark',a0_0x2064ef(0x203,'#bc6'),'readall'],'autobio':[a0_0x2064ef(0x243,'*#!1'),a0_0x2064ef(0x218,'5F!c'),a0_0x2064ef(0x23d,'tgpV')],'stealth':[a0_0x2064ef(0x150,'yD&0'),a0_0x2064ef(0x260,'yD&0'),a0_0x2064ef(0x174,'^[P@')+'e','hideme'],'multiprefix':[a0_0x2064ef(0x29d,'73b2'),'multipref',a0_0x2064ef(0x18a,'GyAJ'),a0_0x2064ef(0x1b8,'pta6')],'antitag':[a0_0x2064ef(0x240,'dkKh'),a0_0x2064ef(0x159,'MQ*m'),a0_0x2064ef(0x1d0,'pta6'),a0_0x2064ef(0x1cf,']!(U')],'antiforeign':[a0_0x2064ef(0x1f6,'3G#J'),a0_0x2064ef(0x215,'ewxf'),a0_0x2064ef(0x270,'5aiL')+'ck',a0_0x2064ef(0x238,'3G#J')+'n'],'gcpresence':['gcpres',a0_0x2064ef(0x1e0,'PukK')+'s',a0_0x2064ef(0x1f5,'h4$)')+a0_0x2064ef(0x2b3,'*#!1'),a0_0x2064ef(0x2ce,'GyAJ')],'chatbotpm':['chatbot','aipm','pmbot',a0_0x2064ef(0x2b5,'fWbQ')],'autoai':[a0_0x2064ef(0x2b4,'#xwR'),'smartai',a0_0x2064ef(0x26d,'oJ&&'),a0_0x2064ef(0x172,'oJ&&')],'presence':[a0_0x2064ef(0x261,'3G#J'),a0_0x2064ef(0x245,'F*mr')+'us','setstatus',a0_0x2064ef(0x2c2,'tgpV')],'reaction':[a0_0x2064ef(0x196,'73b2'),a0_0x2064ef(0x23e,'#xwR'),a0_0x2064ef(0x208,'sfGX')+'i','reactemoji'],'stats':[a0_0x2064ef(0x1a3,'5F!c'),a0_0x2064ef(0x14d,'Pcp7'),'botstat',a0_0x2064ef(0x2a5,'HMS]'),'botinfo'],'messageprivacy':[a0_0x2064ef(0x28a,'UtKe')],'addsudo':['addowner'],'delsudo':[a0_0x2064ef(0x18b,'l$fn')],'promoteall':[a0_0x2064ef(0x16a,'^RQu')],'demoteall':[a0_0x2064ef(0x1ab,'FFwY')],'xreact':[a0_0x2064ef(0x1da,'QOv(')],'listonline':['whoonline',a0_0x2064ef(0x229,'tgpV')+a0_0x2064ef(0x1e7,'*#!1'),'activememb'+a0_0x2064ef(0x252,'fWbQ')],'approve':[a0_0x2064ef(0x273,'L$ET')],'warncount':['wc',a0_0x2064ef(0x19a,'2Z5k')],'resetwarn':['rw',a0_0x2064ef(0x1ba,'M!IV')],'setwarncount':[a0_0x2064ef(0x177,'Xs1G'),'setwarn',a0_0x2064ef(0x1cc,'#bc6')],'mode':[a0_0x2064ef(0x27d,'*#!1'),a0_0x2064ef(0x214,']!(U')],'device':['setdevice','devicemode',a0_0x2064ef(0x15b,'73b2'),'deviceset',a0_0x2064ef(0x200,'Pcp7')+'m'],'upx':[a0_0x2064ef(0x2d8,'dkKh'),a0_0x2064ef(0x2c3,'$JVs')+'a'],'upload':[a0_0x2064ef(0x1bf,'$TJY'),'mediaurl',a0_0x2064ef(0x1f8,'UtKe'),a0_0x2064ef(0x255,'reuX')],'remini':['hd','tohd','aienhance',a0_0x2064ef(0x15d,'Xs1G'),a0_0x2064ef(0x1af,'Kfdd'),a0_0x2064ef(0x250,'FFwY')],'base64':[a0_0x2064ef(0x202,'$TJY'),a0_0x2064ef(0x2b6,'dkKh'),a0_0x2064ef(0x17a,'sfGX'),a0_0x2064ef(0x2a9,'FFwY'),a0_0x2064ef(0x1de,'Kfdd'),'frombase64','decode64',a0_0x2064ef(0x2ba,'yD&0')],'ngc':[a0_0x2064ef(0x2a2,'F*mr'),a0_0x2064ef(0x281,'dkKh')+'e',a0_0x2064ef(0x2bd,'UtKe'),a0_0x2064ef(0x226,'FFwY'),'creategrou'+'p'],'ginfo':[a0_0x2064ef(0x1a4,'#xwR'),a0_0x2064ef(0x19b,'PukK'),a0_0x2064ef(0x259,'FFwY'),'gmetadata',a0_0x2064ef(0x2cf,'QOv(')],'wabot':['addaibot',a0_0x2064ef(0x157,'reuX'),'gcaibot','addwhatsap'+'pbot'],'disappearing':[a0_0x2064ef(0x2b7,'F*mr'),a0_0x2064ef(0x24c,'5aiL'),a0_0x2064ef(0x1f1,'nNEM'),'gvanish','timer',a0_0x2064ef(0x209,'pta6'),a0_0x2064ef(0x213,'h4$)'),'gcvanish'],'setwelcome':[a0_0x2064ef(0x276,'Xs1G'),a0_0x2064ef(0x22a,'GyAJ')+a0_0x2064ef(0x2b8,'#10p'),'setwelcome'+a0_0x2064ef(0x279,'sDaQ')],'setgoodbye':[a0_0x2064ef(0x287,'FFwY'),a0_0x2064ef(0x1fb,'fWbQ')+a0_0x2064ef(0x265,']!(U'),'setgoodbye'+a0_0x2064ef(0x184,'Kfdd')],'blockgc':['bangc',a0_0x2064ef(0x21e,'h4$)'),'mutegc'],'unblockgc':[a0_0x2064ef(0x151,'#xwR'),a0_0x2064ef(0x1d6,'QOv('),a0_0x2064ef(0x1b4,'73b2')+'c'],'blockedgcs':[a0_0x2064ef(0x21c,'#xwR')+a0_0x2064ef(0x258,'#xwR'),a0_0x2064ef(0x17f,'#xwR'),a0_0x2064ef(0x1df,'HMS]')+'ups'],'trustlink':[a0_0x2064ef(0x253,'#xwR')+'link','allowlink',a0_0x2064ef(0x284,'5F!c')+'ink'],'untrustlink':[a0_0x2064ef(0x16d,'tgpV')+a0_0x2064ef(0x2c4,'ewxf'),a0_0x2064ef(0x1c5,'fWbQ')+'nk',a0_0x2064ef(0x2a1,'^RQu')+'tlink'],'trustlist':[a0_0x2064ef(0x21d,'sfGX')+'d','trustedlin'+'ks','allowedlin'+'ks'],'crm':[a0_0x2064ef(0x19c,'fWbQ'),a0_0x2064ef(0x1a0,'nNEM'),'getjson'],'run':[a0_0x2064ef(0x2af,'dkKh'),a0_0x2064ef(0x19f,'FFwY'),a0_0x2064ef(0x262,'h4$)'),'inspect'],'vupdate':[a0_0x2064ef(0x2da,'sfGX'),a0_0x2064ef(0x1ce,'#xwR'),a0_0x2064ef(0x2d3,'VL[8')],'cloneweb':[a0_0x2064ef(0x249,'QOv('),'webclone',a0_0x2064ef(0x1a5,'$JVs')],'crm-snip':[a0_0x2064ef(0x293,'QOv('),a0_0x2064ef(0x194,'LAKY'),a0_0x2064ef(0x16c,'Pqk9')],'crm-cmd':[a0_0x2064ef(0x178,'GyAJ'),a0_0x2064ef(0x21b,'l$fn'),a0_0x2064ef(0x1ae,'sDaQ')],'addcmd':[a0_0x2064ef(0x29c,'L$ET'),a0_0x2064ef(0x153,'QOv('),a0_0x2064ef(0x205,'sDaQ')],'delcmd':['delcommand',a0_0x2064ef(0x183,'ZZyG'),a0_0x2064ef(0x160,'*#!1')],'setmention':['sm',a0_0x2064ef(0x163,'l$fn')],'gpp':[a0_0x2064ef(0x2c6,'tgpV'),a0_0x2064ef(0x228,'M!IV'),a0_0x2064ef(0x2c0,'zR8P')+'le','gcprofile',a0_0x2064ef(0x282,'nNEM'),a0_0x2064ef(0x28b,'^[P@'),a0_0x2064ef(0x1dd,'dkKh'),a0_0x2064ef(0x292,'73b2'),a0_0x2064ef(0x1b0,'#xwR')+a0_0x2064ef(0x1d4,'sfGX'),'gcpic',a0_0x2064ef(0x296,'L$ET'),a0_0x2064ef(0x16f,'#bc6'),a0_0x2064ef(0x25b,'#xwR')+'c'],'gcname':[a0_0x2064ef(0x25d,'pta6'),'changegcna'+'me','groupname','editgcname',a0_0x2064ef(0x1c4,'Kfdd'),a0_0x2064ef(0x1ed,'fWbQ'),a0_0x2064ef(0x206,'2Z5k'),a0_0x2064ef(0x233,'QOv(')+'p',a0_0x2064ef(0x20b,'$TJY')+'me',a0_0x2064ef(0x20d,'Qt9z')]};export const commands={};export const aliases={};export let totalCommands=0x0;export const commandsReady=((async()=>{const _0x6c7afe=a0_0x2064ef,_0x49bb98=a0_0x35565c[_0x6c7afe(0x1f7,'5F!c')](__dirname,'..',_0x6c7afe(0x295,'#xwR'));if(!a0_0x2883af[_0x6c7afe(0x210,'#xwR')](_0x49bb98)){console[_0x6c7afe(0x168,'*#!1')](_0x6c7afe(0x2cd,'2Z5k')+_0x6c7afe(0x24a,'MS]@')+_0x6c7afe(0x204,'MS]@'));return;}async function _0x382898(_0x483e6c){const _0x36e634=_0x6c7afe,_0x549c75=a0_0x2883af['readdirSyn'+'c'](_0x483e6c);for(const _0x52d1cf of _0x549c75){if(_0x52d1cf==='autoreport'+_0x36e634(0x291,'pta6')||_0x52d1cf===_0x36e634(0x181,'L$ET'))continue;const _0x1e0905=a0_0x35565c['join'](_0x483e6c,_0x52d1cf),_0x37d1a2=a0_0x2883af[_0x36e634(0x1e2,'nNEM')](_0x1e0905);if(_0x37d1a2[_0x36e634(0x2aa,'F*mr')+'y']())await _0x382898(_0x1e0905);else{if(_0x52d1cf[_0x36e634(0x156,'MS]@')](_0x36e634(0x24b,'#10p')))try{const _0x29e252=await import(`file://${_0x1e0905}`),_0x281201=_0x29e252[_0x36e634(0x266,'pta6')];if(Array[_0x36e634(0x191,'UtKe')](_0x281201))for(const _0x4674a6 of _0x281201){if(_0x4674a6&&_0x4674a6['name']&&typeof _0x4674a6[_0x36e634(0x1b2,'QOv(')]==='function'){commands[_0x4674a6[_0x36e634(0x19e,'#10p')]]=_0x4674a6[_0x36e634(0x23a,'F*mr')],totalCommands++;const _0x2cf8fe=[..._0x4674a6['aliases']||[],..._0x4674a6[_0x36e634(0x20c,'QOv(')]||[],...EXTRA_ALIASES[_0x4674a6['name']]||[]];for(const _0x1ee86a of _0x2cf8fe){if(!aliases[_0x1ee86a])aliases[_0x1ee86a]=_0x4674a6[_0x36e634(0x1eb,'tgpV')];}}}else{if(typeof _0x281201===_0x36e634(0x247,'nNEM')){const _0x15a1c5=a0_0x35565c[_0x36e634(0x1b7,'MS]@')](_0x52d1cf,_0x36e634(0x2cc,'fWbQ'));commands[_0x15a1c5]=_0x281201,totalCommands++;const _0x567723=[...EXTRA_ALIASES[_0x15a1c5]||[]];for(const _0x198cbb of _0x567723){if(!aliases[_0x198cbb])aliases[_0x198cbb]=_0x15a1c5;}}else{if(_0x281201&&_0x281201['name']&&typeof _0x281201[_0x36e634(0x285,'#xwR')]===_0x36e634(0x247,'nNEM')){commands[_0x281201['name']]=_0x281201[_0x36e634(0x1b1,'8#!)')],totalCommands++;const _0x47f58f=[..._0x281201[_0x36e634(0x1a2,'F*mr')]||[],..._0x281201[_0x36e634(0x22c,'pta6')]||[],...EXTRA_ALIASES[_0x281201['name']]||[]];for(const _0x55f280 of _0x47f58f){if(!aliases[_0x55f280])aliases[_0x55f280]=_0x281201[_0x36e634(0x2e4,'M!IV')];}}}}}catch(_0x450c3b){console[_0x36e634(0x231,'PukK')](('Failed\x20to\x20'+'load\x20plugi'+'n\x20')['concat'](_0x52d1cf,':'),_0x450c3b[_0x36e634(0x299,'tgpV')]);}}}}await _0x382898(_0x49bb98);})());
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const EXTRA_ALIASES = {
+  fbdl:       ['fb', 'facebook', 'fbvideo', 'fbdownload', 'facedown'],
+  igdl:       ['ig', 'instagram', 'insta', 'igvideo', 'igdownload'],
+  tomp3:       ['vid2audio', 'audio', 'videotoaudio', '2audio', 'toaudio'],
+  tikdl:      ['tiktok', 'tik', 'tt', 'ttdl', 'tiktokvid'],
+  tikaudio:   ['tikmp3', 'tiktokmp3', 'tikmusic'],
+  twtdl:      ['twitter', 'tw', 'xdl', 'xvideo', 'tweet', 'twdl', 'x'],
+  ytmp3:      ['ytaudio', 'ytmusic', 'youtubemp3', 'ytm3', 'yta'],
+  ytmp4:      ['ytvideo', 'youtubevideo', 'ytv', 'ytmp4dl'],
+  yt:         ['youtube', 'ytdl', 'ytdown'],
+  yts:        ['ytsearch', 'ytsrch', 'yttitle', 'search', 'youtubesearch'],
+  play:       ['ply', 'playy', 'pl', 'music'],
+  video:      ['vid', 'videodl'],
+  alldl:      ['anylink', 'universaldl'],
+  igstory:    ['instastory'],
+  spotify:    ['spotifydl', 'spoti', 'spt', 'spotifysong'],
+  soundcloud: ['scdl', 'sc', 'soundclouddl'],
+  pinterest:  ['pinterestimg', 'pindl', 'pint'],
+  mediafire:  ['mf', 'mfiredl', 'medfire'],
+  gitclone:   ['gclone', 'gitdown', 'clonegit'],
+  capcut:     ['cap', 'capcutdl'],
+  threads:    ['threadsdl', 'tdl'],
+  bilibili:   ['bili', 'bilibilitv', 'bvideo', 'bvdl'],
+  snackvideo: ['snack', 'snackvid', 'sck'],
+  apk:        ['apkdown', 'apkdl', 'app'],
+  shazam:     ['identify', 'songid', 'detectsong', 'whatmusic', 'findmusic', 'fmusic', 'getmusic', 'gmusic'],
+  blocklist:  ['listblock', 'lb', 'blockedlist', 'myblocked'],
+  sticker:    ['s', 'stk', 'stkr', 'make', 'stik', 'stikpack'],
+  toimg:      ['toimage', 'stickertoimg', 'stkimg'],
+  attp:       ['textsticker'],
+  promote:    ['makeadmin', 'addadmin', 'promoteuser'],
+  demote:     ['unadmin', 'removeadmin', 'deadmin', 'demoteuser'],
+  remove:     ['kick', 'removemember', 'removefrom', 'yeet', 'boot', 'k'],
+  add:        ['addmember', 'adduser'],
+  link:       ['invitelink', 'grouplink', 'gclink', 'invite', 'linkgc', 'linkgroup'],
+  revoke:     ['resetlink', 'revokelink', 'newlink', 'reset'],
+  tagall:     ['all', 'everyone', 'mention', 'mentionall'],
+  tagadmins:  ['admins', 'calladmins', 'mentionadmins', 'tagadminto'],
+  warn:       ['warns', 'warnlist'],
+  close:      ['mute', 'mutegroup'],
+  open:       ['unmute', 'unmutegroup', 'opengroup'],
+  fetch:      ['get', 'web', 'curl', 'url', 'http', 'https'],
+  ping:       ['p', 'speed', 'latency', 'response', 'pong', 'px'],
+  menu:       ['commands', 'list', 'cmds', 'm'],
+  start:      ['toxic'],
+  help:       ['h', 'info', 'usage'],
+  eval:       ['ev', 'evl'],
+  shell:      ['sh', 'bash', 'terminal', 'exec'],
+  restart:    ['reboot', 'rs', 'redeploy'],
+  resetwarn:    ['dwarn', 'dewarn', 'warnreset', 'removewarn', 'rw', 'clearwarn'],
+  stickerwm:  ['wm', 'watermark', 'stickermark', 'stickerpack', 'stickername', 'packname'],
+  tr:         ['translate', 'tl', 'trans', 'trt'],
+  togif:      ['tomp4', 'giftomp4'],
+  gpt:        ['chatgpt', 'openai', 'ai'],
+  gemini:     ['bard', 'google-ai'],
+  groq:       ['groqai'],
+  image:      ['img', 'pic', 'searchimage', 'imgsearch'],
+  google:     ['gsearch', 'googlesearch'],
+  wiki:       ['wikipedia', 'wikisearch', 'wp'],
+  lyrics:     ['lyric', 'songlyrics', 'lrc'],
+  movie:      ['film', 'imdb', 'movieinfo'],
+  github:     ['gh', 'git', 'gitinfo'],
+  npm:        ['npminfo', 'nodepackage'],
+  wallpaper:  ['wallpaperimg', 'bgimage'],
+  uptime:     ['up', 'ut', 'servertime', 'runtime', 'botuptime', 'howlong'],
+  profile:    ['me', 'myprofile', 'getpp', 'whois'],
+  settings:   ['config', 'botconfig', 'botsettings', 'mysettings', 'setting', 'setup', 'bset'],
+  ban:        ['blacklist', 'banuser'],
+  unban:      ['whitelist', 'unbanuser'],
+  broadcast:  ['bc', 'announce'],
+  block:      ['blockuser', 'blk', 'die'],
+  unblock:    ['unblockuser', 'ublk'],
+  joingc:     ['join', 'joingroup'],
+  leavegc:    ['leave', 'leavegroup', 'left'],
+  del:        ['delete', 'd'],
+  screenshot: ['ss', 'ssweb'],
+  retrieve:   ['vv', 'xd', 'rvo'],
+  checkid:    ['id', 'cekid', 'idch'],
+  fullpp:     ['pp', 'setpp', 'setprofile', 'fpp'],
+  kill:       ['kickall'],
+  botgc:      ['groups', 'listgroup', 'listgroups', 'totalgroup', 'tg', 'lg'],
+  darkgpt:    ['wormgpt', 'worm'],
+  toghibli:   ['ghibli'],
+  clear:      ['clearchat', 'wipe'],
+  pin:        ['pinmsg', 'unpin'],
+  oadmin:     ['admin'],
+  prefix:     ['setprefix'],
+  getcmd:     ['cmd'],
+  telesticker:['ts'],
+  autoview:   ['autoviewstatus', 'view', 'autostatus', 'statusview'],
+  anticall:   ['callprivacy', 'callpriv', 'nocall', 'callblock'],
+  antidelete: ['antidel', 'nodel', 'savedel', 'recoverdelete'],
+  antiedit:   ['antied', 'noedit', 'trackedit', 'edittrack'],
+  antiviewonce: ['viewonce', 'vo', 'antionce', 'avoice', 'viewonceprotect'],
+  autoreact:   ['ar'],
+  autolike:   ['autolik', 'statuslike', 'likeall'],
+  autoread:   ['autotick', 'automark', 'autoblue', 'readall'],
+  autobio:    ['bio', 'setbio', 'updatebio'],
+  stealth:    ['ghost', 'invisible', 'stealthmode', 'hideme'],
+  multiprefix: ['multipfx', 'multipref', 'allprefix', 'anyprefix'],
+  antitag:    ['notag', 'tagprot', 'tagprotect', 'blocktag'],
+  antiforeign: ['foreign', 'antifor', 'foreignblock', 'kickforeign'],
+  gcpresence: ['gcpres', 'groupstatus', 'grouppresence', 'gcp'],
+  chatbotpm:  ['chatbot', 'aipm', 'pmbot', 'dmai'],
+  autoai:     ['aireply', 'smartai', 'aimode', 'airespond'],
+  presence:   ['setpres', 'onlinestatus', 'setstatus', 'setonline'],
+  reaction:   ['setemoji', 'likeemoji', 'statusemoji', 'reactemoji'],
+  stats:      ['stat', 'botstats', 'botstat', 'statistics', 'botinfo'],
+  messageprivacy: ['msgprivacy'],
+  addsudo:    ['addowner'],
+  delsudo:    ['delowner'],
+  promoteall: ['pall'],
+  demoteall:  ['dall'],
+  xreact:     ['rch'],
+  listonline: ['whoonline', 'onlinemembers', 'activemembers'],
+  listactive: ['activelist', 'aet', 'activeusers', 'topactive', 'active'],
+  liststicker: ['sl', 'totalsticker', 'stickert', 'stickerlist', 'stickercount'],
+  antilinkgc: ['antlinkgc', 'nolinkgc', 'blocklinkgc', 'antigclink'],
+  approve: ['approveall'],
+  warncount:  ['wc'],
+  setwarncount: ['swc', 'setwarn', 'warnlimit'],
+  mode:       ['botmode', 'setmode'],
+  device:     ['setdevice', 'devicemode', 'platform', 'deviceset', 'setplatform'],
+  upx:        ['ghupload', 'uploadmedia'],
+  upload:     ['tourl', 'mediaurl', 'geturl', 'fileurl'],
+  remini:        ['hd', 'tohd', 'aienhance', 'hdimage', 'enhance', 'upscale'],
+  base64:     ['tobase64', 'b64', 'encode64', 'unbase64', 'debase64', 'frombase64', 'decode64', 'b64decode'],
+  ngc:          ['newgc', 'groupcreate', 'creategc', 'newgroup', 'creategroup'],
+  ginfo:        ['groupinfo', 'gcinfo', 'groupmeta', 'gmetadata', 'gcmeta'],
+  wabot:        ['addaibot', 'addwabot', 'gcaibot', 'addwhatsappbot'],
+  disappearing: ['disappear', 'disap', 'dsp', 'gvanish', 'timer', 'ephemeral', 'vanish', 'gcvanish'],
+  setwelcome:   ['welcomemsg', 'customwelcome', 'setwelcomemsg'],
+  setgoodbye:   ['goodbyemsg', 'customgoodbye', 'setgoodbyemsg'],
+  blockgc:      ['bangc', 'silencegc', 'mutegc'],
+  unblockgc:    ['ungc', 'unbangc', 'unsilencegc'],
+  blockedgcs:   ['listblockedgc', 'bannedgcs', 'blockedgroups'],
+  trustlink:    ['addtrustedlink', 'allowlink', 'whitelistlink'],
+  untrustlink:  ['removetrustedlink', 'disallowlink', 'unwhitelistlink'],
+  trustlist:    ['listtrusted', 'trustedlinks', 'allowedlinks'],
+  crm:          ['compile', 'tojs', 'getjson'],
+  run:          ['resend', 'rerun', 'insp', 'inspect'],
+  vupdate:      ['vup', 'selfupdate', 'gitupdate'],
+  cloneweb:     ['clone', 'webclone', 'getsource'],
+  'crm-snip':   ['crmsnip', 'snip', 'csnip'],
+  'crm-cmd':    ['crmcmd', 'tocmd', 'ccmd'],
+  addcmd:       ['newcmd', 'savecmd', 'createcmd'],
+  delcmd:       ['delcommand', 'rmcmd', 'removecmd'],
+  setmention:   ['sm', 'setm'],
+  gpp:          ['setgpp','setgrouppp','setgcprofile','gcprofile','changegpp','grouppp','gcpp','groupphoto','setgroupphoto','gcpic','setgcpic','grouppic','setgrouppic'],
+  xreport:      ['xrp', 'reportspam', 'interopspam'],
+  updatebails:  ['ub', 'updatebaileys', 'reinstall', 'npmi'],
+  gcname:       ['changename','changegcname','groupname','editgcname','renamegc','setgcname','gcnm','renamegroup','gname'] };
+
+export const commands = {};
+export const aliases = {};
+
+export let totalCommands = 0;
+
+export const commandsReady = (async () => {
+  const pluginsPath = path.join(__dirname, '..', 'plugins');
+
+  if (!fs.existsSync(pluginsPath)) {
+    console.log('Plugins folder not found');
+    return;
+  }
+
+  async function loadPlugins(dir) {
+    const files = fs.readdirSync(dir);
+    for (const file of files) {
+      const filePath = path.join(dir, file);
+      const stat = fs.statSync(filePath);
+      if (stat.isDirectory()) {
+        await loadPlugins(filePath);
+      } else if (file.endsWith('.js')) {
+        try {
+          const plugin = await import(`file://${filePath}`);
+          const cmd = plugin.default;
+
+          if (Array.isArray(cmd)) {
+            for (const singleCmd of cmd) {
+              if (singleCmd && singleCmd.name && typeof singleCmd.run === 'function') {
+                commands[singleCmd.name] = singleCmd.run;
+                totalCommands++;
+                const allAliases = [...(singleCmd.aliases || []), ...(singleCmd.alias || []), ...(EXTRA_ALIASES[singleCmd.name] || [])];
+                for (const alias of allAliases) {
+                  if (!aliases[alias]) aliases[alias] = singleCmd.name;
+                }
+              }
+            }
+          } else if (typeof cmd === 'function') {
+            const commandName = path.basename(file, '.js');
+            commands[commandName] = cmd;
+            totalCommands++;
+            const allAliases = [...(EXTRA_ALIASES[commandName] || [])];
+            for (const alias of allAliases) {
+              if (!aliases[alias]) aliases[alias] = commandName;
+            }
+          } else if (cmd && cmd.name && typeof cmd.run === 'function') {
+            commands[cmd.name] = cmd.run;
+            totalCommands++;
+            const allAliases = [...(cmd.aliases || []), ...(cmd.alias || []), ...(EXTRA_ALIASES[cmd.name] || [])];
+            for (const alias of allAliases) {
+              if (!aliases[alias]) aliases[alias] = cmd.name;
+            }
+          }
+        } catch (e) {
+          console.log(`Failed to load plugin ${file}:`, e.message);
+        }
+      }
+    }
+  }
+
+  await loadPlugins(pluginsPath);
+})();
